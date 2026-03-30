@@ -426,9 +426,137 @@ a:hover {
 }
 
 .page-landing .landing-inner {
-  max-width: var(--max);
+  max-width: 56rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Stats strip under hero */
+.landing-stats {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.25rem 2rem;
+}
+
+.landing-stats-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .landing-stats-inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  background: linear-gradient(145deg, rgba(37, 24, 54, 0.9) 0%, rgba(26, 18, 40, 0.95) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(94, 234, 212, 0.35);
+}
+
+.stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, var(--mint) 0%, var(--sky) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* Feature band (raw HTML in landing markdown) */
+.feature-band {
+  margin: 0 0 2.5rem;
+  padding: 2rem 0 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  text-align: center;
+}
+
+.section-lead {
+  text-align: center;
+  color: var(--muted);
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.feature-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.15rem;
+  }
+}
+
+.feature-card {
+  background: rgba(37, 24, 54, 0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.4rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+}
+
+.feature-card:hover {
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.feature-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.65rem;
+  color: var(--sky);
+}
+
+.feature-icon {
+  color: var(--mint);
+  margin-right: 0.35rem;
+}
+
+.feature-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #d8cff0;
+  line-height: 1.55;
 }
 
 /* Prose */
@@ -519,7 +647,7 @@ a:hover {
 }
 
 .code-block::before {
-  content: "Code snippet";
+  content: "Code";
   display: block;
   font-family: var(--font-display);
   font-size: 0.62rem;
@@ -530,6 +658,71 @@ a:hover {
   background: linear-gradient(90deg, rgba(37, 24, 54, 0.95), rgba(13, 7, 24, 0.98));
   border-bottom: 1px solid var(--border);
   color: var(--muted);
+}
+
+.code-block.code-pseudo {
+  border-left-color: var(--mint);
+}
+
+.code-block.code-pseudo::before {
+  content: "9618 pseudocode";
+  color: var(--mint);
+}
+
+.code-block.code-shell {
+  border-left-color: var(--amber);
+}
+
+.code-block.code-shell::before {
+  content: "Terminal";
+  color: var(--amber);
+}
+
+.code-block.code-generic {
+  border-left-color: var(--violet-hot);
+}
+
+.code-block.code-generic::before {
+  content: "Snippet";
+  color: var(--violet);
+}
+
+/* Pseudocode token colours */
+.pc-kw {
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.pc-builtin {
+  color: #5eead4;
+}
+
+.pc-str {
+  color: #fda4af;
+}
+
+.pc-num {
+  color: #fcd34d;
+}
+
+.pc-comment {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.pc-op {
+  color: #f472b6;
+  font-weight: 600;
+}
+
+/* Shell token colours */
+.sh-comment {
+  color: #86efac;
+  font-style: italic;
+}
+
+.sh-str {
+  color: #fde047;
 }
 
 .code-block code {

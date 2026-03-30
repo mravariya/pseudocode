@@ -8,6 +8,7 @@ This folder contains a **small static site generator** (about one Python file pl
 2. Converts every **`docs/**/*.md`** file into **HTML** under `site/public/docs/`, fixing `.md` links to `.html`.
 3. Publishes **`CONTRIBUTING.md`**, **`AUTHORS.md`**, and **`LICENSE`** as pages.
 4. Copies **`site/assets/`** (CSS, tiny JS for the mobile menu).
+5. Applies **syntax highlighting** to fenced **` ```pseudocode `** and **` ```bash `** blocks (keyword, string, comment colours) for readable snippets.
 
 ## Publish in seconds
 
@@ -16,7 +17,7 @@ pip install -r site/requirements-site.txt
 python3 site/build.py
 ```
 
-Output: **`site/public/`** — upload that folder to any static host, or let GitHub Actions deploy it (see `.github/workflows/pages.yml`).
+Output: **`site/public/`** — upload that folder to any static host, or use the **Deploy GitHub Pages** workflow (`.github/workflows/pages.yml`).
 
 Preview locally:
 
@@ -54,7 +55,7 @@ To change layout, colours, or navigation labels, edit:
 ## GitHub Pages setup
 
 1. In the repository **Settings → Pages**, set **Source** to **GitHub Actions** (recommended).
-2. Push to `main`; the **Deploy site** workflow builds and publishes `site/public`.
+2. Push to `main`; the **Deploy GitHub Pages** workflow builds and publishes `site/public`.
 3. If your site URL is `https://<user>.github.io/<repo>/`, relative links in the built HTML already work. For a **custom domain**, add a `CNAME` in Pages settings and adjust nothing else if the site is served from the repo root of that domain.
 
 ## Ignoring build output

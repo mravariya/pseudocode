@@ -34,7 +34,7 @@ If `pseudocode` is on your `PATH`, replace `./build/pseudocode` with `pseudocode
 
 Create **`hello.pseudo`**:
 
-```text
+```pseudocode
 OUTPUT "Hello, world"
 ```
 

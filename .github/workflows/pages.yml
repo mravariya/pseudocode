@@ -1,10 +1,10 @@
-# Build site/public with site/build.py and deploy to GitHub Pages (no Jekyll).
-name: Deploy site
+# Build the static site (site/build.py) and publish to GitHub Pages.
+# Repo settings → Pages → Build and deployment → Source: GitHub Actions.
+name: Deploy GitHub Pages
 
 on:
   push:
     branches: [main, master]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,6 +38,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4

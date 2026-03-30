@@ -4,6 +4,19 @@ Welcome to the documentation for the **Pseudocode** language and the **pseudocod
 
 If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutorial/index.md), then skim the [**Language reference**](reference/language.md) when you need exact rules.
 
+**Web mirror:** the same manual is published as a static site (search-friendly pages, sitemap) from this repository — see the project README under *GitHub Pages* for the live URL once Pages is enabled.
+
+---
+
+## Suggested learning order
+
+1. [Installation](installation.md) — build or install the `pseudocode` binary.  
+2. [Getting started](getting-started.md) — `run`, `check`, `repl` in one screen.  
+3. [Tutorial](tutorial/index.md) — guided tour of the language.  
+4. [Language reference](reference/language.md) — authoritative syntax and semantics.  
+5. [Built-in functions](reference/builtins.md) and [Standard library topics](stdlib/index.md) — library calls.  
+6. [FAQ](faq.md) — exams, Python comparison, pitfalls.
+
 ---
 
 ## First steps

@@ -19,6 +19,7 @@ import os
 import re
 import shutil
 import sys
+from html import unescape
 from pathlib import Path
 
 try:
@@ -88,13 +89,197 @@ def excerpt_from_md(md: str, fallback: str, max_len: int = 158) -> str:
 def decorate_code_blocks(html: str) -> str:
     html = html.replace(
         '<pre><code class="language-text">',
-        '<pre class="code-block"><code class="language-pseudocode">',
+        '<pre class="code-block code-pseudo"><code class="language-pseudocode">',
     )
-    html = html.replace("<pre><code>", '<pre class="code-block"><code class="language-pseudocode">')
-    # Fenced blocks with any language: give them the “window” chrome
+    html = html.replace("<pre><code>", '<pre class="code-block code-pseudo"><code class="language-pseudocode">')
+    # Fenced blocks: language-specific chrome (bash vs pseudocode vs generic)
+    html = html.replace(
+        '<pre><code class="language-bash">',
+        '<pre class="code-block code-shell"><code class="language-bash">',
+    )
+    html = html.replace(
+        '<pre><code class="language-sh">',
+        '<pre class="code-block code-shell"><code class="language-sh">',
+    )
+    html = html.replace(
+        '<pre><code class="language-pseudocode">',
+        '<pre class="code-block code-pseudo"><code class="language-pseudocode">',
+    )
     html = html.replace(
         '<pre><code class="language-',
-        '<pre class="code-block"><code class="language-',
+        '<pre class="code-block code-generic"><code class="language-',
+    )
+    return html
+
+
+# —— Pseudocode syntax colours (tokenize raw source → safe HTML spans) ——
+_PC_KW = frozenset(
+    """
+    declare constant integer real string char boolean date array of type endtype
+    if then else endif case endcase otherwise for to step next repeat until while endwhile
+    procedure endprocedure function endfunction returns call return byval byref
+    input output openfile closefile readfile writefile seek getrecord putrecord
+    and or not mod div true false
+    """.split()
+)
+
+_PC_BUILTIN = frozenset(
+    """
+    length mid substring right concat int tointeger toreal random rand round
+    uppercase lowercase ucase lcase eof
+    sqrt sin cos tan asin acos atan atan2 hypot log log10 exp pow floor ceil trunc fmod modreal
+    abs pi euler e_const radians degrees time clockms nowstring getenv system
+    randomseed seedrandom seed randint randomint
+    """.split()
+)
+
+
+def _pseudocode_highlight_raw(src: str) -> str:
+    i = 0
+    n = len(src)
+    parts: list[str] = []
+    while i < n:
+        c = src[i]
+        if c in " \t\r":
+            parts.append(html.escape(c))
+            i += 1
+            continue
+        if c == "\n":
+            parts.append("\n")
+            i += 1
+            continue
+        if c == "/" and i + 1 < n and src[i + 1] == "/":
+            j = src.find("\n", i)
+            if j < 0:
+                j = n
+            parts.append(f'<span class="pc-comment">{html.escape(src[i:j])}</span>')
+            i = j
+            continue
+        if c == '"':
+            j = i + 1
+            while j < n and src[j] != '"':
+                if src[j] == "\\" and j + 1 < n:
+                    j += 2
+                else:
+                    j += 1
+            if j < n and src[j] == '"':
+                j += 1
+            parts.append(f'<span class="pc-str">{html.escape(src[i:j])}</span>')
+            i = j
+            continue
+        if c.isdigit() or (c == "." and i + 1 < n and src[i + 1].isdigit()):
+            j = i + 1
+            while j < n and (src[j].isdigit() or src[j] == "."):
+                j += 1
+            parts.append(f'<span class="pc-num">{html.escape(src[i:j])}</span>')
+            i = j
+            continue
+        if c.isalpha() or c == "_":
+            j = i + 1
+            while j < n and (src[j].isalnum() or src[j] == "_"):
+                j += 1
+            word = src[i:j]
+            wl = word.lower()
+            if wl in _PC_KW:
+                parts.append(f'<span class="pc-kw">{html.escape(word)}</span>')
+            elif wl in _PC_BUILTIN:
+                parts.append(f'<span class="pc-builtin">{html.escape(word)}</span>')
+            else:
+                parts.append(html.escape(word))
+            i = j
+            continue
+        if c == "<" and i + 1 < n and src[i + 1] == "-":
+            parts.append(f'<span class="pc-op">{html.escape("<-")}</span>')
+            i += 2
+            continue
+        if c == "\u2190":  # ←
+            parts.append(f'<span class="pc-op">{html.escape(c)}</span>')
+            i += 1
+            continue
+        parts.append(html.escape(c))
+        i += 1
+    return "".join(parts)
+
+
+def _shell_highlight_lines(src: str) -> str:
+    lines = src.split("\n")
+    out_lines: list[str] = []
+    for line in lines:
+        if not line:
+            out_lines.append("")
+            continue
+        hash_i = line.find("#")
+        if hash_i >= 0:
+            core, com = line[:hash_i], line[hash_i:]
+            out_lines.append(_shell_highlight_strings(core) + f'<span class="sh-comment">{html.escape(com)}</span>')
+        else:
+            out_lines.append(_shell_highlight_strings(line))
+    return "\n".join(out_lines)
+
+
+def _shell_highlight_strings(seg: str) -> str:
+    if not seg:
+        return ""
+    parts: list[str] = []
+    i = 0
+    n = len(seg)
+    while i < n:
+        c = seg[i]
+        if c == '"':
+            j = i + 1
+            while j < n and seg[j] != '"':
+                if seg[j] == "\\" and j + 1 < n:
+                    j += 2
+                else:
+                    j += 1
+            if j < n:
+                j += 1
+            parts.append(f'<span class="sh-str">{html.escape(seg[i:j])}</span>')
+            i = j
+            continue
+        if c == "'":
+            j = i + 1
+            while j < n and seg[j] != "'":
+                if seg[j] == "\\" and j + 1 < n:
+                    j += 2
+                else:
+                    j += 1
+            if j < n:
+                j += 1
+            parts.append(f'<span class="sh-str">{html.escape(seg[i:j])}</span>')
+            i = j
+            continue
+        parts.append(html.escape(c))
+        i += 1
+    return "".join(parts)
+
+
+def highlight_fenced_code(html: str) -> str:
+    """Add semantic spans inside pseudocode and shell fenced blocks."""
+
+    def pseudo_sub(m: re.Match) -> str:
+        inner = m.group(1)
+        raw = unescape(inner)
+        return f'<pre class="code-block code-pseudo"><code class="language-pseudocode">{_pseudocode_highlight_raw(raw)}</code></pre>'
+
+    html = re.sub(
+        r'<pre class="code-block code-pseudo"><code class="language-pseudocode">(.*?)</code></pre>',
+        pseudo_sub,
+        html,
+        flags=re.DOTALL,
+    )
+
+    html = re.sub(
+        r'<pre class="code-block code-shell"><code class="language-bash">(.*?)</code></pre>',
+        lambda m: f'<pre class="code-block code-shell"><code class="language-bash">{_shell_highlight_lines(unescape(m.group(1)))}</code></pre>',
+        html,
+        flags=re.DOTALL,
+    )
+    html = re.sub(
+        r'<pre class="code-block code-shell"><code class="language-sh">(.*?)</code></pre>',
+        lambda m: f'<pre class="code-block code-shell"><code class="language-sh">{_shell_highlight_lines(unescape(m.group(1)))}</code></pre>',
+        html,
+        flags=re.DOTALL,
     )
     return html
 
@@ -163,6 +348,14 @@ def json_ld_software(cfg: dict) -> str:
         obj["author"] = {"@type": "Person", "name": cfg["author"]}
     if cfg.get("keywords"):
         obj["keywords"] = cfg["keywords"]
+    obj["featureList"] = [
+        "9618 pseudocode program execution",
+        "Static syntax check for CI",
+        "Interactive REPL",
+        "Built-in maths, random, time, and environment helpers",
+        "Optional pkg catalog packages",
+        "VS Code extension and snippets",
+    ]
     lic = abs_url(cfg, "license.html")
     obj["license"] = lic or "https://opensource.org/licenses/MIT"
     return safe_json_ld(obj)
@@ -342,13 +535,14 @@ def nav_items(from_public_path: str, cfg: dict) -> list[tuple[str, str]]:
     """Label → target path relative to public/."""
     items = [
         ("Home", "index.html"),
-        ("Documentation", "docs/index.html"),
+        ("Docs", "docs/index.html"),
         ("Tutorial", "docs/tutorial/index.html"),
-        ("Language ref", "docs/reference/language.html"),
+        ("Language", "docs/reference/language.html"),
         ("Built-ins", "docs/reference/builtins.html"),
+        ("Stdlib", "docs/stdlib/index.html"),
         ("Install", "docs/installation.html"),
+        ("Packages", "docs/package-manager.html"),
         ("Contributing", "contributing.html"),
-        ("Authors", "authors.html"),
         ("License", "license.html"),
     ]
     return [(lab, rel_href(from_public_path, p)) for lab, p in items]
@@ -373,7 +567,7 @@ def build(cfg: dict) -> None:
     # —— Landing (home) ——
     landing_md = (CONTENT / "index.md").read_text(encoding="utf-8")
     landing_md = rewrite_markdown_links(landing_md, cfg, "content/index.md")
-    landing_body = decorate_code_blocks(md_to_html_fragment(landing_md))
+    landing_body = highlight_fenced_code(decorate_code_blocks(md_to_html_fragment(landing_md)))
     out_home = "index.html"
     css = asset_href(out_home)
     nav = build_nav(out_home, cfg)
@@ -417,7 +611,7 @@ def build(cfg: dict) -> None:
         rel = md_path.relative_to(DOCS_SRC).as_posix()
         text = md_path.read_text(encoding="utf-8")
         text = rewrite_markdown_links(text, cfg, f"docs/{rel}")
-        body = decorate_code_blocks(md_to_html_fragment(text))
+        body = highlight_fenced_code(decorate_code_blocks(md_to_html_fragment(text)))
         title_match = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
         page_title = title_match.group(1).strip() if title_match else rel
         out_rel = Path(rel).with_suffix(".html").as_posix()
@@ -459,7 +653,7 @@ def build(cfg: dict) -> None:
             continue
         t = src.read_text(encoding="utf-8")
         t = rewrite_markdown_links(t, cfg, src_name)
-        body = decorate_code_blocks(md_to_html_fragment(t))
+        body = highlight_fenced_code(decorate_code_blocks(md_to_html_fragment(t)))
         from_pub = name
         aux_title = f"{title} — {cfg['site_name']} | 9618 pseudocode project"
         aux_desc = excerpt_from_md(t, f"{title} — {cfg['site_name']}.")
