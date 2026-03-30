@@ -1,0 +1,13 @@
+// Hello Pseudocode (Cambridge-style)
+
+DECLARE Message : STRING
+DECLARE Count : INTEGER
+DECLARE Name : STRING
+
+OUTPUT "What's your name? "
+INPUT Name
+
+Message <- "Hello ", Name
+Count <- LENGTH(Message)
+OUTPUT Message
+OUTPUT "Length = ", Count

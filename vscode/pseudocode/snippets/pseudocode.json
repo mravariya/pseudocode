@@ -1,0 +1,49 @@
+{
+  "IF": {
+    "prefix": "if",
+    "body": [
+      "IF ${1:condition} THEN",
+      "\t${2:statements}",
+      "ENDIF"
+    ],
+    "description": "IF / ENDIF"
+  },
+  "FOR": {
+    "prefix": "for",
+    "body": [
+      "FOR ${1:i} <- ${2:1} TO ${3:n}",
+      "\t${4:statements}",
+      "NEXT $1"
+    ],
+    "description": "FOR / NEXT loop"
+  },
+  "WHILE": {
+    "prefix": "while",
+    "body": ["WHILE ${1:condition}", "\t${2:statements}", "ENDWHILE"],
+    "description": "WHILE loop"
+  },
+  "PROCEDURE": {
+    "prefix": "proc",
+    "body": [
+      "PROCEDURE ${1:Name}(${2:})",
+      "\t${3:statements}",
+      "ENDPROCEDURE"
+    ],
+    "description": "PROCEDURE"
+  },
+  "FUNCTION": {
+    "prefix": "func",
+    "body": [
+      "FUNCTION ${1:Name}(${2:}) RETURNS ${3:INTEGER}",
+      "\t${4:statements}",
+      "RETURN ${5:0}",
+      "ENDFUNCTION"
+    ],
+    "description": "FUNCTION"
+  },
+  "DECLARE": {
+    "prefix": "dec",
+    "body": ["DECLARE ${1:Name} : ${2|INTEGER,REAL,STRING,CHAR,BOOLEAN,DATE|}"],
+    "description": "DECLARE variable"
+  }
+}

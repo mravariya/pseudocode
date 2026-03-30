@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pseudocode: Run current file",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/pseudocode",
+      "args": ["${file}"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "pseudocode: Check current file",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/pseudocode",
+      "args": ["check", "${file}"],
+      "problemMatcher": []
+    }
+  ]
+}

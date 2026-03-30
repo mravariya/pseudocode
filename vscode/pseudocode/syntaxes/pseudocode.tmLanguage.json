@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Pseudocode",
+  "scopeName": "source.pseudocode",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#numbers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.pseudocode",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.pseudocode",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.pseudocode", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.single.pseudocode",
+          "begin": "'",
+          "end": "'"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.pseudocode",
+          "match": "(?i)\\b(DECLARE|CONSTANT|IF|THEN|ELSE|ENDIF|CASE|OF|ENDCASE|OTHERWISE|FOR|TO|STEP|NEXT|REPEAT|UNTIL|WHILE|ENDWHILE|PROCEDURE|ENDPROCEDURE|FUNCTION|ENDFUNCTION|RETURNS|CALL|RETURN|BYVAL|BYREF|INPUT|OUTPUT|OPENFILE|CLOSEFILE|READFILE|WRITEFILE|SEEK|GETRECORD|PUTRECORD|ARRAY|TYPE|ENDTYPE|AND|OR|NOT|MOD|DIV|TRUE|FALSE)\\b"
+        },
+        {
+          "name": "storage.type.pseudocode",
+          "match": "(?i)\\b(INTEGER|REAL|STRING|CHAR|BOOLEAN|DATE)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.pseudocode",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    }
+  }
+}

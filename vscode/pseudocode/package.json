@@ -1,0 +1,49 @@
+{
+  "name": "pseudocode",
+  "displayName": "Pseudocode (9618)",
+  "description": "Syntax highlighting and snippets for Pseudocode (.pseudo / .pseudocode). Use workspace tasks to run the interpreter.",
+  "version": "1.0.0",
+  "publisher": "mravariya",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Programming Languages", "Snippets"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mravariya/pseudocode"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "pseudocode",
+        "aliases": ["Pseudocode", "pseudo"],
+        "extensions": [".pseudo", ".pseudocode"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pseudocode",
+        "scopeName": "source.pseudocode",
+        "path": "./syntaxes/pseudocode.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "pseudocode",
+        "path": "./snippets/pseudocode.json"
+      }
+    ],
+    "configuration": {
+      "title": "Pseudocode",
+      "properties": {
+        "pseudocode.executablePath": {
+          "type": "string",
+          "default": "pseudocode",
+          "description": "Path to the pseudocode CLI (for tasks you configure in tasks.json)."
+        }
+      }
+    }
+  }
+}
