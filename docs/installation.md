@@ -64,7 +64,7 @@ A dialog appears → click **Install** → wait until it finishes. If it says th
 chmod +x scripts/build.sh scripts/install-macos.sh
 ```
 
-### Step 5 — Build the progracd "~/Downloads/9618 Computer Science Pseudocode Interpreter"   *# or your actual path*ms
+### Step 5 — Build the programs
 
 ```bash
 ./scripts/build.sh

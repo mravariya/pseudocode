@@ -1,0 +1,11 @@
+# CMake / local build
+build/
+cmake-build-*/
+
+# Generated website (rebuild with: python3 site/build.py)
+site/public/
+
+# Editor / OS
+.DS_Store
+*.swp
+*~

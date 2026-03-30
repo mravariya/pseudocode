@@ -7,6 +7,8 @@ A **Cambridge International AS & A Level Computer Science (9618)–aligned** int
 - **VS Code** grammar + snippets ([`vscode/pseudocode`](vscode/pseudocode/))
 - **Documentation** structured like major language manuals — start at **[Documentation home → docs/index.md](docs/index.md)**
 
+**Website (GitHub Pages):** the repo includes a lightweight Markdown-driven static site in **`site/`** (Python + one dependency, not Jekyll). Build with `pip install -r site/requirements-site.txt && python3 site/build.py`; see **[site/README.md](site/README.md)** for deployment.
+
 **Author:** [Mahesh Ravariya](https://www.linkedin.com/in/mravariya/) · [GitHub](https://github.com/mravariya)  
 **License:** [MIT](LICENSE)
 

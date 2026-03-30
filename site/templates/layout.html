@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="{{css_href}}">
+  {{extra_head}}
+</head>
+<body class="page-doc">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{home_href}}"><span class="brand-mark">⟨⟩</span> {{site_name}}</a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">{{nav_html}}</nav>
+    </div>
+  </header>
+  {{body}}
+  <footer class="site-footer">
+    <p>Reference interpreter for Cambridge International <strong>AS &amp; A Level Computer Science (9618)</strong> pseudocode.</p>
+    <p class="footer-links">
+      <a href="{{home_href}}">Home</a>
+      · <a href="{{repo_url}}">Source on GitHub</a>
+    </p>
+  </footer>
+  <script src="{{js_href}}" defer></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="{{css_href}}">
+  {{extra_head}}
+</head>
+<body class="page-landing">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{home_href}}"><span class="brand-mark">⟨⟩</span> {{site_name}}</a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">{{nav_html}}</nav>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Cambridge 9618 · Pseudocode</p>
+      <h1 id="hero-title" class="hero-title">{{site_tagline}}</h1>
+      <p class="hero-lead">{{description}}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="docs/tutorial/index.html">Start tutorial</a>
+        <a class="btn btn-secondary" href="docs/index.html">Documentation</a>
+        <a class="btn btn-ghost" href="{{repo_url}}">GitHub</a>
+      </div>
+      <p class="hero-spec">
+        <a href="{{cambridge_spec_url}}" rel="noopener">Official 9618 qualification page (Cambridge International)</a>
+      </p>
+    </div>
+    <div class="hero-glow" aria-hidden="true"></div>
+  </section>
+
+  <div id="content" class="landing-content">
+    {{body}}
+  </div>
+
+  <footer class="site-footer">
+    <p>Built with a tiny Python static generator in <code>site/build.py</code> — edit Markdown, run one command, publish.</p>
+    <p class="footer-links">
+      <a href="contributing.html">Contributing</a>
+      · <a href="license.html">License (MIT)</a>
+      · <a href="{{repo_url}}">Repository</a>
+    </p>
+  </footer>
+  <script src="{{js_href}}" defer></script>
+</body>
+</html>
