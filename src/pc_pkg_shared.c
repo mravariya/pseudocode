@@ -1,5 +1,6 @@
 #include "pc_pkg_shared.h"
 #include "pc_common.h"
+#include "pc_error_codes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,13 +48,13 @@ static char *join_path(const char *a, const char *b) {
 static int copy_file(const char *src, const char *dst, PcErrorCtx *err) {
   FILE *in = fopen(src, "rb");
   if (!in) {
-    pc_error_at(err, (PcSourceLoc){src, 0, 0}, "cannot read file");
+    pc_io_error(err, src, PC_ERR_IO_FILE, "cannot read file");
     return -1;
   }
   FILE *out = fopen(dst, "wb");
   if (!out) {
     fclose(in);
-    pc_error_at(err, (PcSourceLoc){dst, 0, 0}, "cannot write file");
+    pc_io_error(err, dst, PC_ERR_IO_FILE, "cannot write file");
     return -1;
   }
   char buf[8192];

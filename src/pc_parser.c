@@ -1,5 +1,6 @@
 #include "pc_parser.h"
 #include "pc_common.h"
+#include "pc_error_codes.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -17,7 +18,7 @@ static char *lex_dup(PcLexer *L) {
 
 static void expect_tok(Parser *P, PcTokenKind k, const char *what) {
   if (P->L->cur.kind != k) {
-    pc_error_at(P->err, LOC_FROM(P), "expected %s, got token", what);
+    pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_EXPECT, "expected %s, got token", what);
   } else
     pc_lex_next(P->L);
 }
@@ -53,7 +54,7 @@ static PcType *parse_simple_type(Parser *P) {
     break;
   default:
     free(t);
-    pc_error_at(P->err, LOC_FROM(P), "expected type name");
+    pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_TYPE, "expected type name");
     return NULL;
   }
   return t;
@@ -176,7 +177,7 @@ static PcAst *parse_primary(Parser *P) {
     }
     return v;
   }
-  pc_error_at(P->err, loc, "expected expression");
+  pc_error_at(P->err, loc, PC_ERR_PARSE_EXPR, "expected expression");
   return NULL;
 }
 
@@ -331,7 +332,7 @@ static void parse_param_list(Parser *P, PcAst *fn) {
     }
     (void)byval;
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected parameter name");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_PARAM, "expected parameter name");
       return;
     }
     PC_ARRAY_GROW(fn->params, cap, fn->param_count + 1, sizeof(PcParam));
@@ -356,7 +357,7 @@ static PcAst *parse_stmt(Parser *P) {
   if (L->cur.kind == TOK_DECLARE) {
     pc_lex_next(L);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected identifier after DECLARE");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_TYPE, "expected identifier after DECLARE");
       return NULL;
     }
     char *id = lex_dup(L);
@@ -404,7 +405,7 @@ static PcAst *parse_stmt(Parser *P) {
   if (L->cur.kind == TOK_CONSTANT) {
     pc_lex_next(L);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected identifier after CONSTANT");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_TYPE, "expected identifier after CONSTANT");
       return NULL;
     }
     PcAst *c = pc_ast_new(PC_AST_CONSTANT, loc);
@@ -435,7 +436,7 @@ static PcAst *parse_stmt(Parser *P) {
     pc_lex_next(L);
     expect_tok(P, TOK_OF, "OF");
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected identifier after CASE OF");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected identifier after CASE OF");
       return NULL;
     }
     PcAst *n = pc_ast_new(PC_AST_CASE, loc);
@@ -529,7 +530,7 @@ static PcAst *parse_stmt(Parser *P) {
   if (L->cur.kind == TOK_FOR) {
     pc_lex_next(L);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected loop variable");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected loop variable");
       return NULL;
     }
     PcAst *n = pc_ast_new(PC_AST_FOR, loc);
@@ -578,7 +579,7 @@ static PcAst *parse_stmt(Parser *P) {
     pc_lex_next(L);
     PcAst *n = pc_ast_new(PC_AST_PROC, loc);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected procedure name");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected procedure name");
       return NULL;
     }
     n->name = lex_dup(L);
@@ -596,7 +597,7 @@ static PcAst *parse_stmt(Parser *P) {
     pc_lex_next(L);
     PcAst *n = pc_ast_new(PC_AST_FUNC, loc);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected function name");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected function name");
       return NULL;
     }
     n->name = lex_dup(L);
@@ -616,7 +617,7 @@ static PcAst *parse_stmt(Parser *P) {
     pc_lex_next(L);
     PcAst *n = pc_ast_new(PC_AST_CALL, loc);
     if (L->cur.kind != TOK_IDENT) {
-      pc_error_at(P->err, LOC_FROM(P), "expected procedure name after CALL");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected procedure name after CALL");
       return NULL;
     }
     n->name = lex_dup(L);
@@ -679,10 +680,10 @@ static PcAst *parse_stmt(Parser *P) {
         n->open_mode = m;
       } else {
         free(m);
-        pc_error_at(P->err, LOC_FROM(P), "expected READ, WRITE, APPEND, or RANDOM after FOR");
+        pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected READ, WRITE, APPEND, or RANDOM after FOR");
       }
     } else {
-      pc_error_at(P->err, LOC_FROM(P), "expected READ, WRITE, APPEND, or RANDOM after FOR");
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected READ, WRITE, APPEND, or RANDOM after FOR");
     }
     return n;
   }
@@ -726,7 +727,7 @@ static PcAst *parse_stmt(Parser *P) {
   if (lhs) pc_ast_free(lhs);
   pc_lex_restore(L, &sv);
 
-  pc_error_at(P->err, LOC_FROM(P), "unexpected token at start of statement");
+  pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "unexpected token at start of statement");
   return NULL;
 }
 
@@ -737,6 +738,7 @@ PcAst *pc_parse_program(PcLexer *L, PcErrorCtx *err) {
   prog->stmts = parse_stmt_list_until(&P, st, 1);
   pc_lex_skip_newlines(L);
   if (L->cur.kind != TOK_EOF)
-    pc_error_at(err, (PcSourceLoc){L->filename, L->cur.line, L->cur.column}, "expected end of file");
+    pc_error_at(err, (PcSourceLoc){L->filename, L->cur.line, L->cur.column}, PC_ERR_PARSE_EOF,
+                  "expected end of file");
   return prog;
 }

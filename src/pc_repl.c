@@ -4,6 +4,7 @@
 #include "pc_lexer.h"
 #include "pc_parser.h"
 #include "pc_common.h"
+#include "pc_error.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,7 +78,7 @@ int pc_repl_run(PcErrorCtx *err, bool trace) {
         pc_ast_free(prog);
       free(acc);
       acc = pc_strdup("");
-      err->had_error = false;
+      pc_err_clear(err);
       continue;
     }
     acc = buf_append(acc, ln);

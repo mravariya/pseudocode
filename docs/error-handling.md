@@ -2,7 +2,7 @@
 
 This chapter describes **what can go wrong**, **how the interpreter reports it**, and **how to recover**—similar in role to sections of the **Python tutorial** on exceptions and the **Julia** manual on stack traces (here, messages are textual and line-based rather than a full stack for Pseudocode source).
 
-**See also:** [CLI — exit status](cli.md#exit-status) · [Language reference](reference/language.md) · [FAQ](faq.md)
+**See also:** [CLI — exit status](cli.md#exit-status) · [**Error codes (`[PC-NNN]`)**](error-codes.md) · [Language reference](reference/language.md) · [FAQ](faq.md)
 
 ---
 
@@ -29,11 +29,13 @@ export PSEUDO_NO_COLOR=1
 A typical **parse** error:
 
 ```text
-error at path/to/file.pseudo:12:3: expected ENDIF, got token
+error [PC-101] [parse] path/to/file.pseudo:12:3: expected ENDIF, got token
 ```
 
 Fields:
 
+- **`[PC-101]`** — numeric code (see [error-codes.md](error-codes.md) and `src/pc_error_codes.h`).  
+- **`[parse]`** — category (`runtime` / `io` similarly).  
 - **`path/to/file.pseudo`** — source file path passed to the lexer.  
 - **`12`** — **1-based line number** at the start of the problematic token.  
 - **`3`** — **1-based column** (best effort; UTF-8 wide characters may skew columns in some terminals).
@@ -41,7 +43,7 @@ Fields:
 A typical **runtime** error:
 
 ```text
-runtime error at path/to/file.pseudo:45:1: division by zero
+error [PC-220] [runtime] path/to/file.pseudo:45:1: division by zero
 ```
 
 ---
@@ -69,7 +71,7 @@ These are representative; wording may vary slightly between versions.
 | Use before declare | `undefined variable 'x'` |
 | Redeclaration | `redeclaration of 'x'` |
 | Array bounds | `array index out of range` |
-| Integer division by zero | `division by zero` |
+| Integer `DIV` / `MOD` by zero | `division by zero` / `MOD by zero` |
 | Bad built-in usage | `LENGTH expects STRING or ARRAY` |
 | Missing return | `function 'F' did not RETURN` |
 | Undefined procedure | `undefined procedure 'P'` |
@@ -120,9 +122,8 @@ Include:
 
 ## 9. Future improvements
 
-Possible enhancements (not in v1.0):
+Possible enhancements beyond the current **`[PC-NNN]`** codes:
 
-- Stable **error codes** (e.g. `PC_ERR_UNDEFINED_VAR`) for LMS integration.  
 - **Warnings** (unused variables, unreachable code).  
 - **Structured** JSON errors for IDEs.  
 - **Source-level** stack traces with procedure names.

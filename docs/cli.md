@@ -82,7 +82,12 @@ Prints a short usage summary and exits.
 | Code | Meaning |
 |------|---------|
 | **0** | Success (run finished without parse/runtime error recorded; `check` passed). |
-| **1** | Failure: parse error, runtime error, or missing file / invalid usage. |
+| **2** | Parse error. |
+| **3** | Runtime error. |
+| **4** | Host I/O error (e.g. cannot read file, file over size limit). |
+| **5** | Usage: missing argument or unknown command / file. |
+
+Messages on stderr include **`[PC-NNN]`** codes and **`[parse]`** / **`[runtime]`** / **`[io]`** categories. Full tables: [**Error codes and exit status**](error-codes.md).
 
 Shell scripts can use:
 

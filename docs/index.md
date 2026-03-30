@@ -37,6 +37,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Package manager (`pkg`)](package-manager.md) | Local packages, layout under `~/.pseudocode`, registry design |
 | [Visual Studio Code](vscode.md) | Extension, tasks, snippets, recommended workflow |
 | [Error handling](error-handling.md) | Parse vs runtime errors, trace mode, messages, teaching notes |
+| [Exit status & PC codes](error-codes.md) | `$?` values, `[PC-NNN]` list, file size limit |
 
 ---
 

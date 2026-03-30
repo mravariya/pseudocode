@@ -10,6 +10,9 @@
 #define PC_VERSION_PATCH 0
 #define PC_VERSION_STRING "1.0.0"
 
+/* Maximum source file size read by the CLI (denies accidentally huge inputs). */
+#define PC_MAX_SOURCE_BYTES (32u * 1024u * 1024u)
+
 #define PC_ARRAY_GROW(a, cap, len, item_size) \
   do { \
     if ((len) >= (cap)) { \

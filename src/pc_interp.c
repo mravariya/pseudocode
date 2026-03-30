@@ -1,5 +1,6 @@
 #include "pc_interp.h"
 #include "pc_common.h"
+#include "pc_error_codes.h"
 #include "pc_stdlib.h"
 #include <ctype.h>
 #include <stdio.h>
@@ -238,7 +239,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
   case PC_AST_VAR: {
     Sym *s = sym_find(I, e->name);
     if (!s) {
-      pc_runtime_error(I->err, loc, "undefined variable '%s'", e->name);
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_UNDEF, "undefined variable '%s'", e->name);
       pc_value_init_void(out);
       return;
     }
@@ -249,7 +250,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
   case PC_AST_INDEX: {
     Sym *as = resolve_array_sym(I, e);
     if (!as || !as->val.type || as->val.type->kind != PC_T_ARRAY || !as->val.cells) {
-      pc_runtime_error(I->err, loc, "indexed value is not an array");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "indexed value is not an array");
       pc_value_init_void(out);
       return;
     }
@@ -258,7 +259,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
     if (!t->is2d) {
       int i1 = eval_int(I, e->child);
       if (i1 < t->lo0 || i1 > t->hi0) {
-        pc_runtime_error(I->err, loc, "array index out of range");
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "array index out of range");
         pc_value_init_void(out);
         return;
       }
@@ -266,14 +267,14 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       return;
     }
     if (e->left->kind != PC_AST_INDEX) {
-      pc_runtime_error(I->err, loc, "invalid 2D index");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "invalid 2D index");
       pc_value_init_void(out);
       return;
     }
     int row = eval_int(I, e->left->child);
     int col = eval_int(I, e->child);
     if (row < t->lo0 || row > t->hi0 || col < t->lo1 || col > t->hi1) {
-      pc_runtime_error(I->err, loc, "array index out of range");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "array index out of range");
       pc_value_init_void(out);
       return;
     }
@@ -302,7 +303,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
     }
     NamedAst *nf = named_find(I->funcs, e->name);
     if (!nf) {
-      pc_runtime_error(I->err, loc, "undefined function '%s'", e->name);
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_CALL, "undefined function '%s'", e->name);
       for (size_t i = 0; i < e->arg_count; i++) pc_value_destroy(&argv[i]);
       free(argv);
       pc_value_init_void(out);
@@ -326,7 +327,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       if (I->returned) break;
     }
     if (!I->returned) {
-      pc_runtime_error(I->err, loc, "function '%s' did not RETURN", e->name);
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_RETURN, "function '%s' did not RETURN", e->name);
     }
     pc_value_copy(out, &I->ret);
     pc_value_destroy(&I->ret);
@@ -384,7 +385,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       if (Lv.type->kind == PC_T_STRING) ls = Lv.s ? Lv.s : "";
       if (Rv.type->kind == PC_T_STRING) rs = Rv.s ? Rv.s : "";
       if (!ls || !rs) {
-        pc_runtime_error(I->err, loc,
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_TYPE,
                            e->op == TOK_AMP ? "& expects STRING operands"
                                             : "comma (,) joins strings here; both sides must be STRING");
         pc_value_destroy(&Lv);
@@ -394,6 +395,13 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       }
       size_t la = strlen(ls), lb = strlen(rs);
       char *buf = malloc(la + lb + 1);
+      if (!buf) {
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_OOM, "out of memory");
+        pc_value_destroy(&Lv);
+        pc_value_destroy(&Rv);
+        pc_value_init_void(out);
+        return;
+      }
       memcpy(buf, ls, la);
       memcpy(buf + la, rs, lb + 1);
       pc_value_init_string(out, buf, true);
@@ -406,6 +414,13 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       const char *rs = Rv.s ? Rv.s : "";
       size_t la = strlen(ls), lb = strlen(rs);
       char *buf = malloc(la + lb + 1);
+      if (!buf) {
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_OOM, "out of memory");
+        pc_value_destroy(&Lv);
+        pc_value_destroy(&Rv);
+        pc_value_init_void(out);
+        return;
+      }
       memcpy(buf, ls, la);
       memcpy(buf + la, rs, lb + 1);
       pc_value_init_string(out, buf, true);
@@ -415,7 +430,8 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
     }
     if (e->op == TOK_PLUS &&
         (Lv.type->kind == PC_T_STRING || Rv.type->kind == PC_T_STRING)) {
-      pc_runtime_error(I->err, loc, "+ with STRING requires both operands to be STRING; use & or numeric +");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_TYPE,
+                        "+ with STRING requires both operands to be STRING; use & or numeric +");
       pc_value_destroy(&Lv);
       pc_value_destroy(&Rv);
       pc_value_init_void(out);
@@ -451,13 +467,17 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       break;
     case TOK_DIV:
       if ((int64_t)r == 0) {
-        pc_runtime_error(I->err, loc, "division by zero");
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_DIV, "division by zero");
         pc_value_init_void(out);
       } else
         pc_value_init_int(out, (int64_t)l / (int64_t)r);
       break;
     case TOK_MOD:
-      pc_value_init_int(out, (int64_t)l % (int64_t)r);
+      if ((int64_t)r == 0) {
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_DIV, "MOD by zero");
+        pc_value_init_void(out);
+      } else
+        pc_value_init_int(out, (int64_t)l % (int64_t)r);
       break;
     case TOK_EQ:
     case TOK_NE:
@@ -503,7 +523,7 @@ static PcValue *lvalue_ptr(Interp *I, PcAst *e, PcSourceLoc loc) {
   if (e->kind == PC_AST_VAR) {
     Sym *s = sym_find(I, e->name);
     if (!s) {
-      pc_runtime_error(I->err, loc, "undefined variable '%s'", e->name);
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_UNDEF, "undefined variable '%s'", e->name);
       return NULL;
     }
     return &(s->alias_of ? s->alias_of : s)->val;
@@ -511,26 +531,26 @@ static PcValue *lvalue_ptr(Interp *I, PcAst *e, PcSourceLoc loc) {
   if (e->kind == PC_AST_INDEX) {
     Sym *arr = resolve_array_sym(I, e);
     if (!arr || !arr->val.type || arr->val.type->kind != PC_T_ARRAY || !arr->val.cells) {
-      pc_runtime_error(I->err, loc, "indexed target is not an array");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "indexed target is not an array");
       return NULL;
     }
     PcType *t = arr->val.type;
     if (!t->is2d) {
       int i1 = eval_int(I, e->child);
       if (i1 < t->lo0 || i1 > t->hi0) {
-        pc_runtime_error(I->err, loc, "array index out of range");
+        pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "array index out of range");
         return NULL;
       }
       return &arr->val.cells[i1 - t->lo0];
     }
     if (e->left->kind != PC_AST_INDEX) {
-      pc_runtime_error(I->err, loc, "invalid 2D index");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "invalid 2D index");
       return NULL;
     }
     int row = eval_int(I, e->left->child);
     int col = eval_int(I, e->child);
     if (row < t->lo0 || row > t->hi0 || col < t->lo1 || col > t->hi1) {
-      pc_runtime_error(I->err, loc, "array index out of range");
+      pc_runtime_error(I->err, loc, PC_ERR_RUN_INDEX, "array index out of range");
       return NULL;
     }
     int stride = t->hi1 - t->lo1 + 1;
@@ -573,7 +593,7 @@ static void declare_array(Interp *I, PcAst *d) {
     n *= (hi1 - lo1 + 1);
   }
   if (n < 0 || n > 1000000) {
-    pc_runtime_error(I->err, d->loc, "invalid array bounds");
+    pc_runtime_error(I->err, d->loc, PC_ERR_RUN_INDEX, "invalid array bounds");
     return;
   }
   t->lo0 = lo;
@@ -616,7 +636,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
   switch (s->kind) {
   case PC_AST_DECLARE: {
     if (sym_find_local(I->env, s->name)) {
-      pc_runtime_error(I->err, s->loc, "redeclaration of '%s'", s->name);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_REDECL, "redeclaration of '%s'", s->name);
       break;
     }
     Sym *sy = calloc(1, sizeof(Sym));
@@ -653,14 +673,14 @@ static void exec_stmt(Interp *I, PcAst *s) {
   }
   case PC_AST_DECLARE_ARRAY:
     if (sym_find_local(I->env, s->name)) {
-      pc_runtime_error(I->err, s->loc, "redeclaration of '%s'", s->name);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_REDECL, "redeclaration of '%s'", s->name);
       break;
     }
     declare_array(I, s);
     break;
   case PC_AST_CONSTANT: {
     if (sym_find_local(I->env, s->name)) {
-      pc_runtime_error(I->err, s->loc, "redeclaration of '%s'", s->name);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_REDECL, "redeclaration of '%s'", s->name);
       break;
     }
     Sym *sy = calloc(1, sizeof(Sym));
@@ -704,7 +724,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
   case PC_AST_CASE: {
     Sym *sv = sym_find(I, s->case_var);
     if (!sv) {
-      pc_runtime_error(I->err, s->loc, "CASE variable '%s' is not defined", s->case_var);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CONTROL, "CASE variable '%s' is not defined", s->case_var);
       break;
     }
     PcValue disc;
@@ -744,12 +764,12 @@ static void exec_stmt(Interp *I, PcAst *s) {
     int step = s->for_step ? eval_int(I, s->for_step) : 1;
     Sym *lv = sym_find(I, s->iter);
     if (!lv) {
-      pc_runtime_error(I->err, s->loc, "FOR loop variable not declared");
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CONTROL, "FOR loop variable not declared");
       break;
     }
     PcValue *slot = &(lv->alias_of ? lv->alias_of : lv)->val;
     if (step == 0) {
-      pc_runtime_error(I->err, s->loc, "FOR STEP cannot be zero");
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CONTROL, "FOR STEP cannot be zero");
       break;
     }
     if (step > 0) {
@@ -791,7 +811,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
   case PC_AST_CALL: {
     NamedAst *p = named_find(I->procs, s->name);
     if (!p) {
-      pc_runtime_error(I->err, s->loc, "undefined procedure '%s'", s->name);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CALL, "undefined procedure '%s'", s->name);
       break;
     }
     PcAst *pd = p->def;
@@ -803,7 +823,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
         if (pd->params[i].by_ref) {
           PcValue *ptr = lvalue_ptr(I, s->args[i], s->loc);
           if (!ptr) {
-            pc_runtime_error(I->err, s->loc, "BYREF argument must be a variable");
+            pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CONTROL, "BYREF argument must be a variable");
             free(sym->name);
             free(sym);
             continue;
@@ -812,7 +832,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
           if (s->args[i]->kind == PC_AST_VAR && target) {
             sym->alias_of = target->alias_of ? target->alias_of : target;
           } else {
-            pc_runtime_error(I->err, s->loc, "BYREF requires a simple variable");
+            pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CONTROL, "BYREF requires a simple variable");
           }
         } else {
           PcValue v;
@@ -893,7 +913,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
       fp = fopen(path, "r+b");
     if (!fp && pc_str_eq_ci(mode, "RANDOM")) fp = fopen(path, "w+b");
     if (!fp) {
-      pc_runtime_error(I->err, s->loc, "could not open file '%s'", path);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_FILE, "could not open file '%s'", path);
     } else {
       int m = 0;
       if (pc_str_eq_ci(mode, "WRITE")) m = 1;

@@ -3,6 +3,7 @@
 A **Cambridge International AS & A Level Computer Science (9618)–aligned** interpreter for Pseudocode, implemented in **C** for a small, fast, cross-platform runtime. The project ships:
 
 - **`pseudocode`** — run programs (`.pseudo` / `.pseudocode`), **`check`**, **`repl`**, **`version`**, **`help`**
+- **`tools/pseudocode_idle.py`** — optional **IDLE-style GUI** (Python 3 + Tkinter): editor, F5 run, F6 check; uses the `pseudocode` binary on `PATH` or `build/pseudocode`
 - **`pkg`** — local package layout under `~/.pseudocode` (with an [online registry design](registry/registry-schema.md))
 - **VS Code** grammar + snippets ([`vscode/pseudocode`](vscode/pseudocode/))
 - **Documentation** structured like major language manuals — start at **[Documentation home → docs/index.md](docs/index.md)**

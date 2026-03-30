@@ -1,5 +1,6 @@
 #include "pc_stdlib.h"
 #include "pc_common.h"
+#include "pc_error_codes.h"
 #include <ctype.h>
 #include <math.h>
 #include <stdlib.h>
@@ -7,7 +8,7 @@
 #include <stdio.h>
 
 static void need_args(PcErrorCtx *err, size_t argc, size_t need, PcSourceLoc loc) {
-  if (argc < need) pc_runtime_error(err, loc, "not enough arguments to built-in function");
+  if (argc < need) pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "not enough arguments to built-in function");
 }
 
 static int64_t to_int(const PcValue *v) {
@@ -41,7 +42,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
       if (argv[0].type->is2d) c *= (argv[0].type->hi1 - argv[0].type->lo1 + 1);
       pc_value_init_int(out, c);
     } else
-      pc_runtime_error(err, loc, "LENGTH expects STRING or ARRAY");
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "LENGTH expects STRING or ARRAY");
     free(n);
     return true;
   }
@@ -49,7 +50,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
   if (strcmp(n, "substring") == 0 || strcmp(n, "mid") == 0) {
     need_args(err, argc, 3, loc);
     if (!argv[0].type || argv[0].type->kind != PC_T_STRING || !argv[0].s) {
-      pc_runtime_error(err, loc, "first argument must be STRING");
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "first argument must be STRING");
       free(n);
       return true;
     }
@@ -65,7 +66,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     if (i0 + take > sl) take = sl - i0;
     char *buf = malloc(take + 1);
     if (!buf) {
-      pc_runtime_error(err, loc, "out of memory");
+      pc_runtime_error(err, loc, PC_ERR_RUN_OOM, "out of memory");
       free(n);
       return true;
     }
@@ -79,7 +80,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
   if (strcmp(n, "right") == 0) {
     need_args(err, argc, 2, loc);
     if (!argv[0].type || argv[0].type->kind != PC_T_STRING || !argv[0].s) {
-      pc_runtime_error(err, loc, "RIGHT expects STRING");
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "RIGHT expects STRING");
       free(n);
       return true;
     }
@@ -91,7 +92,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     if (take > sl) take = sl;
     char *buf = malloc(take + 1);
     if (!buf) {
-      pc_runtime_error(err, loc, "out of memory");
+      pc_runtime_error(err, loc, PC_ERR_RUN_OOM, "out of memory");
       free(n);
       return true;
     }
@@ -109,7 +110,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     size_t la = strlen(a), lb = strlen(b);
     char *buf = malloc(la + lb + 1);
     if (!buf) {
-      pc_runtime_error(err, loc, "out of memory");
+      pc_runtime_error(err, loc, PC_ERR_RUN_OOM, "out of memory");
       free(n);
       return true;
     }
@@ -123,7 +124,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
   if (strcmp(n, "tointeger") == 0 || strcmp(n, "int") == 0) {
     need_args(err, argc, 1, loc);
     if (!argv[0].type) {
-      pc_runtime_error(err, loc, "invalid value for TOINTEGER");
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_CONV, "invalid value for TOINTEGER");
       free(n);
       return true;
     }
@@ -154,7 +155,7 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     need_args(err, argc, 1, loc);
     double lim = (double)to_int(&argv[0]);
     if (lim <= 0) {
-      pc_runtime_error(err, loc, "RANDOM/RAND upper bound must be positive");
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_RANGE, "RANDOM/RAND upper bound must be positive");
       free(n);
       return true;
     }
