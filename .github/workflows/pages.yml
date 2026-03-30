@@ -5,6 +5,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main, master]
+  workflow_dispatch: # Re-run deploy without a code change (Actions → Deploy GitHub Pages → Run workflow)
 
 permissions:
   contents: read
