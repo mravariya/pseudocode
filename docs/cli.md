@@ -16,6 +16,7 @@ pseudocode example            # run built-in demo (reads one line from stdin for
 pseudocode check FILE
 pseudocode repl
 pseudocode version
+pseudocode -v | --version
 pseudocode help
 ```
 
@@ -67,9 +68,9 @@ Starts the **read–eval** loop. Type statements, then a **blank line** to execu
 
 Behaviour is documented in [Getting started — REPL](getting-started.md) and the [Tutorial](tutorial/index.md#12-using-the-repl).
 
-### `version` (aliases: `-v`)
+### `version` (aliases: `-v`, `--version`)
 
-Prints the interpreter version string (e.g. **`pseudocode 1.0.0`**), aligned with `PC_VERSION_STRING` in the source.
+Prints the interpreter version string (e.g. **`pseudocode 1.0.0`**), aligned with `PC_VERSION_STRING` in the source (same numeric release as the **`pkg`** tool).
 
 ### `help` (aliases: `-h`, `--help`)
 
@@ -156,3 +157,14 @@ GitHub Actions example:
 | **`pkg`** | Local package install/list/remove — see [Package manager](package-manager.md). |
 
 There is no `pseudocode -m` or plugin flag in v1.0.
+
+---
+
+## Flag and subcommand abbreviations
+
+| Intent | Accepted forms |
+|--------|----------------|
+| Show help | `help`, **`-h`**, **`--help`** |
+| Print version | `version`, **`-v`**, **`--version`** |
+
+Global single-letter flags **other than** `-h` / `-v` are not used in v1.0; pass a **subcommand** or a **`.pseudo`** path as the first argument.

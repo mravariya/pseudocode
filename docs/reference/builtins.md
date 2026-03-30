@@ -6,7 +6,7 @@ This page lists every **pre-defined** callable that is resolved by the interpret
 
 **Errors:** wrong arity or invalid types produce a **runtime error** with a short message and (when available) source location.
 
-**See also:** [Language reference — expressions](language.md#3-expressions) · [I/O statements](language.md#4-statements)
+**See also:** [Language reference — expressions](language.md#3-expressions) · [I/O statements](language.md#4-statements) · [Standard library topics (Python comparison)](../stdlib/index.md)
 
 ---
 
@@ -21,7 +21,22 @@ This page lists every **pre-defined** callable that is resolved by the interpret
 | `INT` / `TOINTEGER` | numeric or string | `INTEGER` |
 | `TOREAL` | numeric or string | `REAL` |
 | `RAND` / `RANDOM` | optional upper bound | `REAL` |
+| `RANDINT` / `RANDOMINT` | low, high (inclusive) | `INTEGER` |
+| `RANDOMSEED` / `SEEDRANDOM` / `SEED` | seed value | `INTEGER` (`0`) |
 | `ROUND` | numeric | `INTEGER` |
+| `SQRT`, `SIN`, `COS`, `TAN`, `ASIN`, `ACOS`, `ATAN` | numeric | `REAL` |
+| `ATAN2`, `HYPOT`, `POW`, `FMOD` / `MODREAL` | two numerics | `REAL` |
+| `LOG`, `LOG10`, `EXP` | numeric | `REAL` |
+| `FLOOR`, `CEIL`, `TRUNC` | numeric | `REAL` |
+| `ABS` | numeric | `INTEGER` or `REAL` |
+| `PI` | none | `REAL` |
+| `EULER` / `E_CONST` | none | `REAL` |
+| `RADIANS`, `DEGREES` | numeric | `REAL` |
+| `TIME` | none | `REAL` |
+| `CLOCKMS` | none | `INTEGER` |
+| `NOWSTRING` | none | `STRING` |
+| `GETENV` | string name | `STRING` |
+| `SYSTEM` | string command | `INTEGER` |
 | `UPPERCASE` | string | `STRING` |
 | `LOWERCASE` | string | `STRING` |
 | `UCASE` | char | `CHAR` |
@@ -109,6 +124,83 @@ Rounds to nearest integer, **half away from zero** using `floor(x + 0.5)` for no
 Uses the C `rand()` generator; seeded once per process start from the clock (**not** cryptographically secure).
 
 **Errors:** `n <= 0` for the one-argument form.
+
+---
+
+### `RANDINT(a, b)` / `RANDOMINT(a, b)`
+
+Returns a uniform **integer** in the **closed** interval `[a, b]` (both endpoints included). Uses the same `rand()` generator as **`RANDOM`**.
+
+**Errors:** if `b < a`.
+
+---
+
+### `RANDOMSEED(x)` / `SEEDRANDOM(x)` / `SEED(x)`
+
+Seeds the global `rand()` generator with the integer value of **`x`** (low bits of the value are used). Returns **`0`** so the call can appear in an expression; the return value is not meaningful.
+
+---
+
+## Math-style functions
+
+Single-argument functions expect a numeric value and return **`REAL`** (C `double` via `<math.h>`). Names are **case-insensitive**. For a Python ↔ API table and gaps, see [stdlib: math](../stdlib/math.md).
+
+| Name | Arity | Notes |
+|------|-------|--------|
+| `SQRT`, `SIN`, `COS`, `TAN`, `ASIN`, `ACOS`, `ATAN` | 1 | Domain errors follow C (e.g. `SQRT` of negative may be NaN or host-defined). |
+| `LOG`, `LOG10`, `EXP` | 1 | Natural log / base-10 log / `e^x`. |
+| `FLOOR`, `CEIL`, `TRUNC` | 1 | `TRUNC` is toward zero (C `trunc`). |
+| `ATAN2(y, x)` | 2 | Two-argument arctangent. |
+| `HYPOT(x, y)` | 2 | `sqrt(x*x + y*y)` (C `hypot`). |
+| `POW(b, e)` | 2 | `b` to the power `e`. |
+| `FMOD` / `MODREAL` | 2 | Floating remainder (C `fmod`). |
+| `RADIANS(deg)` | 1 | Degrees → radians. |
+| `DEGREES(rad)` | 1 | Radians → degrees. |
+| `PI` | 0 | Constant π. |
+| `EULER` / `E_CONST` | 0 | Constant *e*. |
+
+### `ABS(x)`
+
+- If **`x`** is **`INTEGER`**, returns **`INTEGER`** absolute value (`llabs`).
+- Otherwise returns **`REAL`** absolute value (`fabs`).
+
+---
+
+## Time and environment
+
+### `TIME()`
+
+Seconds since the Unix epoch as **`REAL`** (`time(NULL)` cast to `double`). No arguments.
+
+---
+
+### `CLOCKMS()`
+
+Approximate **CPU time** used by the process in **milliseconds** from `clock()`. No arguments.
+
+**Errors:** if `clock()` is unavailable on the host.
+
+---
+
+### `NOWSTRING()`
+
+Current **local** wall-clock time formatted as `YYYY-MM-DD HH:MM:SS`. No arguments.
+
+**Errors:** if formatting fails.
+
+---
+
+### `GETENV(name)`
+
+**`name`** must be **`STRING`**. Returns the environment value as **`STRING`**, or **empty string** if unset.
+
+---
+
+### `SYSTEM(cmd)`
+
+**`cmd`** must be **`STRING`**. Passed to the C library **`system()`** (host shell). Returns the host status code as **`INTEGER`**.
+
+**Security:** equivalent to running a shell command; never use with untrusted input.
 
 ---
 

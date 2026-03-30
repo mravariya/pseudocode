@@ -1,0 +1,5 @@
+// Optional catalog package "time" — see docs/stdlib/time.md
+// Builtins: TIME, CLOCKMS, NOWSTRING
+
+DECLARE _TimePackageMarker : INTEGER
+_TimePackageMarker <- 0

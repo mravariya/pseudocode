@@ -29,9 +29,16 @@ python3 site/build.py --serve
 
 Edit **`site/config.json`**:
 
-- `github_user` / `github_repo` — used for footer links and “Edit on GitHub”-style URLs in rewritten links.
-- `cambridge_spec_url` — link shown on the landing hero.
-- `site_name`, `site_tagline`, `description` — branding and meta description.
+- `github_user` / `github_repo` — footer links, JSON-LD `codeRepository`, and GitHub URL rewrites.
+- **`canonical_base`** — full site URL with trailing slash (e.g. `https://user.github.io/repo/`). Drives **canonical links**, **Open Graph / Twitter** URLs, **`sitemap.xml`**, and **`robots.txt`**. If empty, those files are skipped.
+- `keywords` — comma-separated **meta keywords** (plus JSON-LD) for search snippets.
+- `author` — `<meta name="author">` and structured data.
+- `og_image` — optional absolute URL for **og:image** / **Twitter** cards (social previews).
+- `twitter_site` — optional `@handle` for **twitter:site**.
+- `cambridge_spec_url` — hero link to the official qualification page.
+- `site_name`, `site_tagline`, `description` — branding and default meta description.
+
+After changing `canonical_base`, submit **`sitemap.xml`** in [Google Search Console](https://search.google.com/search-console) (and similar tools) so crawlers discover every doc page.
 
 ## Customising the landing page
 

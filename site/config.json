@@ -1,9 +1,13 @@
 {
   "site_name": "Pseudocode",
-  "site_tagline": "Cambridge 9618 Pseudocode — reference interpreter",
-  "description": "A fast C interpreter for AS & A Level Computer Science pseudocode: run, check, REPL, VS Code extension, and a full manual.",
+  "site_tagline": "Cambridge 9618 Pseudocode — free reference interpreter",
+  "description": "Free, open-source C interpreter for Cambridge International AS & A Level Computer Science (9618) pseudocode: run programs, REPL, syntax check, VS Code extension, and a full manual. Learn and practice exam-style algorithms offline.",
+  "keywords": "Cambridge 9618, A Level Computer Science, AS Level Computer Science, CIEC pseudocode, pseudocode interpreter, pseudocode compiler, learn pseudocode, 9618 pseudocode guide, algorithm pseudocode, pseudocode REPL, computer science pseudocode, Cambridge International, pseudocode tutorial, pseudocode examples",
+  "author": "Mahesh Ravariya",
+  "twitter_site": "",
+  "og_image": "",
   "github_user": "mravariya",
-  "github_repo": "9618-Computer-Science-Pseudocode-Interpreter",
-  "base_url": "",
+  "github_repo": "pseudocode",
+  "canonical_base": "https://mravariya.github.io/pseudocode/",
   "cambridge_spec_url": "https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/"
 }

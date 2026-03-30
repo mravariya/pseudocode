@@ -3,9 +3,11 @@
 #include "pc_error_codes.h"
 #include <ctype.h>
 #include <math.h>
-#include <stdlib.h>
+#include <stdint.h>
+#include <stdlib.h> /* getenv, llabs, rand, srand, system */
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 static void need_args(PcErrorCtx *err, size_t argc, size_t need, PcSourceLoc loc) {
   if (argc < need) pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "not enough arguments to built-in function");
@@ -173,6 +175,192 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     need_args(err, argc, 1, loc);
     double r = to_real(&argv[0]);
     pc_value_init_int(out, (int64_t)floor(r + 0.5));
+    free(n);
+    return true;
+  }
+
+#define M1(name, fn)                                                                               \
+  if (strcmp(n, name) == 0) {                                                                      \
+    need_args(err, argc, 1, loc);                                                                  \
+    pc_value_init_real(out, fn(to_real(&argv[0])));                                                \
+    free(n);                                                                                       \
+    return true;                                                                                   \
+  }
+  M1("sqrt", sqrt)
+  M1("sin", sin)
+  M1("cos", cos)
+  M1("tan", tan)
+  M1("asin", asin)
+  M1("acos", acos)
+  M1("atan", atan)
+  M1("log", log)
+  M1("log10", log10)
+  M1("exp", exp)
+  M1("floor", floor)
+  M1("ceil", ceil)
+#undef M1
+
+  if (strcmp(n, "atan2") == 0) {
+    need_args(err, argc, 2, loc);
+    pc_value_init_real(out, atan2(to_real(&argv[0]), to_real(&argv[1])));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "hypot") == 0) {
+    need_args(err, argc, 2, loc);
+    pc_value_init_real(out, hypot(to_real(&argv[0]), to_real(&argv[1])));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "pow") == 0) {
+    need_args(err, argc, 2, loc);
+    pc_value_init_real(out, pow(to_real(&argv[0]), to_real(&argv[1])));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "fmod") == 0 || strcmp(n, "modreal") == 0) {
+    need_args(err, argc, 2, loc);
+    pc_value_init_real(out, fmod(to_real(&argv[0]), to_real(&argv[1])));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "abs") == 0) {
+    need_args(err, argc, 1, loc);
+    if (argv[0].type && argv[0].type->kind == PC_T_INT)
+      pc_value_init_int(out, (int64_t)llabs(argv[0].i));
+    else
+      pc_value_init_real(out, fabs(to_real(&argv[0])));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "pi") == 0) {
+    if (argc != 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "PI takes no arguments");
+      free(n);
+      return true;
+    }
+    pc_value_init_real(out, 3.14159265358979323846);
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "euler") == 0 || strcmp(n, "e_const") == 0) {
+    if (argc != 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "EULER takes no arguments");
+      free(n);
+      return true;
+    }
+    pc_value_init_real(out, 2.71828182845904523536);
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "radians") == 0) {
+    need_args(err, argc, 1, loc);
+    pc_value_init_real(out, to_real(&argv[0]) * (3.14159265358979323846 / 180.0));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "degrees") == 0) {
+    need_args(err, argc, 1, loc);
+    pc_value_init_real(out, to_real(&argv[0]) * (180.0 / 3.14159265358979323846));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "trunc") == 0) {
+    need_args(err, argc, 1, loc);
+    pc_value_init_real(out, trunc(to_real(&argv[0])));
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "time") == 0) {
+    if (argc != 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "TIME takes no arguments");
+      free(n);
+      return true;
+    }
+    pc_value_init_real(out, (double)time(NULL));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "clockms") == 0) {
+    if (argc != 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "CLOCKMS takes no arguments");
+      free(n);
+      return true;
+    }
+    clock_t c = clock();
+    if (c == (clock_t)-1) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "CLOCKMS unavailable");
+      free(n);
+      return true;
+    }
+    pc_value_init_int(out, (int64_t)((double)c * 1000.0 / (double)CLOCKS_PER_SEC));
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "nowstring") == 0) {
+    if (argc != 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "NOWSTRING takes no arguments");
+      free(n);
+      return true;
+    }
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+    char buf[64];
+    if (!tm || !strftime(buf, sizeof buf, "%Y-%m-%d %H:%M:%S", tm)) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "NOWSTRING format failed");
+      free(n);
+      return true;
+    }
+    pc_value_init_string(out, pc_strdup(buf), true);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "getenv") == 0) {
+    need_args(err, argc, 1, loc);
+    if (!argv[0].type || argv[0].type->kind != PC_T_STRING || !argv[0].s) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "GETENV expects STRING name");
+      free(n);
+      return true;
+    }
+    const char *v = getenv(argv[0].s);
+    pc_value_init_string(out, pc_strdup(v ? v : ""), true);
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "system") == 0) {
+    need_args(err, argc, 1, loc);
+    if (!argv[0].type || argv[0].type->kind != PC_T_STRING || !argv[0].s) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "SYSTEM expects STRING shell command");
+      free(n);
+      return true;
+    }
+    int r = system(argv[0].s);
+    pc_value_init_int(out, (int64_t)r);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "randomseed") == 0 || strcmp(n, "seedrandom") == 0 || strcmp(n, "seed") == 0) {
+    need_args(err, argc, 1, loc);
+    srand((unsigned)(uint32_t)to_int(&argv[0]));
+    pc_value_init_int(out, 0);
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "randint") == 0 || strcmp(n, "randomint") == 0) {
+    need_args(err, argc, 2, loc);
+    int64_t lo = to_int(&argv[0]);
+    int64_t hi = to_int(&argv[1]);
+    if (hi < lo) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_RANGE, "RANDINT: upper < lower");
+      free(n);
+      return true;
+    }
+    uint64_t span = (uint64_t)(hi - lo + 1);
+    uint64_t r = (uint64_t)((double)rand() / ((double)RAND_MAX + 1.0) * (double)span);
+    pc_value_init_int(out, lo + (int64_t)r);
     free(n);
     return true;
   }

@@ -25,6 +25,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Arrays (1D and 2D)](reference/arrays.md) | Declaration, indexing, bounds, whole-array copy, patterns, limits |
 | [OOP and user-defined types](reference/oop-and-types.md) | Classes/RECORD/pointers: syllabus vs interpreter; workarounds |
 | [Built-in functions](reference/builtins.md) | Every pre-defined function: signatures, arguments, return types, errors, examples |
+| [Standard library (Python-style topics)](stdlib/index.md) | `math`, `random`, `time`, `os`, `system` builtins and Python comparison tables |
 | [Syntax quick reference](syntax-reference.md) | One-page cheat sheet (links to the full reference) |
 
 ---

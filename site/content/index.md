@@ -1,6 +1,14 @@
+## Why use this interpreter?
+
+If you are studying **Cambridge International AS & A Level Computer Science (9618)**, you need to read and write **pseudocode** for algorithms, trace tables, and papers. This project gives you a **free, open-source** program that runs that style of pseudocode on your own computer: **no account**, **no browser lock-in**, and a full **tutorial** and **language reference** so you can practise the same keywords and structures you see in the syllabus.
+
+It is ideal for **revision**, **homework**, and **experimenting** with `IF`, `FOR`, `PROCEDURE`, arrays, and files before you sit exams.
+
+---
+
 ## Language at a glance
 
-The dialect follows **Cambridge International AS & A Level Computer Science (9618)** pseudocode where practical. The interpreter adds a few **teaching-friendly extensions** (for example extra string concatenation forms); for final exams, follow your official guide if it differs.
+The dialect follows **Cambridge 9618** pseudocode where practical. A few **optional extensions** (for example extra ways to join strings) are documented separately; for exams, always follow your **official guide** and teacher.
 
 | Types | `INTEGER` · `REAL` · `STRING` · `CHAR` · `BOOLEAN` · `DATE` |
 |-------|--------------------------------------------------------------|
@@ -10,11 +18,11 @@ The dialect follows **Cambridge International AS & A Level Computer Science (961
 | Files | `OPENFILE`, `READFILE`, `WRITEFILE`, `CLOSEFILE`, `EOF` |
 | Assignment | `<-` or `←` |
 
-Full rules: **[Documentation home](docs/index.html)** → Language reference, strings, arrays, and built-ins.
+Full rules: **[Documentation home](docs/index.html)** — language reference, strings, arrays, and built-ins.
 
 ---
 
-## Code snippets
+## Example pseudocode (copy and run)
 
 ### Hello and I/O
 
@@ -37,25 +45,25 @@ NEXT I
 
 ---
 
-## Documentation and tutorial
+## Learn more
 
 | Resource | Description |
 |----------|-------------|
-| **[Tutorial](docs/tutorial/index.html)** | Step-by-step introduction (~30 minutes) |
-| **[Installation](docs/installation.html)** | macOS, Linux, Windows, PATH, troubleshooting |
+| **[Tutorial](docs/tutorial/index.html)** | Hands-on introduction (~30 minutes) |
+| **[Installation](docs/installation.html)** | macOS, Linux, Windows, PATH |
 | **[Getting started](docs/getting-started.html)** | Minimal commands |
-| **[FAQ](docs/faq.html)** | Exams, Python comparison, common questions |
+| **[FAQ](docs/faq.html)** | Exams, comparison with Python, common questions |
 
 ---
 
-## Subject specification (9618)
+## Syllabus and disclaimer
 
-This project is a **tool for learning and practice**, not an official Cambridge product. Assessment is set by **Cambridge International**. Use the qualification page linked in the site header for syllabus and assessment details.
+This site is an **independent learning tool**. **Cambridge International** owns the **9618** qualification. Use the [official qualification page](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/) for syllabus and assessment rules.
 
 ---
 
 ## Contributing and license
 
-- **[Contributing](contributing.html)** — how to report issues, submit PRs, and build the project.  
-- **[License (MIT)](license.html)** — open source terms.  
-- **Authors:** see **`AUTHORS.md`** on [GitHub](https://github.com/mravariya/9618-Computer-Science-Pseudocode-Interpreter/blob/main/AUTHORS.md).
+- **[Contributing](contributing.html)** — issues, pull requests, building from source.  
+- **[License (MIT)](license.html)** — open source.  
+- **Authors:** [`AUTHORS.md` on GitHub](https://github.com/mravariya/pseudocode/blob/main/AUTHORS.md).

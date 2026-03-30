@@ -1,38 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{description}}">
   <title>{{title}}</title>
+  {{seo_block}}
   <link rel="stylesheet" href="{{css_href}}">
   {{extra_head}}
 </head>
 <body class="page-landing">
   <a class="skip-link" href="#content">Skip to content</a>
+  <div class="hero-mesh" aria-hidden="true"></div>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="{{home_href}}"><span class="brand-mark">⟨⟩</span> {{site_name}}</a>
+      <a class="brand" href="{{home_href}}"><span class="brand-mark" aria-hidden="true">◆</span> {{site_name}}</a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Primary">{{nav_html}}</nav>
     </div>
   </header>
 
   <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-blobs" aria-hidden="true">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      <span class="blob blob-c"></span>
+    </div>
     <div class="hero-inner">
-      <p class="hero-eyebrow">Cambridge 9618 · Pseudocode</p>
+      <p class="hero-eyebrow">Free · Open source · Cambridge International</p>
       <h1 id="hero-title" class="hero-title">{{site_tagline}}</h1>
       <p class="hero-lead">{{description}}</p>
+      <ul class="hero-pills" aria-label="Highlights">
+        <li class="pill pill-mint">9618 A Level CS</li>
+        <li class="pill pill-violet">Run &amp; check locally</li>
+        <li class="pill pill-coral">REPL + VS Code</li>
+        <li class="pill pill-sky">Full manual</li>
+      </ul>
       <div class="hero-actions">
         <a class="btn btn-primary" href="docs/tutorial/index.html">Start tutorial</a>
         <a class="btn btn-secondary" href="docs/index.html">Documentation</a>
         <a class="btn btn-ghost" href="{{repo_url}}">GitHub</a>
       </div>
       <p class="hero-spec">
-        <a href="{{cambridge_spec_url}}" rel="noopener">Official 9618 qualification page (Cambridge International)</a>
+        <a href="{{cambridge_spec_url}}" rel="noopener noreferrer">Official 9618 qualification (Cambridge International)</a>
       </p>
     </div>
-    <div class="hero-glow" aria-hidden="true"></div>
   </section>
 
   <div id="content" class="landing-content">
@@ -40,11 +51,13 @@
   </div>
 
   <footer class="site-footer">
-    <p>Built with a tiny Python static generator in <code>site/build.py</code> — edit Markdown, run one command, publish.</p>
+    <p><strong>{{site_name}}</strong> — learn and practise <strong>Cambridge 9618</strong> pseudocode with a fast, local interpreter.</p>
     <p class="footer-links">
-      <a href="contributing.html">Contributing</a>
-      · <a href="license.html">License (MIT)</a>
-      · <a href="{{repo_url}}">Repository</a>
+      <a href="docs/index.html">Docs</a>
+      · <a href="contributing.html">Contributing</a>
+      · <a href="license.html">MIT License</a>
+      · <a href="{{repo_url}}">Source</a>
+      · <a href="sitemap.xml">Sitemap</a>
     </p>
   </footer>
   <script src="{{js_href}}" defer></script>

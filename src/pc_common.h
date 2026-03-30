@@ -9,6 +9,8 @@
 #define PC_VERSION_MINOR 0
 #define PC_VERSION_PATCH 0
 #define PC_VERSION_STRING "1.0.0"
+/* pkg shares the same release version as the pseudocode interpreter. */
+#define PC_PKG_VERSION_STRING PC_VERSION_STRING
 
 /* Maximum source file size read by the CLI (denies accidentally huge inputs). */
 #define PC_MAX_SOURCE_BYTES (32u * 1024u * 1024u)

@@ -8,11 +8,15 @@ if command -v cmake >/dev/null 2>&1; then
   cmake --build build
 else
   echo "cmake not found; compiling with cc"
-  cc -std=c11 -Wall -Wextra -O2 -o build/pseudocode \
+  cc -std=c11 -Wall -Wextra -O2 \
+    "-DPC_BUILTIN_STDLIB_PACKAGES=\"$ROOT/stdlib-packages\"" \
+    -o build/pseudocode \
     src/main.c src/pc_common.c src/pc_token.c src/pc_lexer.c src/pc_error.c \
     src/pc_ast.c src/pc_parser.c src/pc_value.c src/pc_interp.c src/pc_stdlib.c \
     src/pc_pkg_shared.c src/pc_repl.c src/pc_welcome.c -lm
-  cc -std=c11 -Wall -Wextra -O2 -DPC_BUILD_PKG=1 -o build/pkg \
+  cc -std=c11 -Wall -Wextra -O2 -DPC_BUILD_PKG=1 \
+    "-DPC_BUILTIN_STDLIB_PACKAGES=\"$ROOT/stdlib-packages\"" \
+    -o build/pkg \
     src/pkg_main.c src/pc_common.c src/pc_token.c src/pc_lexer.c src/pc_error.c \
     src/pc_ast.c src/pc_parser.c src/pc_value.c src/pc_interp.c src/pc_stdlib.c \
     src/pc_pkg_shared.c -lm

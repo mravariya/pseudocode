@@ -30,10 +30,18 @@ add_executable(pkg src/pkg_main.c ${PC_CORE})
 target_include_directories(pkg PRIVATE src)
 target_compile_definitions(pkg PRIVATE PC_BUILD_PKG=1)
 
-if(UNIX AND NOT APPLE)
+set(PC_STDLIB_PACKAGES_DIR "${CMAKE_SOURCE_DIR}/stdlib-packages")
+if(EXISTS "${PC_STDLIB_PACKAGES_DIR}")
+  target_compile_definitions(pseudocode PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_PACKAGES_DIR}\"")
+  target_compile_definitions(pkg PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_PACKAGES_DIR}\"")
+endif()
+
+if(UNIX)
   target_link_libraries(pseudocode PRIVATE m)
   target_link_libraries(pkg PRIVATE m)
 endif()
+
+install(DIRECTORY stdlib-packages DESTINATION share/pseudocode)
 
 if(UNIX)
   find_library(READLINE_LIB readline)

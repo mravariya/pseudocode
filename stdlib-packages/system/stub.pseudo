@@ -1,0 +1,5 @@
+// Optional catalog package "system" — see docs/stdlib/system.md
+// Builtins: SYSTEM (host shell — use only in trusted environments)
+
+DECLARE _SystemPackageMarker : INTEGER
+_SystemPackageMarker <- 0

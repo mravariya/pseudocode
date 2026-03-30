@@ -1,0 +1,5 @@
+// Optional catalog package "os" — see docs/stdlib/os.md
+// Builtins: GETENV (environment variables)
+
+DECLARE _OsPackageMarker : INTEGER
+_OsPackageMarker <- 0

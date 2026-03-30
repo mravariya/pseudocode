@@ -1,21 +1,23 @@
 #include "pc_pkg_shared.h"
 #include "pc_common.h"
 #include "pc_error_codes.h"
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #ifdef _WIN32
 #include <direct.h>
 #include <io.h>
 #define MKDIR(p) _mkdir(p)
+#define PC_GETCWD(b, n) _getcwd(b, (int)(n))
 #else
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <unistd.h>
 #define MKDIR(p) mkdir(p, 0755)
+#define PC_GETCWD(b, n) getcwd(b, n)
 #endif
-
-#include <dirent.h>
 
 static char *pkg_root(void) {
 #ifdef _WIN32
@@ -43,6 +45,51 @@ static char *join_path(const char *a, const char *b) {
   r[na] = '/';
   memcpy(r + na + 1, b, nb + 1);
   return r;
+}
+
+static bool is_directory(const char *path) {
+  struct stat st;
+  if (stat(path, &st) != 0)
+    return false;
+#ifdef S_ISDIR
+  return S_ISDIR(st.st_mode) != 0;
+#else
+  return (st.st_mode & S_IFDIR) != 0;
+#endif
+}
+
+/* Search order: PSEUDOCODE_STDLIB, PC_BUILTIN_STDLIB_PACKAGES, cwd/stdlib-packages, ../stdlib-packages */
+static char *find_stdlib_packages_root(void) {
+  const char *e = getenv("PSEUDOCODE_STDLIB");
+  if (e && e[0] && is_directory(e)) {
+    return pc_strdup(e);
+  }
+#ifdef PC_BUILTIN_STDLIB_PACKAGES
+  if (is_directory(PC_BUILTIN_STDLIB_PACKAGES))
+    return pc_strdup(PC_BUILTIN_STDLIB_PACKAGES);
+#endif
+  char cwd[4096];
+  if (!PC_GETCWD(cwd, sizeof cwd))
+    return NULL;
+  char *try1 = join_path(cwd, "stdlib-packages");
+  if (try1 && is_directory(try1)) {
+    char *r = pc_strdup(try1);
+    free(try1);
+    return r;
+  }
+  free(try1);
+  char *parent = join_path(cwd, "..");
+  if (!parent)
+    return NULL;
+  char *try2 = join_path(parent, "stdlib-packages");
+  free(parent);
+  if (try2 && is_directory(try2)) {
+    char *r = pc_strdup(try2);
+    free(try2);
+    return r;
+  }
+  free(try2);
+  return NULL;
 }
 
 static int copy_file(const char *src, const char *dst, PcErrorCtx *err) {
@@ -147,4 +194,63 @@ void pc_pkg_print_registry_note(void) {
   printf("Local package root: %s/packages\n", root);
   printf("Registry URL (optional): set in %s/registry.txt — one URL per line.\n", root);
   free(root);
+}
+
+void pc_pkg_print_version(void) {
+  printf("pkg %s (Pseudocode toolkit; same version as the pseudocode interpreter)\n", PC_PKG_VERSION_STRING);
+}
+
+int pc_pkg_list_available(void) {
+  char *cat = find_stdlib_packages_root();
+  if (!cat) {
+    printf(
+        "(no stdlib catalog found — set PSEUDOCODE_STDLIB to the stdlib-packages directory, or run pkg from the "
+        "repository root)\n");
+    return 0;
+  }
+  printf("Catalog: %s\n", cat);
+  DIR *d = opendir(cat);
+  if (!d) {
+    free(cat);
+    return -1;
+  }
+  struct dirent *e;
+  int n = 0;
+  while ((e = readdir(d))) {
+    if (e->d_name[0] == '.')
+      continue;
+    char *sub = join_path(cat, e->d_name);
+    if (sub && is_directory(sub)) {
+      printf("  %s\n", e->d_name);
+      n++;
+    }
+    free(sub);
+  }
+  closedir(d);
+  if (n == 0)
+    printf("(empty catalog)\n");
+  free(cat);
+  return 0;
+}
+
+int pc_pkg_install_catalog(const char *pkg_name, PcErrorCtx *err) {
+  if (!pkg_name || !pkg_name[0]) {
+    pc_note(err, "missing package name");
+    return -1;
+  }
+  char *cat = find_stdlib_packages_root();
+  if (!cat) {
+    pc_note(err, "stdlib catalog not found; set PSEUDOCODE_STDLIB or run from the repo (see: pkg available)");
+    return -1;
+  }
+  char *src = join_path(cat, pkg_name);
+  free(cat);
+  if (!src || !is_directory(src)) {
+    pc_note(err, "unknown catalog package '%s' — run: pkg available", pkg_name);
+    free(src);
+    return -1;
+  }
+  int r = pc_pkg_install_local(src, pkg_name, err);
+  free(src);
+  return r;
 }

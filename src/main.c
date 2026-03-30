@@ -126,8 +126,8 @@ static void help(bool color) {
   printf("  pseudocode example             Run built-in welcome demo (stdin: your name)\n");
   printf("  pseudocode check <file>        Parse and validate structure\n");
   printf("  pseudocode repl                Interactive REPL (EXIT / quit / :quit)\n");
-  printf("  pseudocode version             Print version\n");
-  printf("  pseudocode help                Show this help\n\n");
+  printf("  pseudocode version             Print version (alias: -v, --version)\n");
+  printf("  pseudocode help                Show this help (alias: -h, --help)\n\n");
   printf("Exit status: 0 success, 2 parse, 3 runtime, 4 I/O, 5 usage/unknown command (see docs/error-codes.md)\n\n");
   printf("Environment:\n");
   printf("  PSEUDO_TRACE=1                 Execution trace on stderr\n");
@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
     help(color);
     return 0;
   }
-  if (strcmp(a1, "version") == 0 || strcmp(a1, "-v") == 0) {
+  if (strcmp(a1, "version") == 0 || strcmp(a1, "-v") == 0 || strcmp(a1, "--version") == 0) {
     printf("pseudocode %s\n", PC_VERSION_STRING);
     return 0;
   }

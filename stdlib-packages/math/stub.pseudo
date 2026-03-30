@@ -1,0 +1,6 @@
+// Optional catalog package "math" — builtins are always in the interpreter.
+// Run: pkg install math   then copy snippets from ~/.pseudocode/packages/math/
+// Full Python ↔ Pseudocode map: docs/stdlib/math.md
+
+DECLARE _MathPackageMarker : INTEGER
+_MathPackageMarker <- 0
