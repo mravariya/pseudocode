@@ -6,7 +6,7 @@ This page is a **short on-ramp**. For a full narrative introduction, work throug
 
 ## Prerequisites
 
-You need a built **`pseudocode`** binary. If you have not installed it yet, follow [**Installation**](installation.md).
+You need a built **`pseudocode`** binary (and optionally **`pkg`**, built in the same step). If you have not installed them yet, follow [**Installation**](installation.md).
 
 ---
 
@@ -27,6 +27,44 @@ You need a built **`pseudocode`** binary. If you have not installed it yet, foll
 ```
 
 If `pseudocode` is on your `PATH`, replace `./build/pseudocode` with `pseudocode`.
+
+---
+
+## Development rebuild loop
+
+When you **change C source** under **`src/`** and want to test without remembering every step:
+
+```bash
+# From repository root (once: chmod +x scripts/dev.sh scripts/build.sh)
+./scripts/dev.sh
+```
+
+This **rebuilds** `build/pseudocode` and `build/pkg`, then runs **`pseudocode version`**, **`pseudocode check examples/hello.pseudo`**, and verifies **`pkg`**. If you use **Make**: **`make dev`** does the same.
+
+- **Also rebuild the docs website** (`site/public`): `./scripts/dev.sh --site` (needs Python 3 + `pip install -r site/requirements-site.txt`).
+- If you **installed** the binaries onto your PATH (e.g. macOS **`scripts/install-macos.sh`**), run that **install script again** after `dev.sh` so the shell finds the new build.
+
+---
+
+## Optional: packages (`pkg`)
+
+The **`pkg`** tool copies optional **`.pseudo`** bundles into **`~/.pseudocode/packages/`** (see [**Package manager**](package-manager.md)).
+
+**Install `pkg`:** same build as the interpreter — you already have **`./build/pkg`** after **`./scripts/build.sh`**.
+
+**Common commands:**
+
+| Goal | Command |
+|------|---------|
+| Help | `pkg help` or `pkg -h` / `pkg --help` |
+| Version | `pkg version` or `pkg -v` / `pkg --version` |
+| List catalog names (e.g. `math`, `random`) | `pkg available` |
+| Install a catalog bundle | **`pkg install math`** or short **`pkg -i math`** (same as **`pkg --install math`**) |
+| Install a folder of `.pseudo` files | `pkg install ./my-lib [optional-name]` |
+| See installed packages | `pkg list` |
+| Remove | `pkg remove name` |
+
+Full command table (short vs long): [**Package manager — Commands: short and full forms**](package-manager.md#commands-short-and-full-forms).
 
 ---
 
@@ -63,13 +101,14 @@ pseudocode hello.pseudo
 1. **[Documentation home](index.md)** — full table of contents.  
 2. **[Tutorial](tutorial/index.md)** — learn by doing.  
 3. **[Language reference](reference/language.md)** — complete syntax and semantics.  
-4. **[CLI reference](cli.md)** — every subcommand and environment variable.  
-5. **[FAQ](faq.md)** — exams, Python vs Pseudocode, common errors.
+4. **[CLI reference](cli.md)** — every `pseudocode` subcommand, flags, and environment variables.  
+5. **[Package manager](package-manager.md)** — `pkg` install, **`pkg -i`**, catalog, `list` / `remove`.  
+6. **[FAQ](faq.md)** — exams, Python vs Pseudocode, common errors.
 
 ---
 
 ## Getting help
 
-- Terminal: `pseudocode help`  
+- Terminal: `pseudocode help` · `pkg help` (and `pkg -h`)  
 - This site: [Error handling](error-handling.md) for diagnostics  
 - Project **README** and **AUTHORS** for maintainers and licence  

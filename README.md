@@ -8,7 +8,7 @@ A **Cambridge International AS & A Level Computer Science (9618)–aligned** int
 - **VS Code** grammar + snippets ([`vscode/pseudocode`](vscode/pseudocode/))
 - **Documentation** structured like major language manuals — start at **[Documentation home → docs/index.md](docs/index.md)**
 
-**Website (GitHub Pages):** the repo includes a Markdown-driven static site in **`site/`** (Python + one dependency, not Jekyll) with a landing page, SEO metadata, sitemap, and colourful code snippets. **Live site:** [mravariya.github.io/pseudocode](https://mravariya.github.io/pseudocode/) (after you enable **Settings → Pages → GitHub Actions** and the **Deploy GitHub Pages** workflow has run). Build locally: `pip install -r site/requirements-site.txt && python3 site/build.py` — details in **[site/README.md](site/README.md)**.
+**Website (GitHub Pages):** the repo includes a Markdown-driven static site in **`site/`** (Python + one dependency, **not** GitHub’s default Jekyll README theme) with a landing page, SEO metadata, sitemap, and colourful code snippets. **Live site:** [mravariya.github.io/pseudocode](https://mravariya.github.io/pseudocode/). If the page still looks like a **plain README**, GitHub is publishing Jekyll instead of `site/public` — fix: **[docs/github-pages.md](docs/github-pages.md)**. Build locally: `pip install -r site/requirements-site.txt && python3 site/build.py` — details in **[site/README.md](site/README.md)**.
 
 **Author:** [Mahesh Ravariya](https://www.linkedin.com/in/mravariya/) · [GitHub](https://github.com/mravariya)  
 **License:** [MIT](LICENSE)
@@ -22,6 +22,8 @@ A **Cambridge International AS & A Level Computer Science (9618)–aligned** int
 ./build/pseudocode examples/hello.pseudo
 ./build/pseudocode repl
 ```
+
+**Developing (rebuild after editing `src/`):** from the repo root run **`./scripts/dev.sh`** — it rebuilds **`pseudocode`** and **`pkg`**, then runs a quick check. Same as **`make dev`** if you have Make. Use **`./scripts/dev.sh --site`** to also rebuild the static site. See [Contributing](CONTRIBUTING.md) and [Getting started — dev loop](docs/getting-started.md#development-rebuild-loop).
 
 ---
 

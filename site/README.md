@@ -19,6 +19,12 @@ python3 site/build.py
 
 Output: **`site/public/`** — upload that folder to any static host, or use the **Deploy GitHub Pages** workflow (`.github/workflows/pages.yml`).
 
+### The live site still looks like the plain README?
+
+Then GitHub is serving **Jekyll** from the repo, not **`site/public`**. **View page source** on the live URL: if you see `<meta name="generator" content="Jekyll` …`, follow **[docs/github-pages.md](../docs/github-pages.md)** (disable extra Pages workflows, keep only **`pages.yml`**).
+
+When correct, the HTML starts with `<html lang="en-GB">` and a long title like **“Pseudocode | Cambridge 9618 A Level…”** — no Jekyll generator line.
+
 Preview locally:
 
 ```bash

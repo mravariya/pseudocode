@@ -18,6 +18,18 @@ There is **no bytecode** and **no separate optimiser** in v1.0.
 
 ---
 
+## Daily development workflow
+
+After editing files in **`src/`**, from the repository root run:
+
+```bash
+./scripts/dev.sh
+```
+
+This invokes **`scripts/build.sh`** and a small smoke test (`version` + `check` on `examples/hello.pseudo`). Equivalent: **`make dev`** using the root **`Makefile`**. Use **`./scripts/dev.sh --site`** to regenerate **`site/public`** as well. See [Contributing](../CONTRIBUTING.md) and [Getting started — Development rebuild loop](getting-started.md#development-rebuild-loop).
+
+---
+
 ## Major source files
 
 | File | Responsibility |

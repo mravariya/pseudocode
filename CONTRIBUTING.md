@@ -18,11 +18,30 @@ Thank you for helping improve the **Pseudocode** interpreter or its documentatio
 | VS Code extension | `vscode/pseudocode/` |
 | Site generator | `site/build.py` |
 | Build script | `scripts/build.sh` |
+| Dev rebuild + smoke | `scripts/dev.sh` (or **`make dev`**) |
 
 ## Building and running
 
+**After you change C code** in `src/`, rebuild and sanity-check in one step:
+
 ```bash
-chmod +x scripts/build.sh
+chmod +x scripts/dev.sh scripts/build.sh   # once
+./scripts/dev.sh
+```
+
+This runs `scripts/build.sh`, then `pseudocode version`, `pseudocode check examples/hello.pseudo`, and `pkg version`. To also regenerate the docs website into `site/public`:
+
+```bash
+./scripts/dev.sh --site
+```
+
+If you use **GNU Make**, the same workflow is available as **`make dev`** (see the root `Makefile`).
+
+If you previously **installed** binaries to `PATH` (e.g. `scripts/install-macos.sh`), run that install step again after `./scripts/dev.sh` so the global `pseudocode` matches your latest build.
+
+Manual build only (no smoke test):
+
+```bash
 ./scripts/build.sh
 ./build/pseudocode run examples/hello.pseudo
 ./build/pseudocode repl

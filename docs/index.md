@@ -48,8 +48,9 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | Document | Contents |
 |----------|----------|
 | [Command-line interface](cli.md) | `pseudocode` subcommands, exit codes, environment variables, batch use |
-| [Package manager (`pkg`)](package-manager.md) | Local packages, layout under `~/.pseudocode`, registry design |
+| [Package manager (`pkg`)](package-manager.md) | Install with **`pseudocode`**; **`pkg -i`** / **`pkg --install`** = **`pkg install`**; catalog (`pkg available`), local folders, `list` / `remove` |
 | [Visual Studio Code](vscode.md) | Extension, tasks, snippets, recommended workflow |
+| [GitHub Pages troubleshooting](github-pages.md) | If the live site shows Jekyll/README instead of the custom landing page |
 | [Error handling](error-handling.md) | Parse vs runtime errors, trace mode, messages, teaching notes |
 | [Exit status & PC codes](error-codes.md) | `$?` values, `[PC-NNN]` list, file size limit |
 

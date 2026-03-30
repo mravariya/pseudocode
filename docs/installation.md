@@ -5,11 +5,11 @@ This guide explains how to obtain a working `**pseudocode**` and `**pkg**` binar
 **Contents**
 
 - [1. Supported platforms](#1-supported-platforms)
-- [2. What you are installing](#2-what-you-are-installing)
+- [2. What you are installing](#2-what-you-are-installing) (includes [2.1 `pkg`](#21-installing-pkg-and-putting-it-on-path))
 - [3. macOS](#3-macos)
 - [4. Linux](#4-linux)
 - [5. Windows](#5-windows)
-- [6. Build methods](#6-build-methods)
+- [6. Build methods](#6-build-methods) (includes [6.4 dev rebuild](#64-one-command-rebuild-while-developing))
 - [7. Verifying the installation](#7-verifying-the-installation)
 - [8. PATH configuration](#8-path-configuration)
 - [9. Optional dependencies](#9-optional-dependencies)
@@ -297,6 +297,12 @@ The C code targets **C11**. No third-party runtime libraries are required beyond
 
 Both are built from the same core sources; `pkg` omits the REPL object file in the CMake layout.
 
+### 2.1 Installing `pkg` and putting it on `PATH`
+
+- **`pkg`** is produced in the **same build step** as **`pseudocode`**. There is no separate download or package for it.
+- After **`./scripts/build.sh`**, use **`./build/pkg`** (or install both binaries to `~/.local/bin`, `/usr/local/bin`, etc., as described in this guide).
+- To **use** `pkg` after installation: see **[Package manager — how to use](package-manager.md#how-to-use-pkg-quick-start)** and **[short and full commands](package-manager.md#commands-short-and-full-forms)**.
+
 ---
 
 ## 3. macOS
@@ -429,6 +435,21 @@ Invokes `cc` with an explicit file list and `-lm` on Unix. No generated headers.
 
 Pass `-DCMAKE_BUILD_TYPE=Debug` or compile with `-g -O0` for debugging the **C** interpreter (e.g. in GDB or LLDB).
 
+### 6.4 One-command rebuild while developing
+
+If you edit **`src/`** regularly, from the repository root run:
+
+```bash
+chmod +x scripts/dev.sh scripts/build.sh   # once per clone
+./scripts/dev.sh
+```
+
+This rebuilds **`pseudocode`** and **`pkg`**, then runs **`pseudocode version`**, **`pseudocode check examples/hello.pseudo`**, and checks **`pkg`**. With **GNU Make**: **`make dev`** is equivalent. To also rebuild the static site: **`./scripts/dev.sh --site`**.
+
+If you use an **install script** to copy binaries onto **`PATH`**, run that script again after **`dev.sh`** so the installed copy matches **`build/`**.
+
+Details: [Getting started — Development rebuild loop](getting-started.md#development-rebuild-loop) · [Contributing](../CONTRIBUTING.md).
+
 ---
 
 ## 7. Verifying the installation
@@ -442,6 +463,20 @@ Expected output includes `**1.0.0**` (or the version in `src/pc_common.h`).
 ```bash
 pseudocode help
 pkg help
+```
+
+Check **`pkg`** specifically (version should match **`pseudocode version`**):
+
+```bash
+pkg version
+# or: pkg -v
+# or: pkg --version
+```
+
+If you built from a clone, from the **repository root** you can list optional catalog bundles:
+
+```bash
+pkg available
 ```
 
 Run a sample:

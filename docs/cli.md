@@ -15,10 +15,13 @@ pseudocode run FILE
 pseudocode example            # run built-in demo (reads one line from stdin for INPUT)
 pseudocode check FILE
 pseudocode repl
-pseudocode version
-pseudocode -v | --version
-pseudocode help
+pseudocode version            # full form
+pseudocode -v | --version     # short / long flag (same output)
+pseudocode help               # full form
+pseudocode -h | --help        # short / long flag (same output)
 ```
+
+**`pkg`** (package manager) is documented on a separate page; it uses **`pkg -i`** / **`pkg --install`** as shortcuts for **`pkg install`**. See [Related tools: `pkg`](#related-tools-pkg-separate-binary) below and [Package manager](package-manager.md).
 
 ---
 
@@ -150,11 +153,23 @@ GitHub Actions example:
 
 ---
 
-## Related tools
+## Related tools: `pkg` (separate binary)
 
-| Tool | Purpose |
-|------|---------|
-| **`pkg`** | Local package install/list/remove — see [Package manager](package-manager.md). |
+The **`pkg`** program is **not** a `pseudocode` subcommand; it is its **own executable**, built next to **`pseudocode`**. Install both from the same build — see [Installing Pseudocode](installation.md#21-installing-pkg-and-putting-it-on-path).
+
+### `pkg`: short and full commands (overview)
+
+| Action | Typical invocation |
+|--------|---------------------|
+| Help | `pkg help` · `pkg -h` · `pkg --help` |
+| Version | `pkg version` · `pkg -v` · `pkg --version` |
+| Install catalog bundle | `pkg install NAME` · **`pkg -i NAME`** · `pkg --install NAME` |
+| Install local folder | `pkg install DIRECTORY [package-name]` |
+| List catalog names | `pkg available` |
+| List installed | `pkg list` |
+| Remove | `pkg remove NAME` |
+
+Full behaviour, layout under **`~/.pseudocode`**, and security notes: **[Package manager](package-manager.md)** (includes a **complete** short/long command table).
 
 There is no `pseudocode -m` or plugin flag in v1.0.
 

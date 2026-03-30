@@ -699,6 +699,9 @@ def build(cfg: dict) -> None:
         page = finalize_page(page, cfg, from_pub)
         (PUBLIC / "license.html").write_text(page, encoding="utf-8")
 
+    # Tell GitHub Pages not to run Jekyll on this static export (belt-and-suspenders).
+    (PUBLIC / ".nojekyll").write_text("", encoding="utf-8")
+
     write_sitemap_and_robots(cfg, PUBLIC)
     nhtml = sum(1 for _ in PUBLIC.rglob("*.html"))
     print(f"Built site → {PUBLIC} ({nhtml} HTML files, sitemap + robots if canonical_base set)")

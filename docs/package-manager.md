@@ -4,11 +4,46 @@ The **`pkg`** program manages **optional collections** of Pseudocode source file
 
 **Version:** **`pkg version`**, **`pkg -v`**, and **`pkg --version`** print the same release string as **`pseudocode version`** (shared `PC_VERSION_STRING` / `PC_PKG_VERSION_STRING`).
 
-**See also:** [Standard library topics (Python-style)](stdlib/index.md) · [Registry schema](../registry/registry-schema.md) · [CLI](cli.md) · [FAQ](faq.md)
+**See also:** [Installation — both binaries](installation.md#2-what-you-are-installing) · [Standard library topics (Python-style)](stdlib/index.md) · [Registry schema](../registry/registry-schema.md) · [CLI](cli.md) · [FAQ](faq.md)
 
 ---
 
-## Synopsis
+## Installing `pkg`
+
+You do **not** install `pkg` separately. It is built **together** with **`pseudocode`** from the same repository:
+
+- After **`./scripts/build.sh`** or **CMake**, you get **`build/pkg`** (or **`build/pkg.exe`**) next to **`build/pseudocode`**.
+- Put **both** on your **`PATH`** (see [Installing Pseudocode](installation.md)) so you can run `pkg` from any directory.
+
+Quick check:
+
+```bash
+pkg version
+pkg help
+```
+
+---
+
+## How to use `pkg` (quick start)
+
+1. **See what the catalog offers** (from the repo root, or with `PSEUDOCODE_STDLIB` set):  
+   `pkg available`
+2. **Install an optional bundle** by name (e.g. stub files for **math**, **random**, …):  
+   `pkg install math` or the short form **`pkg -i math`**
+3. **Install from a folder** you trust (copies all `*.pseudo` / `*.pseudocode` into a named package):  
+   `pkg install /path/to/folder my-lib`
+4. **List what is installed** under your user directory:  
+   `pkg list`
+5. **Remove a package**:  
+   `pkg remove my-lib`
+
+Installed files live under **`~/.pseudocode/packages/`** (Unix) or **`%USERPROFILE%\.pseudocode\packages\`** (Windows). The interpreter does not auto-load them yet — copy or merge snippets into your program, or see [Including installed code](#including-installed-code).
+
+Full install and PATH steps: **[Installation](installation.md)**.
+
+---
+
+## Synopsis (all commands)
 
 ```text
 pkg install <directory> [package-name]    # local folder
@@ -23,6 +58,26 @@ pkg update
 pkg version | -v | --version
 pkg help | -h | --help
 ```
+
+---
+
+## Commands: short and full forms
+
+Every subcommand is listed here with **equivalent** spellings where aliases exist.
+
+| Purpose | Full command | Short / alias |
+|---------|----------------|---------------|
+| Show usage | `pkg help` | `pkg -h`, `pkg --help` |
+| Print toolkit version | `pkg version` | `pkg -v`, `pkg --version` |
+| Install from catalog name | `pkg install NAME` | `pkg -i NAME`, `pkg --install NAME` |
+| Install from local directory | `pkg install DIR [NAME]` | *(no short form — use full `install`)* |
+| List catalog package names | `pkg available` | *(no alias)* |
+| List installed packages | `pkg list` | *(no alias)* |
+| Remove installed package | `pkg remove NAME` | *(no alias)* |
+| Search hint (placeholder) | `pkg search TERM` | *(no alias)* |
+| Registry refresh (future) | `pkg update` | *(no alias)* |
+
+**Mnemonic:** **`-i`** = **i**nstall (catalog or name only when not a directory path).
 
 ---
 
@@ -95,13 +150,15 @@ Usage summary and pointer to **`~/.pseudocode`** layout.
 
 ---
 
-## Abbreviations
+## Abbreviations (summary)
 
 | Long form | Short form |
 |-----------|------------|
-| `pkg install NAME` | `pkg -i NAME`, `pkg --install NAME` |
+| `pkg install NAME` (catalog) | `pkg -i NAME`, `pkg --install NAME` |
 | `pkg version` | `pkg -v`, `pkg --version` |
 | `pkg help` | `pkg -h`, `pkg --help` |
+
+There are **no** one-letter aliases for `available`, `list`, `remove`, or `update`.
 
 ---
 
