@@ -322,7 +322,7 @@ def build_seo_block(
     if og_img:
         parts.append(f'<meta name="twitter:image" content="{esc_attr(og_img)}">')
     parts.append('<meta name="theme-color" content="#2d1b69">')
-    parts.append('<meta name="color-scheme" content="dark">')
+    parts.append('<meta name="color-scheme" content="dark light">')
     for blob in extra_json_ld or []:
         parts.append(f'<script type="application/ld+json">{blob}</script>')
     return "\n  ".join(parts)
@@ -537,6 +537,7 @@ def nav_items(from_public_path: str, cfg: dict) -> list[tuple[str, str]]:
         ("Home", "index.html"),
         ("Docs", "docs/index.html"),
         ("Tutorial", "docs/tutorial/index.html"),
+        ("Try online", "docs/try-online.html"),
         ("Language", "docs/reference/language.html"),
         ("Built-ins", "docs/reference/builtins.html"),
         ("Stdlib", "docs/stdlib/index.html"),

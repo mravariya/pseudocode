@@ -8,6 +8,10 @@ Thank you for helping improve the **Pseudocode** interpreter or its documentatio
 - **Submit pull requests** — bug fixes, tests, doc corrections, or small, focused features that match Cambridge 9618 style.
 - **Documentation** — the manual lives in `docs/` (Markdown). The public website is generated from those files plus `site/content/index.md`; see `site/README.md`.
 
+## Codespaces / dev container
+
+The **`.devcontainer/devcontainer.json`** configures **GitHub Codespaces**: Ubuntu + C++ toolchain, **`postCreateCommand`** runs **`./scripts/build.sh`**. Useful for **Try online** on the website and for contributors without a local compiler.
+
 ## Project layout
 
 | Area | Path |

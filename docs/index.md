@@ -26,6 +26,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Installation](installation.md) | Supported platforms, compilers, CMake vs plain `cc`, PATH, troubleshooting |
 | [Tutorial](tutorial/index.md) | Variables, control flow, procedures, arrays, files, running programs |
 | [Getting started (quick)](getting-started.md) | Build, run, check, REPL in one page |
+| [Try online](try-online.md) | Run the interpreter in **GitHub Codespaces** or **Gitpod** (no local install) |
 
 ---
 
@@ -51,6 +52,8 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Package manager (`pkg`)](package-manager.md) | Install with **`pseudocode`**; **`pkg -i`** / **`pkg --install`** = **`pkg install`**; catalog (`pkg available`), local folders, `list` / `remove` |
 | [Visual Studio Code](vscode.md) | Extension, tasks, snippets, recommended workflow |
 | [GitHub Pages troubleshooting](github-pages.md) | If the live site shows Jekyll/README instead of the custom landing page |
+
+The public **website** (GitHub Pages) includes a **light / dark** theme toggle; preference is remembered in the browser. See [site/README.md](../site/README.md#configuration).
 | [Error handling](error-handling.md) | Parse vs runtime errors, trace mode, messages, teaching notes |
 | [Exit status & PC codes](error-codes.md) | `$?` values, `[PC-NNN]` list, file size limit |
 

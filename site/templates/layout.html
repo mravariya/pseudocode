@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+<script>
+(function(){try{var k='pseudocode-theme',L='light',D='dark',s=localStorage.getItem(k);if(s===L||s===D)document.documentElement.setAttribute('data-theme',s);else document.documentElement.setAttribute('data-theme',window.matchMedia('(prefers-color-scheme: light)').matches?L:D);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +17,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="{{home_href}}"><span class="brand-mark" aria-hidden="true">◆</span> {{site_name}}</a>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch theme" title="Light / dark theme"><span class="theme-toggle-icon" aria-hidden="true"></span></button>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Primary">{{nav_html}}</nav>
     </div>

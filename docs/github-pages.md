@@ -6,6 +6,46 @@ If **`https://<user>.github.io/<repo>/`** still looks like a **plain README** (C
 
 ---
 
+## What we checked on GitHub (no login needed)
+
+Using GitHub’s **public API**, the **`pseudocode`** repo currently has **only** these workflow files under **`.github/workflows/`**:
+
+- **`build.yml`** — compiles the C interpreter on Ubuntu + macOS. It does **not** publish Pages. **Keep it enabled** for CI.
+- **`pages.yml`** — builds **`site/public`** and deploys to Pages. **This is the one you want for the website.**
+
+There is **no** extra Jekyll workflow file in the repo to delete. The plain README look comes from **repository Settings** still using **“Deploy from a branch”** (GitHub’s built‑in Jekyll on the server), which runs **even though** `pages.yml` also runs.
+
+**You cannot fix this by disabling Actions workflows** — you must switch **Pages → Source** to **GitHub Actions** only (see below).
+
+From your machine, run:
+
+```bash
+chmod +x scripts/check-pages-remote.sh
+./scripts/check-pages-remote.sh
+```
+
+It re-checks the API and fetches the live homepage to say whether Jekyll or the custom site is showing.
+
+---
+
+## Fix in one place (repo admin, browser)
+
+1. **Open (while logged into GitHub):**  
+   **`https://github.com/mravariya/pseudocode/settings/pages`**  
+   (replace `mravariya/pseudocode` if you use a fork.)
+
+2. Find **“Build and deployment”**.
+
+3. **Source** must be **GitHub Actions** — not **Deploy from a branch**.
+
+4. If you see **Branch: `main`** and **Folder: `/ (root)`** (or `/docs`), change the dropdown to **GitHub Actions**. That turns off the server-side Jekyll build from your README.
+
+5. Under **“GitHub Actions”**, ensure the suggested workflow is **Deploy GitHub Pages** / **`pages.yml`** (or leave default; your repo already has the file).
+
+6. Push to **`main`** or re-run **Deploy GitHub Pages** from the Actions tab. Wait a minute, then hard-refresh the site.
+
+---
+
 ## Quick check (5 seconds)
 
 1. Open your Pages URL, e.g. `https://mravariya.github.io/pseudocode/`.
@@ -20,33 +60,20 @@ If **`https://<user>.github.io/<repo>/`** still looks like a **plain README** (C
 
 ---
 
-## Fix: only one publisher
+## Fix: only one publisher (summary)
 
-### 1. Pages source must be GitHub Actions only
+If you already followed **[Fix in one place (repo admin, browser)](#fix-in-one-place-repo-admin-browser)** above, you are done with Settings. Do **not** disable **`build.yml`** — it does not publish Pages.
 
-1. Repo **Settings → Pages**.
-2. Under **Build and deployment → Source**, choose **GitHub Actions** (not **Deploy from a branch**).
-3. If the UI still offers **branch** / **folder** (`/ (root)` or `/docs`), **clear** that so only the Actions workflow drives the site.
+### 1. Workflows: what to leave on
 
-You cannot reliably mix **branch + Jekyll** with the **Actions artifact** from `site/public`; the wrong one may win.
+| Workflow | Purpose | Disable? |
+|----------|---------|----------|
+| **Deploy GitHub Pages** (`pages.yml`) | Builds **`site/public`** and publishes the real docs site | **No** — keep on |
+| **build** (`build.yml`) | Compiles **`pseudocode`** / **`pkg`** on Ubuntu + macOS | **No** — keep on (not related to Pages) |
 
-### 2. Remove extra “GitHub Pages” workflows
+If you **ever** add another workflow that runs **Jekyll** or deploys **`github-pages`** from **`README.md`**, disable **that** one — but in this repository there is **no** such file on GitHub right now.
 
-When you first enabled Pages, GitHub may have suggested **“GitHub Pages Jekyll”** or similar. That creates **another** workflow that builds Jekyll from **`README.md`** and also deploys to **`github-pages`**.
-
-1. Open the **Actions** tab.
-2. For each workflow **other than** **Deploy GitHub Pages** (from **`pages.yml`**), open it and inspect the YAML:
-   - If it contains **`jekyll`**, **`actions/jekyll`**, or **`actions/configure-pages`** together with a Jekyll build, it is **not** our site.
-3. **Disable** that workflow (**⋯ → Disable workflow**) or **delete** its file under **`.github/workflows/`** on **`main`** and push.
-
-Keep **only** the workflow that runs:
-
-- `pip install -r site/requirements-site.txt`
-- `python3 site/build.py`
-- `actions/upload-pages-artifact` with **`path: site/public`**
-- `actions/deploy-pages`
-
-### 3. Redeploy
+### 2. Redeploy
 
 After the above, run **Deploy GitHub Pages** manually (**Actions → Deploy GitHub Pages → Run workflow**) or push any commit to **`main`**.
 

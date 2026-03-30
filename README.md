@@ -23,6 +23,8 @@ A **Cambridge International AS & A Level Computer Science (9618)–aligned** int
 ./build/pseudocode repl
 ```
 
+**Try without installing locally:** open the repo in **[GitHub Codespaces](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=mravariya%2Fpseudocode)** (browser + full Linux build) — see **[docs/try-online.md](docs/try-online.md)**.
+
 **Developing (rebuild after editing `src/`):** from the repo root run **`./scripts/dev.sh`** — it rebuilds **`pseudocode`** and **`pkg`**, then runs a quick check. Same as **`make dev`** if you have Make. Use **`./scripts/dev.sh --site`** to also rebuild the static site. See [Contributing](CONTRIBUTING.md) and [Getting started — dev loop](docs/getting-started.md#development-rebuild-loop).
 
 ---

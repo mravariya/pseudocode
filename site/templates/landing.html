@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+<script>
+(function(){try{var k='pseudocode-theme',L='light',D='dark',s=localStorage.getItem(k);if(s===L||s===D)document.documentElement.setAttribute('data-theme',s);else document.documentElement.setAttribute('data-theme',window.matchMedia('(prefers-color-scheme: light)').matches?L:D);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +17,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="{{home_href}}"><span class="brand-mark" aria-hidden="true">◆</span> {{site_name}}</a>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch theme" title="Light / dark theme"><span class="theme-toggle-icon" aria-hidden="true"></span></button>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Primary">{{nav_html}}</nav>
     </div>
@@ -35,9 +39,11 @@
         <li class="pill pill-coral">REPL + VS Code</li>
         <li class="pill pill-sky">Full manual</li>
         <li class="pill pill-mint">pkg catalog</li>
+        <li class="pill pill-sky">Codespaces</li>
       </ul>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="docs/tutorial/index.html">Start tutorial</a>
+        <a class="btn btn-primary" href="docs/try-online.html">Try online</a>
+        <a class="btn btn-secondary" href="docs/tutorial/index.html">Start tutorial</a>
         <a class="btn btn-secondary" href="docs/index.html">Documentation</a>
         <a class="btn btn-ghost" href="{{repo_url}}">GitHub</a>
       </div>
@@ -75,7 +81,8 @@
   <footer class="site-footer">
     <p><strong>{{site_name}}</strong> — learn and practise <strong>Cambridge 9618</strong> pseudocode with a fast, local interpreter.</p>
     <p class="footer-links">
-      <a href="docs/index.html">Docs</a>
+      <a href="docs/try-online.html">Try online</a>
+      · <a href="docs/index.html">Docs</a>
       · <a href="contributing.html">Contributing</a>
       · <a href="license.html">MIT License</a>
       · <a href="{{repo_url}}">Source</a>

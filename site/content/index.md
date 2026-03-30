@@ -43,6 +43,8 @@ OUTPUT "Hello ", Name
 
 Full setup paths (CMake, PATH, troubleshooting): **[Installation guide](docs/installation.html)**.
 
+**No local install?** **[Try online](docs/try-online.html)** — open the project in **GitHub Codespaces** or **Gitpod** and run **`./build/pseudocode repl`** in the cloud terminal (GitHub Pages itself cannot run the C interpreter in the browser).
+
 ---
 
 ## Language at a glance

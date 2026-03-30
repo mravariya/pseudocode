@@ -8,6 +8,8 @@ This page is a **short on-ramp**. For a full narrative introduction, work throug
 
 You need a built **`pseudocode`** binary (and optionally **`pkg`**, built in the same step). If you have not installed them yet, follow [**Installation**](installation.md).
 
+**No install?** Use a browser workspace: [**Try online**](try-online.md) (GitHub Codespaces or Gitpod).
+
 ---
 
 ## 60-second workflow

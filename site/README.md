@@ -25,6 +25,8 @@ Then GitHub is serving **Jekyll** from the repo, not **`site/public`**. **View p
 
 When correct, the HTML starts with `<html lang="en-GB">` and a long title like **“Pseudocode | Cambridge 9618 A Level…”** — no Jekyll generator line.
 
+From the repo, run **`./scripts/check-pages-remote.sh`** (no GitHub login) to list workflows on GitHub and detect Jekyll vs the custom site on the live URL.
+
 Preview locally:
 
 ```bash
@@ -44,6 +46,8 @@ Edit **`site/config.json`**:
 - `twitter_site` — optional `@handle` for **twitter:site**.
 - `cambridge_spec_url` — hero link to the official qualification page.
 - `site_name`, `site_tagline`, `description` — branding and default meta description.
+
+**Themes:** the site supports **dark** (default) and **light** via a header toggle. Choice is stored in **`localStorage`** under **`pseudocode-theme`**. First visit with no saved choice follows **`prefers-color-scheme`**. Styles live in **`site/assets/style.css`** (`html[data-theme="light"]`).
 
 After changing `canonical_base`, submit **`sitemap.xml`** in [Google Search Console](https://search.google.com/search-console) (and similar tools) so crawlers discover every doc page.
 

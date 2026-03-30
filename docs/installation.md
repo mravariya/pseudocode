@@ -1,5 +1,7 @@
 # Installing Pseudocode
 
+**Prefer not to install on your own PC?** See **[Try online](try-online.md)** (GitHub Codespaces or Gitpod) for a browser-based Linux environment with the same build steps.
+
 This guide explains how to obtain a working `**pseudocode**` and `**pkg**` binary on your system. It is structured like installation chapters in **Python** and **Julia** documentation: supported platforms first, then build options, verification, and troubleshooting.
 
 **Contents**
