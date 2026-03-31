@@ -41,7 +41,7 @@ This runs `scripts/build.sh`, then `pseudocode version`, `pseudocode check examp
 
 If you use **GNU Make**, the same workflow is available as **`make dev`** (see the root `Makefile`).
 
-If you previously **installed** binaries to `PATH` (e.g. `scripts/install-macos.sh`), run that install step again after `./scripts/dev.sh` so the global `pseudocode` matches your latest build.
+If you previously **installed** binaries to `PATH` (`./scripts/install.sh`, `install-macos.sh`, or `install-windows.ps1`), run that install step again after `./scripts/dev.sh` so the global `pseudocode` matches your latest build.
 
 Manual build only (no smoke test):
 

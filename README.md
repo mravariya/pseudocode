@@ -23,6 +23,10 @@ A **Cambridge International** pseudocode interpreter aligned with **IGCSE Comput
 ./build/pseudocode repl
 ```
 
+**Install on PATH (optional):** macOS/Linux — **`./scripts/install.sh`** (copies to **`~/.local/bin`** by default; override with **`PREFIX`**). Windows — **`.\scripts\install-windows.ps1`** in PowerShell (copies to **`%LOCALAPPDATA%\Pseudocode\bin`**). Details: **[Installation](docs/installation.md#22-one-command-install-scripts)**.
+
+**Homebrew (macOS / Linux):** **`brew tap mravariya/pseudocode https://github.com/mravariya/pseudocode`** then **`brew install --HEAD mravariya/pseudocode/pseudocode`**. See **[Package managers](docs/package-managers.md)**.
+
 **Try without installing locally:** open the repo in **[GitHub Codespaces](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=mravariya%2Fpseudocode)** (browser + full Linux build) — see **[docs/try-online.md](docs/try-online.md)**.
 
 **Developing (rebuild after editing `src/`):** from the repo root run **`./scripts/dev.sh`** — it rebuilds **`pseudocode`** and **`pkg`**, then runs a quick check. Same as **`make dev`** if you have Make. Use **`./scripts/dev.sh --site`** to also rebuild the static site. See [Contributing](CONTRIBUTING.md) and [Getting started — dev loop](docs/getting-started.md#development-rebuild-loop).
@@ -75,7 +79,8 @@ Assignment: **`←`** (UTF-8) or **`<-`**.
 | `docs/` | Manual (start at `docs/index.md`) |
 | `vscode/pseudocode/` | Editor extension |
 | `registry/` | Package registry **schema** (future HTTP) |
-| `scripts/` | `build.sh`, platform installers |
+| `scripts/` | `build.sh`, `install.sh` / `install-macos.sh` (Unix), `install-windows.ps1`, `dev.sh` |
+| `Formula/` | **`pseudocode.rb`** — Homebrew formula (tap from this repo) |
 
 ---
 

@@ -7,7 +7,7 @@ This guide explains how to obtain a working `**pseudocode**` and `**pkg**` binar
 **Contents**
 
 - [1. Supported platforms](#1-supported-platforms)
-- [2. What you are installing](#2-what-you-are-installing) (includes [2.1 `pkg`](#21-installing-pkg-and-putting-it-on-path))
+- [2. What you are installing](#2-what-you-are-installing) (includes [2.1 `pkg`](#21-installing-pkg-and-putting-it-on-path) and [2.2 One-command install scripts](#22-one-command-install-scripts))
 - [3. macOS](#3-macos)
 - [4. Linux](#4-linux)
 - [5. Windows](#5-windows)
@@ -17,6 +17,7 @@ This guide explains how to obtain a working `**pseudocode**` and `**pkg**` binar
 - [9. Optional dependencies](#9-optional-dependencies)
 - [10. Troubleshooting](#10-troubleshooting)
 - [11. Portable deployment and installers](#11-portable-deployment-and-installers)
+- [12. Homebrew and other package managers](#12-homebrew-and-other-package-managers)
 - **[Step-by-step: macOS](#step-by-step-macos)**
 - **[Step-by-step: Windows](#step-by-step-windows)**
 
@@ -63,7 +64,7 @@ A dialog appears → click **Install** → wait until it finishes. If it says th
 ### Step 4 — Make the build scripts executable (once)
 
 ```bash
-chmod +x scripts/build.sh scripts/install-macos.sh
+chmod +x scripts/build.sh scripts/install.sh scripts/install-macos.sh
 ```
 
 ### Step 5 — Build the programs
@@ -104,12 +105,20 @@ If that works, the build is good.
 ### Step 7 — (Recommended) Install so you can type `pseudocode` anywhere
 
 ```bash
-./scripts/install-macos.sh
+./scripts/install.sh
 ```
 
-This copies binaries to `**~/.local/bin**`.
+(`**./scripts/install-macos.sh**` does the same thing; the name is historical.)
 
-### Step 8 — Add `~/.local/bin` to your PATH
+This runs **`build.sh`** again, then copies **`pseudocode`** and **`pkg`** into **`$PREFIX/bin`**. The default is **`PREFIX=$HOME/.local`**, i.e. **`~/.local/bin`**. To install elsewhere, set **`PREFIX`** (ensure **`$PREFIX/bin`** is writable — use **`sudo`** for system paths such as **`/usr/local`**):
+
+```bash
+sudo env PREFIX=/usr/local ./scripts/install.sh
+```
+
+### Step 8 — Add the install `bin` directory to your PATH
+
+If you used the default **`PREFIX`**, add **`~/.local/bin`**. If you set **`PREFIX`** to something else, add **`$PREFIX/bin`** instead.
 
 **If you use zsh (default on recent macOS):**
 
@@ -179,7 +188,18 @@ Check:
 dir scripts\build.sh
 ```
 
-#### A4 — Configure and build with CMake
+#### A3b — Optional: build and install with PowerShell (recommended)
+
+In **Developer PowerShell for VS 2022** (repository root), you can build with CMake and copy **`pseudocode.exe`** and **`pkg.exe`** to **`%LOCALAPPDATA%\Pseudocode\bin`**:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+.\scripts\install-windows.ps1
+```
+
+Then add **`%LOCALAPPDATA%\Pseudocode\bin`** to your user **Path** (same steps as **A7** below, but paste the **`Pseudocode\bin`** folder instead of **`build\Release`**), **close and reopen** the terminal, and run **`pseudocode version`**. Skip **A4–A6** if you use this path.
+
+#### A4 — Configure and build with CMake (manual)
 
 ```bat
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -305,6 +325,19 @@ Both are built from the same core sources; `pkg` omits the REPL object file in t
 - After **`./scripts/build.sh`**, use **`./build/pkg`** (or install both binaries to `~/.local/bin`, `/usr/local/bin`, etc., as described in this guide).
 - To **use** `pkg` after installation: see **[Package manager — how to use](package-manager.md#how-to-use-pkg-quick-start)** and **[short and full commands](package-manager.md#commands-short-and-full-forms)**.
 
+### 2.2 One-command install scripts
+
+These scripts **build** (if needed) and **copy** both programs to a directory you can put on **`PATH`**:
+
+| Platform | Script | Default destination |
+| -------- | ------ | ------------------- |
+| **macOS / Linux** | **`scripts/install.sh`** (same as **`scripts/install-macos.sh`**) | **`$PREFIX/bin`** with **`PREFIX=$HOME/.local`** → **`~/.local/bin`** |
+| **Windows** | **`scripts/install-windows.ps1`** (run in **PowerShell** from the repo root) | **`%LOCALAPPDATA%\Pseudocode\bin`** |
+
+**Unix `PREFIX`:** override the install root, e.g. **`PREFIX=/opt/pseudocode ./scripts/install.sh`**. If **`$PREFIX/bin`** is not writable, run with **`sudo`** (for example **`sudo env PREFIX=/usr/local ./scripts/install.sh`**).
+
+**Windows:** the PowerShell script uses **CMake** (same as a manual Visual Studio CMake build). If **`cmake`** is not on **`PATH`**, install CMake or follow the manual steps under [§5 Windows](#5-windows). After running the script, add **`%LOCALAPPDATA%\Pseudocode\bin`** to your **user** `Path` and open a **new** terminal.
+
 ---
 
 ## 3. macOS
@@ -328,7 +361,7 @@ brew install cmake
 Clone or unpack the repository, then from the repository root:
 
 ```bash
-chmod +x scripts/build.sh scripts/install-macos.sh
+chmod +x scripts/build.sh scripts/install.sh scripts/install-macos.sh
 ./scripts/build.sh
 ```
 
@@ -336,26 +369,28 @@ The script prefers **CMake** when `cmake` is on your `PATH`; otherwise it invoke
 
 ### 3.3 Install onto PATH
 
-Default prefix is `**~/.local**`:
+From the repository root:
 
 ```bash
-./scripts/install-macos.sh
+./scripts/install.sh
 ```
 
-Add to `**~/.zshrc**` (or `~/.bash_profile`):
+(`**./scripts/install-macos.sh**` is equivalent.)
 
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-```
-
-Reload the shell or open a new terminal.
+Default **`PREFIX`** is **`$HOME/.local`**, so binaries go to **`~/.local/bin`**. Add that directory to **`PATH`** (see [§8 PATH configuration](#8-path-configuration)).
 
 ### 3.4 System-wide install (advanced)
 
-Copy `build/pseudocode` and `build/pkg` to `/usr/local/bin` (requires administrator credentials):
+Either copy manually:
 
 ```bash
 sudo cp build/pseudocode build/pkg /usr/local/bin/
+```
+
+Or use the install script with a **`PREFIX`** (must be writable or use **`sudo`**):
+
+```bash
+sudo env PREFIX=/usr/local ./scripts/install.sh
 ```
 
 ---
@@ -373,11 +408,17 @@ sudo apt install build-essential cmake
 Then:
 
 ```bash
-chmod +x scripts/build.sh
+chmod +x scripts/build.sh scripts/install.sh scripts/install-macos.sh
 ./scripts/build.sh
 ```
 
-Install to `~/.local/bin` or another directory on your `PATH` (same pattern as macOS §3.3).
+Install onto **`PATH`** the same way as macOS — the **`install.sh`** / **`install-macos.sh`** script is **not** macOS-specific:
+
+```bash
+./scripts/install.sh
+```
+
+Default destination is **`~/.local/bin`** (override with **`PREFIX`**). Add **`$HOME/.local/bin`** (or **`$PREFIX/bin`**) to your shell profile if needed.
 
 ---
 
@@ -403,8 +444,11 @@ Install **MSYS2**, then in the MinGW64 shell:
 
 ```bash
 pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake make
+chmod +x scripts/build.sh scripts/install.sh scripts/install-macos.sh
 ./scripts/build.sh
 ```
+
+Optional: **`./scripts/install.sh`** copies **`pseudocode`** and **`pkg`** into **`~/.local/bin`** (or **`$PREFIX/bin`**), same as on Linux.
 
 This path gives the most **POSIX-like** behaviour for `**pkg`** (directory iteration).
 
@@ -448,7 +492,7 @@ chmod +x scripts/dev.sh scripts/build.sh   # once per clone
 
 This rebuilds **`pseudocode`** and **`pkg`**, then runs **`pseudocode version`**, **`pseudocode check examples/hello.pseudo`**, and checks **`pkg`**. With **GNU Make**: **`make dev`** is equivalent. To also rebuild the static site: **`./scripts/dev.sh --site`**.
 
-If you use an **install script** to copy binaries onto **`PATH`**, run that script again after **`dev.sh`** so the installed copy matches **`build/`**.
+If you use **`./scripts/install.sh`** (or **`install-macos.sh`** / **`install-windows.ps1`**) to copy binaries onto **`PATH`**, run that install step again after **`dev.sh`** so the installed copy matches **`build/`**.
 
 Details: [Getting started — Development rebuild loop](getting-started.md#development-rebuild-loop) · [Contributing](../CONTRIBUTING.md).
 
@@ -537,6 +581,8 @@ Set `**PSEUDO_NO_COLOR=1**` to disable ANSI escape sequences (see [CLI](cli.md))
 
 ## 11. Portable deployment and installers
 
+**This repository** ships **`scripts/install.sh`** (macOS/Linux), **`scripts/install-macos.sh`** (same behaviour), and **`scripts/install-windows.ps1`** (PowerShell) — see [§2.2](#22-one-command-install-scripts).
+
 **Classroom USB stick:** copy `pseudocode` (and optionally `pkg`) plus sample `.pseudo` files. Students run:
 
 ```bash
@@ -549,6 +595,19 @@ Set `**PSEUDO_NO_COLOR=1**` to disable ANSI escape sequences (see [CLI](cli.md))
 - **Windows:** **Inno Setup**, **WiX**, or **MSIX** adding the install directory to the user `PATH`.
 
 **GitHub Releases:** attach zip/tar archives per platform; CI can build them (see `.github/workflows/build.yml`).
+
+---
+
+## 12. Homebrew and other package managers
+
+**Homebrew (macOS / Linux):** this repo ships **[`Formula/pseudocode.rb`](../Formula/pseudocode.rb)** as a **tap** formula (install with **`brew install --HEAD`**). Quick start:
+
+```bash
+brew tap mravariya/pseudocode https://github.com/mravariya/pseudocode
+brew install --HEAD mravariya/pseudocode/pseudocode
+```
+
+Packaging uses **CMake** with **`-DPC_EMBED_INSTALL_STDLIB=ON`** so **`pkg`** finds the catalog under the install prefix. Full details, local installs, and notes for **homebrew-core**: **[Package managers](package-managers.md)**.
 
 ---
 

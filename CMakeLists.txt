@@ -30,10 +30,18 @@ add_executable(pkg src/pkg_main.c ${PC_CORE})
 target_include_directories(pkg PRIVATE src)
 target_compile_definitions(pkg PRIVATE PC_BUILD_PKG=1)
 
+# Default: embed source-tree path (./build/pseudocode works without cmake --install).
+# ON for Homebrew/distro packages: embed CMAKE_INSTALL_PREFIX so Cellar/prefix layout finds stdlib-packages.
+option(PC_EMBED_INSTALL_STDLIB "Embed stdlib path under CMAKE_INSTALL_PREFIX (for cmake --install / packaging)" OFF)
 set(PC_STDLIB_PACKAGES_DIR "${CMAKE_SOURCE_DIR}/stdlib-packages")
 if(EXISTS "${PC_STDLIB_PACKAGES_DIR}")
-  target_compile_definitions(pseudocode PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_PACKAGES_DIR}\"")
-  target_compile_definitions(pkg PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_PACKAGES_DIR}\"")
+  if(PC_EMBED_INSTALL_STDLIB)
+    set(PC_STDLIB_EMBED_PATH "${CMAKE_INSTALL_PREFIX}/share/pseudocode/stdlib-packages")
+  else()
+    set(PC_STDLIB_EMBED_PATH "${PC_STDLIB_PACKAGES_DIR}")
+  endif()
+  target_compile_definitions(pseudocode PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_EMBED_PATH}\"")
+  target_compile_definitions(pkg PRIVATE "PC_BUILTIN_STDLIB_PACKAGES=\"${PC_STDLIB_EMBED_PATH}\"")
 endif()
 
 if(UNIX)

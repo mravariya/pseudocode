@@ -21,7 +21,7 @@ pseudocode help               # full form
 pseudocode -h | --help        # short / long flag (same output)
 ```
 
-**`pkg`** (package manager) is documented on a separate page; it uses **`pkg -i`** / **`pkg --install`** as shortcuts for **`pkg install`**. See [Related tools: `pkg`](#related-tools-pkg-separate-binary) below and [Package manager](package-manager.md).
+**`pkg`** (package manager) is documented on a separate page; it uses **`pkg -i`** / **`pkg --install`** as shortcuts for **`pkg install`**. See [Related tools: `pkg`](#related-tools-pkg-separate-binary) below and [Package manager](package-manager.md). **Homebrew:** [Package managers](package-managers.md).
 
 ---
 
@@ -155,7 +155,7 @@ GitHub Actions example:
 
 ## Related tools: `pkg` (separate binary)
 
-The **`pkg`** program is **not** a `pseudocode` subcommand; it is its **own executable**, built next to **`pseudocode`**. Install both from the same build — see [Installing Pseudocode](installation.md#21-installing-pkg-and-putting-it-on-path).
+The **`pkg`** program is **not** a `pseudocode` subcommand; it is its **own executable**, built next to **`pseudocode`**. Install both from the same build — see [Installing Pseudocode](installation.md#21-installing-pkg-and-putting-it-on-path) and [One-command install scripts](installation.md#22-one-command-install-scripts) (`**install.sh**`, **`install-windows.ps1**`).
 
 ### `pkg`: short and full commands (overview)
 

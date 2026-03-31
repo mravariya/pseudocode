@@ -551,6 +551,7 @@ def nav_items(from_public_path: str, cfg: dict) -> list[tuple[str, str]]:
         ("Built-ins", "docs/reference/builtins.html"),
         ("Stdlib", "docs/stdlib/index.html"),
         ("Install", "docs/installation.html"),
+        ("Brew & packages", "docs/package-managers.html"),
         ("Packages", "docs/package-manager.html"),
         ("Contributing", "contributing.html"),
         ("License", "license.html"),

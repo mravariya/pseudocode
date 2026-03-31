@@ -10,7 +10,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 
 ## Suggested learning order
 
-1. [Installation](installation.md) — build or install the `pseudocode` binary.  
+1. [Installation](installation.md) — build or install the `pseudocode` binary (optional [Homebrew](package-managers.md)).  
 2. [Getting started](getting-started.md) — `run`, `check`, `repl` in one screen.  
 3. [Tutorial](tutorial/index.md) — guided tour of the language.  
 4. [Language reference](reference/language.md) — authoritative syntax and semantics.  
@@ -24,6 +24,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | Document | What you will learn |
 |----------|---------------------|
 | [Installation](installation.md) | Supported platforms, compilers, CMake vs plain `cc`, PATH, troubleshooting |
+| [Package managers](package-managers.md) | **Homebrew** tap formula; notes for other ecosystems |
 | [Tutorial](tutorial/index.md) | Variables, control flow, procedures, arrays, files, running programs |
 | [Getting started (quick)](getting-started.md) | Build, run, check, REPL in one page |
 | [Try online](try-online.md) | Run the interpreter in **GitHub Codespaces** or **Gitpod** (no local install) |

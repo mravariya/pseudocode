@@ -33,6 +33,21 @@ If `pseudocode` is on your `PATH`, replace `./build/pseudocode` with `pseudocode
 
 ---
 
+## GUI editor (IDLE-style)
+
+The repo includes **`tools/pseudocode_idle.py`** — a small **Tkinter** window (editor + output), similar to Python’s IDLE: **F5** run, **F6** check.
+
+```bash
+# From repository root (after ./scripts/build.sh); needs Python 3 with tkinter
+python3 tools/pseudocode_idle.py
+```
+
+If **`tkinter`** is missing (common on minimal Linux), install **`python3-tk`**. On macOS, use a Python build that includes Tk (e.g. python.org or Homebrew **`python@3`**), not the stripped system **`python3`**.
+
+If the GUI cannot find the binary, set **`PSEUDOCODE_EXE`** to the full path of **`pseudocode`**, or put **`pseudocode`** on **`PATH`**.
+
+---
+
 ## Development rebuild loop
 
 When you **change C source** under **`src/`** and want to test without remembering every step:
@@ -45,7 +60,7 @@ When you **change C source** under **`src/`** and want to test without rememberi
 This **rebuilds** `build/pseudocode` and `build/pkg`, then runs **`pseudocode version`**, **`pseudocode check examples/hello.pseudo`**, and verifies **`pkg`**. If you use **Make**: **`make dev`** does the same.
 
 - **Also rebuild the docs website** (`site/public`): `./scripts/dev.sh --site` (needs Python 3 + `pip install -r site/requirements-site.txt`).
-- If you **installed** the binaries onto your PATH (e.g. macOS **`scripts/install-macos.sh`**), run that **install script again** after `dev.sh` so the shell finds the new build.
+- If you **installed** the binaries onto your PATH (**`./scripts/install.sh`** on macOS/Linux, or **`install-windows.ps1`** on Windows), run **that install step again** after `dev.sh` so **`pseudocode`** / **`pkg`** on PATH match **`build/`**.
 
 ---
 

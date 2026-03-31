@@ -31,6 +31,7 @@ It is ideal for **revision**, **homework**, and **experimenting** with `IF`, `FO
 # Clone, build, run the hello example (from repo root)
 ./scripts/build.sh
 ./build/pseudocode run examples/hello.pseudo
+# Optional: put pseudocode + pkg on PATH — ./scripts/install.sh (Unix) or .\scripts\install-windows.ps1
 ```
 
 ```pseudocode
@@ -41,7 +42,7 @@ INPUT Name
 OUTPUT "Hello ", Name
 ```
 
-Full setup paths (CMake, PATH, troubleshooting): **[Installation guide](docs/installation.html)**.
+Full setup paths (CMake, PATH, troubleshooting): **[Installation guide](docs/installation.html)**. **Homebrew:** tap this repo and **`brew install --HEAD mravariya/pseudocode/pseudocode`** — see **[Package managers](docs/package-managers.html)**.
 
 **Examples:** curated programs live under **`examples/vanilla-pseudocode/`** (language features) and **`examples/stdlib-demos/`** (math, random, time, `GETENV`, `SYSTEM`). See the **[examples README](https://github.com/mravariya/pseudocode/blob/main/examples/README.md)** on GitHub.
 

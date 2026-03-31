@@ -17,3 +17,18 @@ jobs:
         run: |
           chmod +x scripts/build.sh
           ./scripts/build.sh
+
+  # Same layout Homebrew uses: prefix install + embedded stdlib-packages path (see Formula/pseudocode.rb).
+  cmake-install-prefix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: CMake configure, build, install
+        run: |
+          cmake -S . -B build -DPC_EMBED_INSTALL_STDLIB=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/install-root"
+          cmake --build build
+          cmake --install build
+      - name: Smoke (version + pkg catalog)
+        run: |
+          "$GITHUB_WORKSPACE/install-root/bin/pseudocode" version
+          "$GITHUB_WORKSPACE/install-root/bin/pkg" available | head -8

@@ -1,4 +1,6 @@
-# Build with CMake or MSVC/MinGW, then copy binaries to a folder on PATH.
+# Build with CMake, then copy pseudocode.exe and pkg.exe to %LOCALAPPDATA%\Pseudocode\bin.
+# Run from repo root in PowerShell:  .\scripts\install-windows.ps1
+# Add that folder to your user PATH (see docs/installation.md).
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $Root
 if (Get-Command cmake -ErrorAction SilentlyContinue) {

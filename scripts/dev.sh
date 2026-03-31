@@ -39,4 +39,4 @@ fi
 
 echo ""
 echo "OK — run from repo:  ./build/pseudocode run examples/hello.pseudo"
-echo "If you use an install script (e.g. scripts/install-macos.sh), run it again to refresh copies on PATH."
+echo "If you use an install script (scripts/install.sh, install-macos.sh, or install-windows.ps1), run it again to refresh copies on PATH."

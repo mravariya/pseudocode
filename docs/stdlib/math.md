@@ -2,7 +2,7 @@
 
 Pseudocode exposes a subset of C’s `<math.h>` under **case-insensitive** names, similar to Python’s [`math`](https://docs.python.org/3/library/math.html) module.
 
-**Note:** There is no `import math`; call functions directly, e.g. `OUTPUT SQRT(2.0)`.
+**Note:** There is no `import math`; call functions directly, e.g. `OUTPUT SQRT(2.0)`. Constants **`PI`** and **`EULER`** are **functions** with no parameters — write **`PI()`** and **`EULER()`** (with parentheses). A bare name like `PI` is a **variable** and must be `DECLARE`d.
 
 ---
 

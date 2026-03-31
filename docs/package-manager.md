@@ -4,7 +4,7 @@ The **`pkg`** program manages **optional collections** of Pseudocode source file
 
 **Version:** **`pkg version`**, **`pkg -v`**, and **`pkg --version`** print the same release string as **`pseudocode version`** (shared `PC_VERSION_STRING` / `PC_PKG_VERSION_STRING`).
 
-**See also:** [Installation — both binaries](installation.md#2-what-you-are-installing) · [Standard library topics (Python-style)](stdlib/index.md) · [Registry schema](../registry/registry-schema.md) · [CLI](cli.md) · [FAQ](faq.md)
+**See also:** [Installation — both binaries](installation.md#2-what-you-are-installing) · [Package managers — Homebrew](package-managers.md) · [Standard library topics (Python-style)](stdlib/index.md) · [Registry schema](../registry/registry-schema.md) · [CLI](cli.md) · [FAQ](faq.md)
 
 ---
 
@@ -39,7 +39,7 @@ pkg help
 
 Installed files live under **`~/.pseudocode/packages/`** (Unix) or **`%USERPROFILE%\.pseudocode\packages\`** (Windows). The interpreter does not auto-load them yet — copy or merge snippets into your program, or see [Including installed code](#including-installed-code).
 
-Full install and PATH steps: **[Installation](installation.md)**.
+Full install and PATH steps: **[Installation](installation.md)** (see **[§2.2 One-command install scripts](installation.md#22-one-command-install-scripts)**).
 
 ---
 
