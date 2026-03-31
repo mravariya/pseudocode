@@ -70,6 +70,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Glossary](glossary.md) | Terms used in the manual and in Cambridge CS / IT papers |
 | [FAQ](faq.md) | Common questions (exam alignment, differences from Python, etc.) |
 | [Implementation notes](implementation.md) | How the interpreter is structured (read the source with context) |
+| [Agent session log (format)](agent-session-log.md) | Local **`AGENT.local.md`** (gitignored); table checklist for agent sessions |
 
 ---
 

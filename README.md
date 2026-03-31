@@ -10,6 +10,8 @@ A **Cambridge International** pseudocode interpreter aligned with **IGCSE Comput
 
 **Website (GitHub Pages):** Markdown-driven static site in **`site/`** (Python + one dependency, **not** Jekyll). **Live:** [mravariya.github.io/pseudocode](https://mravariya.github.io/pseudocode/). Output **`site/public/`** is **gitignored**; **CI** (`.github/workflows/pages.yml`) builds and deploys it. Preview locally: `pip install -r site/requirements-site.txt && python3 site/build.py` (or **`./scripts/dev.sh --site`**). Plain README look on Pages → **[docs/github-pages.md](docs/github-pages.md)** · **[site/README.md](site/README.md)**.
 
+**Agent session log (local only):** at repo root, **`AGENT.local.md`** is **gitignored** (never pushed). Format and rules: **[docs/agent-session-log.md](docs/agent-session-log.md)** · Cursor rule **`.cursor/rules/agent-session-log.mdc`**.
+
 **Author:** [Mahesh Ravariya](https://www.linkedin.com/in/mravariya/) · [GitHub](https://github.com/mravariya)  
 **License:** [MIT](LICENSE)
 

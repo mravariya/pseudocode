@@ -1,0 +1,29 @@
+---
+description: Append gitignored AGENT.local.md after substantive work; refined request, actions, permissions, checklist table, git hash, context.
+alwaysApply: true
+---
+
+# Agent session log (default, non‑negotiable)
+
+## Obligation
+
+After **substantive** work in this repository (file edits, terminal commands that change state, or multi-step technical answers), **append** a new session block to **`AGENT.local.md`** at the **repository root** (same directory as `README.md`). Create the file if it does not exist.
+
+**`AGENT.local.md` is gitignored** — it must **never** be staged or committed. Do not paste full private chat logs; paraphrase is enough.
+
+## Required content (every substantive session)
+
+1. **Refined request** — Restate the user’s ask as **one short, improved sentence** (quote block).
+2. **Actions** — Bullets: what changed, key paths, important commands/outcomes.
+3. **Permissions** — List tools permissions used (e.g. none, network, git_write, all).
+4. **Checklist table** (Markdown) with columns: **Area | Done | Notes**  
+   Rows (use ✅ or —): **Docs updated**, **Code changed**, **Site rebuilt**, **Git pushed** (include **branch** and **short commit hash** if pushed; else “not pushed”).
+5. **Context for next time** — Assumptions, caveats, follow-ups **proactively**; do not wait for the user to ask.
+
+## Format reference
+
+Full template and rationale: **`docs/agent-session-log.md`**.
+
+## If work was trivial
+
+For a one-line reply with **no** repo changes, logging is optional; if in doubt, add a **minimal** row (e.g. all checklist cells “—”).

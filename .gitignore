@@ -5,6 +5,9 @@ cmake-build-*/
 # Generated website (rebuild with: python3 site/build.py)
 site/public/
 
+# Local Cursor / agent session log (never commit — contains chat-derived notes)
+AGENT.local.md
+
 # Editor / OS
 .DS_Store
 *.swp
