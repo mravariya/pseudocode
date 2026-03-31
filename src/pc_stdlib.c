@@ -9,6 +9,46 @@
 #include <stdio.h>
 #include <time.h>
 
+static int array_cell_count(const PcType *t) {
+  if (!t || t->kind != PC_T_ARRAY) return 0;
+  int n0 = t->hi0 - t->lo0 + 1;
+  if (t->is2d) return n0 * (t->hi1 - t->lo1 + 1);
+  return n0;
+}
+
+static bool cell_is_numeric(const PcValue *c) {
+  return c && c->type && (c->type->kind == PC_T_INT || c->type->kind == PC_T_REAL);
+}
+
+static double cell_as_real(const PcValue *c) {
+  if (c->type->kind == PC_T_INT) return (double)c->i;
+  return c->r;
+}
+
+static bool expect_numeric_array(PcErrorCtx *err, const PcValue *a, PcSourceLoc loc, int *n_cells) {
+  if (!a->type || a->type->kind != PC_T_ARRAY || !a->cells) {
+    pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "expected ARRAY");
+    return false;
+  }
+  int n = array_cell_count(a->type);
+  for (int i = 0; i < n; i++) {
+    if (!cell_is_numeric(&a->cells[i])) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "array elements must be INTEGER or REAL");
+      return false;
+    }
+  }
+  *n_cells = n;
+  return true;
+}
+
+static bool expect_1d_numeric_array(PcErrorCtx *err, const PcValue *a, PcSourceLoc loc, int *n_cells) {
+  if (!a->type || a->type->kind != PC_T_ARRAY || !a->cells || a->type->is2d) {
+    pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "expected 1D ARRAY of INTEGER or REAL");
+    return false;
+  }
+  return expect_numeric_array(err, a, loc, n_cells);
+}
+
 static void need_args(PcErrorCtx *err, size_t argc, size_t need, PcSourceLoc loc) {
   if (argc < need) pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "not enough arguments to built-in function");
 }
@@ -407,6 +447,195 @@ bool pc_stdlib_try_call(PcErrorCtx *err, const char *name, PcValue *argv, size_t
     char c = argv[0].c;
     if (c >= 'A' && c <= 'Z') c = (char)(c - 'A' + 'a');
     pc_value_init_char(out, c);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.sum") == 0 || strcmp(n, "pandas.sum") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    double acc = 0.0;
+    for (int i = 0; i < nc; i++) acc += cell_as_real(&argv[0].cells[i]);
+    pc_value_init_real(out, acc);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.mean") == 0 || strcmp(n, "pandas.mean") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    if (nc == 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "empty array");
+      free(n);
+      return true;
+    }
+    double acc = 0.0;
+    for (int i = 0; i < nc; i++) acc += cell_as_real(&argv[0].cells[i]);
+    pc_value_init_real(out, acc / (double)nc);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.min") == 0 || strcmp(n, "pandas.min") == 0 || strcmp(n, "numpy.amin") == 0 ||
+      strcmp(n, "pandas.amin") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    if (nc == 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "empty array");
+      free(n);
+      return true;
+    }
+    double acc = cell_as_real(&argv[0].cells[0]);
+    for (int i = 1; i < nc; i++) {
+      double v = cell_as_real(&argv[0].cells[i]);
+      if (v < acc) acc = v;
+    }
+    pc_value_init_real(out, acc);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.max") == 0 || strcmp(n, "pandas.max") == 0 || strcmp(n, "numpy.amax") == 0 ||
+      strcmp(n, "pandas.amax") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    if (nc == 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "empty array");
+      free(n);
+      return true;
+    }
+    double acc = cell_as_real(&argv[0].cells[0]);
+    for (int i = 1; i < nc; i++) {
+      double v = cell_as_real(&argv[0].cells[i]);
+      if (v > acc) acc = v;
+    }
+    pc_value_init_real(out, acc);
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.prod") == 0 || strcmp(n, "pandas.prod") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    double acc = 1.0;
+    for (int i = 0; i < nc; i++) acc *= cell_as_real(&argv[0].cells[i]);
+    /* NumPy: product of empty is 1 */
+    if (nc == 0) acc = 1.0;
+    pc_value_init_real(out, acc);
+    free(n);
+    return true;
+  }
+
+  /* 1-based index (Cambridge / syllabus style), unlike Python's 0-based argmax */
+  if (strcmp(n, "numpy.argmax") == 0 || strcmp(n, "pandas.argmax") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_1d_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    if (nc == 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "empty array");
+      free(n);
+      return true;
+    }
+    int best = 0;
+    double bestv = cell_as_real(&argv[0].cells[0]);
+    for (int i = 1; i < nc; i++) {
+      double v = cell_as_real(&argv[0].cells[i]);
+      if (v > bestv) {
+        bestv = v;
+        best = i;
+      }
+    }
+    PcType *t = argv[0].type;
+    pc_value_init_int(out, (int64_t)(best + t->lo0));
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.argmin") == 0 || strcmp(n, "pandas.argmin") == 0) {
+    need_args(err, argc, 1, loc);
+    int nc = 0;
+    if (!expect_1d_numeric_array(err, &argv[0], loc, &nc)) {
+      free(n);
+      return true;
+    }
+    if (nc == 0) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "empty array");
+      free(n);
+      return true;
+    }
+    int best = 0;
+    double bestv = cell_as_real(&argv[0].cells[0]);
+    for (int i = 1; i < nc; i++) {
+      double v = cell_as_real(&argv[0].cells[i]);
+      if (v < bestv) {
+        bestv = v;
+        best = i;
+      }
+    }
+    PcType *t = argv[0].type;
+    pc_value_init_int(out, (int64_t)(best + t->lo0));
+    free(n);
+    return true;
+  }
+
+  if (strcmp(n, "numpy.dot") == 0) {
+    need_args(err, argc, 2, loc);
+    int na = 0, nb = 0;
+    if (!expect_1d_numeric_array(err, &argv[0], loc, &na)) {
+      free(n);
+      return true;
+    }
+    if (!expect_1d_numeric_array(err, &argv[1], loc, &nb)) {
+      free(n);
+      return true;
+    }
+    if (na != nb) {
+      pc_runtime_error(err, loc, PC_ERR_BUILTIN_ARG, "numpy.dot: arrays must have the same length");
+      free(n);
+      return true;
+    }
+    double acc = 0.0;
+    for (int i = 0; i < na; i++) acc += cell_as_real(&argv[0].cells[i]) * cell_as_real(&argv[1].cells[i]);
+    pc_value_init_real(out, acc);
+    free(n);
+    return true;
+  }
+
+  /* matplotlib: no graphics; stubs return 0 so calls work in expressions */
+  if (strcmp(n, "matplotlib.figure") == 0 || strcmp(n, "matplotlib.plot") == 0 ||
+      strcmp(n, "matplotlib.show") == 0 || strcmp(n, "matplotlib.clf") == 0 ||
+      strcmp(n, "matplotlib.close") == 0) {
+    pc_value_init_int(out, 0);
+    free(n);
+    return true;
+  }
+  if (strcmp(n, "matplotlib.title") == 0 || strcmp(n, "matplotlib.xlabel") == 0 ||
+      strcmp(n, "matplotlib.ylabel") == 0 || strcmp(n, "matplotlib.grid") == 0) {
+    /* optional string arg ignored */
+    pc_value_init_int(out, 0);
     free(n);
     return true;
   }

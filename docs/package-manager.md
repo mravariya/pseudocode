@@ -188,13 +188,13 @@ After **`cmake --install`**, catalog files are typically under **`share/pseudoco
 
 ## Including installed code
 
-The interpreter **does not** yet implement **`INCLUDE "path"`** or **`IMPORT`**. Practical options today:
+The interpreter implements **`IMPORT module AS alias`** for the built-in **library namespaces** **`numpy`**, **`pandas`**, and **`matplotlib`** (see [Language reference: IMPORT](reference/language.md#40-import-python-style-library-alias) and [Built-ins: library modules](reference/builtins.md#python-style-library-modules-numpy-pandas-matplotlib)). That is separate from **`pkg install`**, which only copies **stub** `.pseudo` files into your packages directory.
+
+**`INCLUDE "path"`** is not implemented. Practical options for arbitrary shared code today:
 
 1. **Copy** the needed `.pseudo` file into your project.  
 2. **Concatenate** sources in a build script before running.  
 3. **Teach** students to paste small library snippets (acceptable for exam-sized tasks).
-
-An `INCLUDE` directive is the natural follow-up feature once package paths are stable.
 
 ---
 

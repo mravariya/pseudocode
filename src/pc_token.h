@@ -67,6 +67,9 @@ typedef enum PcTokenKind {
   TOK_GETRECORD,
   TOK_PUTRECORD,
 
+  TOK_IMPORT,
+  TOK_AS,
+
   TOK_AND,
   TOK_OR,
   TOK_NOT,

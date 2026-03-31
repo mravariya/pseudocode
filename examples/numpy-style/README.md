@@ -7,12 +7,13 @@ Patterns inspired by **NumPy** for students who already think in **arrays + vect
 Run from the **repository root**:
 
 ```bash
-./build/pseudocode run examples/numpy-style/01-sum-and-mean.pseudo
+./build/pseudocode run examples/numpy-style/00-import-np-sum-mean.pseudo
 ```
 
 | File | NumPy-ish idea |
 |------|----------------|
-| **`01-sum-and-mean.pseudo`** | `np.sum`, `np.mean` on a 1D `REAL` array |
+| **`00-import-np-sum-mean.pseudo`** | **`IMPORT numpy AS np`** then **`np.sum`**, **`np.mean`** (built-ins) |
+| **`01-sum-and-mean.pseudo`** | Same sums with explicit `FOR` loops (no `IMPORT`) |
 | **`02-fill-zeros-ones-linspace.pseudo`** | `zeros` / `ones` / `linspace`-style fill |
 | **`03-dot-product.pseudo`** | `np.dot` on two equal-length 1D arrays |
 | **`04-max-and-argmax.pseudo`** | `np.max`, `np.argmax` |
@@ -20,4 +21,4 @@ Run from the **repository root**:
 | **`06-add-scalar-to-array.pseudo`** | Broadcast `a + k` with a loop |
 | **`07-np-workspace-functions.pseudo`** | Globals `NpN`, `NpX` + `NpSumX`, `NpMeanX` |
 
-There is **no** `import`: copy patterns into your own programs or keep names consistent with your worksheet.
+You may use **`IMPORT numpy AS np`** and built-in **`np.sum`** / **`np.mean`** / … (see [`docs/reference/builtins.md`](../../docs/reference/builtins.md)) or copy **loop** patterns into your own programs.

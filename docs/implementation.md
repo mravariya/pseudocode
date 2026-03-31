@@ -81,7 +81,7 @@ Open files are tracked in a small dynamic array keyed by **path string**. `READF
 
 Reasonable next steps:
 
-- `INCLUDE` / `IMPORT` preprocessing or AST merge.
+- `INCLUDE "path"` preprocessing or AST merge ( **`IMPORT numpy AS np`** for built-in library namespaces is implemented).
 - `TYPE` / `RECORD` / field access in the parser and `PcValue`.
 - Bytecode or AST optimisation for large batch runs.
 - Proper **line maps** for Pseudocode-level stack traces.

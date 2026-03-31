@@ -47,6 +47,48 @@ This page lists every **pre-defined** callable that is resolved by the interpret
 
 ---
 
+## Python-style library modules (NumPy, pandas, Matplotlib)
+
+These are **built into the C runtime** (not installed via `pkg`). Use **`IMPORT`** to bind a short prefix; see [Language reference — IMPORT](language.md#40-import-python-style-library-alias).
+
+**Syntax:** `alias.method(arguments)` — names are **case-insensitive** after resolution (e.g. `np.SUM` works). The **first** segment must be either:
+
+- an alias introduced by **`IMPORT module AS alias`**, or  
+- the module name itself: **`numpy`**, **`pandas`**, or **`matplotlib`**.
+
+Only **`module.method`** (a **single** dot) is supported.
+
+### NumPy (`numpy.*` or `IMPORT numpy AS np`)
+
+| Call | Arguments | Returns | Notes |
+|------|-----------|---------|--------|
+| `sum` | 1D or 2D array of INTEGER/REAL | REAL | Sum of all elements |
+| `mean` | same | REAL | Empty array → error |
+| `min` / `amin` | same | REAL | |
+| `max` / `amax` | same | REAL | |
+| `prod` | same | REAL | Empty → `1` (NumPy rule) |
+| `dot` | two **1D** arrays | REAL | Same length; **2D not supported** |
+| `argmax` / `argmin` | **1D** array | INTEGER | **1-based index** (declared lower bound), unlike Python’s 0-based |
+
+### pandas (`pandas.*` or `IMPORT pandas AS pd`)
+
+**`sum`**, **`mean`**, **`min`**, **`max`**, **`amin`**, **`amax`**, **`prod`**, **`argmax`**, **`argmin`** — same behaviour as the NumPy column above (operate on a **single array**, e.g. one “column”).
+
+There is no real `DataFrame`; this mirrors common **Series**-style reductions only.
+
+### Matplotlib (`matplotlib.*` or `IMPORT matplotlib AS plt`)
+
+No graphics engine. These are **stubs** so call syntax can be exercised in the classroom:
+
+| Call | Returns |
+|------|---------|
+| `figure`, `plot`, `show`, `clf`, `close` | INTEGER `0` |
+| `title`, `xlabel`, `ylabel`, `grid` | INTEGER `0` (string argument optional / ignored) |
+
+**Runnable:** [`examples/numpy-style/00-import-np-sum-mean.pseudo`](../../examples/numpy-style/00-import-np-sum-mean.pseudo)
+
+---
+
 ## String functions
 
 ### `LENGTH(x)`

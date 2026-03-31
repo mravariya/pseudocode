@@ -33,12 +33,19 @@ typedef struct OpenFile {
   int mode; /* 0 read 1 write 2 append 3 random */
 } OpenFile;
 
+typedef struct ImportBinding {
+  char *alias;
+  char *module;
+  struct ImportBinding *next;
+} ImportBinding;
+
 struct Interp {
   PcErrorCtx *err;
   Env *global;
   Env *env;
   NamedAst *procs;
   NamedAst *funcs;
+  ImportBinding *imports;
   OpenFile *files;
   size_t file_count;
   PcValue ret;
@@ -122,9 +129,89 @@ static void close_all_files(Interp *I) {
   I->file_count = 0;
 }
 
+static const char *canonical_library_module(const char *name) {
+  if (!name) return NULL;
+  if (pc_str_eq_ci(name, "numpy")) return "numpy";
+  if (pc_str_eq_ci(name, "pandas")) return "pandas";
+  if (pc_str_eq_ci(name, "matplotlib")) return "matplotlib";
+  return NULL;
+}
+
+static void import_remove_alias(Interp *I, const char *alias) {
+  ImportBinding **pp = &I->imports;
+  while (*pp) {
+    if (pc_str_eq_ci((*pp)->alias, alias)) {
+      ImportBinding *d = *pp;
+      *pp = d->next;
+      free(d->alias);
+      free(d->module);
+      free(d);
+    } else
+      pp = &(*pp)->next;
+  }
+}
+
+static void imports_free(Interp *I) {
+  while (I->imports) {
+    ImportBinding *n = I->imports->next;
+    free(I->imports->alias);
+    free(I->imports->module);
+    free(I->imports);
+    I->imports = n;
+  }
+}
+
+/* Returns malloc'd canonical name like "numpy.sum", or NULL on error. */
+static char *resolve_qualified_call(Interp *I, const char *qname, PcSourceLoc loc) {
+  if (!qname || !strchr(qname, '.')) return NULL;
+  const char *dot = strchr(qname, '.');
+  const char *rest = dot + 1;
+  if (strchr(rest, '.')) {
+    pc_runtime_error(I->err, loc, PC_ERR_RUN_CALL,
+                     "only library.module calls with one '.' are supported (e.g. np.sum)");
+    return NULL;
+  }
+  size_t flen = (size_t)(dot - qname);
+  char first[96];
+  if (flen >= sizeof first) {
+    pc_runtime_error(I->err, loc, PC_ERR_RUN_CALL, "qualified name too long");
+    return NULL;
+  }
+  memcpy(first, qname, flen);
+  first[flen] = '\0';
+
+  const char *mod = NULL;
+  for (ImportBinding *b = I->imports; b; b = b->next) {
+    if (pc_str_eq_ci(b->alias, first)) {
+      mod = b->module;
+      break;
+    }
+  }
+  if (!mod) mod = canonical_library_module(first);
+  if (!mod) {
+    pc_runtime_error(I->err, loc, PC_ERR_RUN_CALL,
+                     "unknown library prefix '%s' — use IMPORT numpy AS np, or call numpy.* / pandas.* / "
+                     "matplotlib.* directly",
+                     first);
+    return NULL;
+  }
+
+  size_t ml = strlen(mod), rl = strlen(rest);
+  char *out = malloc(ml + 1 + rl + 1);
+  if (!out) {
+    pc_runtime_error(I->err, loc, PC_ERR_RUN_OOM, "out of memory");
+    return NULL;
+  }
+  memcpy(out, mod, ml);
+  out[ml] = '.';
+  memcpy(out + ml + 1, rest, rl + 1);
+  return out;
+}
+
 void pc_interp_free(Interp *I) {
   if (!I) return;
   close_all_files(I);
+  imports_free(I);
   env_free(I->global);
   for (NamedAst *n = I->procs; n;) {
     NamedAst *x = n->next;
@@ -292,20 +379,32 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
       pc_value_destroy(&p);
       return;
     }
+    char *resolved = NULL;
+    const char *call_name = e->name;
+    if (strchr(e->name, '.')) {
+      resolved = resolve_qualified_call(I, e->name, loc);
+      if (!resolved) {
+        pc_value_init_void(out);
+        return;
+      }
+      call_name = resolved;
+    }
     PcValue *argv = calloc(e->arg_count, sizeof(PcValue));
     for (size_t i = 0; i < e->arg_count; i++) {
       eval_expr(I, e->args[i], &argv[i]);
     }
-    if (pc_stdlib_try_call(I->err, e->name, argv, e->arg_count, out, loc)) {
+    if (pc_stdlib_try_call(I->err, call_name, argv, e->arg_count, out, loc)) {
       for (size_t i = 0; i < e->arg_count; i++) pc_value_destroy(&argv[i]);
       free(argv);
+      free(resolved);
       return;
     }
-    NamedAst *nf = named_find(I->funcs, e->name);
+    NamedAst *nf = named_find(I->funcs, call_name);
     if (!nf) {
       pc_runtime_error(I->err, loc, PC_ERR_RUN_CALL, "undefined function '%s'", e->name);
       for (size_t i = 0; i < e->arg_count; i++) pc_value_destroy(&argv[i]);
       free(argv);
+      free(resolved);
       pc_value_init_void(out);
       return;
     }
@@ -334,6 +433,7 @@ static void eval_expr(Interp *I, PcAst *e, PcValue *out) {
     I->returned = false;
     env_free(local);
     I->env = saved;
+    free(resolved);
     return;
   }
   case PC_AST_UNARY: {
@@ -634,6 +734,33 @@ static void exec_stmt(Interp *I, PcAst *s) {
     fprintf(stderr, "stmt\n");
   }
   switch (s->kind) {
+  case PC_AST_IMPORT: {
+    const char *canon = canonical_library_module(s->name);
+    if (!canon) {
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CALL,
+                       "IMPORT: unknown module '%s' (supported: numpy, pandas, matplotlib)", s->name);
+      break;
+    }
+    const char *alias = s->str_val ? s->str_val : canon;
+    import_remove_alias(I, alias);
+    ImportBinding *b = calloc(1, sizeof(ImportBinding));
+    if (!b) {
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_OOM, "out of memory");
+      break;
+    }
+    b->alias = pc_strdup(alias);
+    b->module = pc_strdup(canon);
+    if (!b->alias || !b->module) {
+      free(b->alias);
+      free(b->module);
+      free(b);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_OOM, "out of memory");
+      break;
+    }
+    b->next = I->imports;
+    I->imports = b;
+    break;
+  }
   case PC_AST_DECLARE: {
     if (sym_find_local(I->env, s->name)) {
       pc_runtime_error(I->err, s->loc, PC_ERR_RUN_REDECL, "redeclaration of '%s'", s->name);
@@ -809,9 +936,16 @@ static void exec_stmt(Interp *I, PcAst *s) {
     } while (1);
     break;
   case PC_AST_CALL: {
-    NamedAst *p = named_find(I->procs, s->name);
+    char *resolved = NULL;
+    if (strchr(s->name, '.')) {
+      resolved = resolve_qualified_call(I, s->name, s->loc);
+      if (!resolved) break;
+    }
+    const char *pn = resolved ? resolved : s->name;
+    NamedAst *p = named_find(I->procs, pn);
     if (!p) {
-      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CALL, "undefined procedure '%s'", s->name);
+      pc_runtime_error(I->err, s->loc, PC_ERR_RUN_CALL, "undefined procedure '%s'", pn);
+      free(resolved);
       break;
     }
     PcAst *pd = p->def;
@@ -848,6 +982,7 @@ static void exec_stmt(Interp *I, PcAst *s) {
     for (PcAst *st = pd->body; st; st = st->next) exec_stmt(I, st);
     I->env = saved;
     env_free(local);
+    free(resolved);
     break;
   }
   case PC_AST_RETURN:

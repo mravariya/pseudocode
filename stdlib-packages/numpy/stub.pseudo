@@ -1,5 +1,6 @@
-// Catalog package "numpy" — teaching patterns only (not a real NumPy).
-// Pseudocode cannot pass ARRAY into PROCEDURE/FUNCTION; use loops + docs.
+// Catalog package "numpy" — points to docs + examples.
+// Built-in calls: IMPORT numpy AS np  then  np.sum(A), np.mean(A), np.dot(A,B), ...
+// Full list: docs/reference/builtins.md (Python-style library modules)
 // Guide: docs/numpy-style.md
 // Examples: examples/numpy-style/*.pseudo
 

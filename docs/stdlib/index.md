@@ -1,6 +1,8 @@
 # Standard library areas (Python-style)
 
-The interpreter ships **built-in functions** in the C runtime (`src/pc_stdlib.c`). They are available **without** installing anything. The **`pkg install`** catalog (`math`, `random`, `time`, `os`, `system`, `numpy`, `pandas`, `matplotlib`) copies **optional stub** `.pseudo` files into `~/.pseudocode/packages/` for classroom handouts and does **not** change which builtins exist. The **`numpy`**, **`pandas`**, and **`matplotlib`** stubs are documentation-only — see **[NumPy-style patterns](../numpy-style.md)** / **[`examples/numpy-style/`](../../examples/numpy-style/)**, **[Pandas-style patterns](../pandas-style.md)** / **[`examples/pandas-style/`](../../examples/pandas-style/)**, and **[Matplotlib-style patterns](../matplotlib-style.md)** / **[`examples/matplotlib-style/`](../../examples/matplotlib-style/)**.
+The interpreter ships **built-in functions** in the C runtime (`src/pc_stdlib.c`). They are available **without** installing anything. **`IMPORT numpy AS np`** (and **`pandas`**, **`matplotlib`**) exposes **Python-style** qualified calls such as **`np.sum(A)`**; see **[Built-in functions — library modules](../reference/builtins.md#python-style-library-modules-numpy-pandas-matplotlib)**.
+
+The **`pkg install`** catalog (`math`, `random`, `time`, `os`, `system`, `numpy`, `pandas`, `matplotlib`) copies **optional stub** `.pseudo` files into `~/.pseudocode/packages/` for classroom handouts and does **not** change which builtins exist. The **`numpy`**, **`pandas`**, and **`matplotlib`** stubs mainly **point at docs and examples** — the real **`np.*`-style** behaviour lives in the C runtime.
 
 **Catalog layout:** repository root [`stdlib-packages/`](../../stdlib-packages/) (also installed under `share/pseudocode/stdlib-packages` when you `cmake --install`). **`pkg`** finds it via `PSEUDOCODE_STDLIB`, compile-time `PC_BUILTIN_STDLIB_PACKAGES`, or `stdlib-packages` next to the current working directory.
 

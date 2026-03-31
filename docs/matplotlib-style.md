@@ -1,6 +1,6 @@
 # Matplotlib-style patterns in Pseudocode
 
-This interpreter has **no** `import matplotlib`, **no** pixels, and **no** plotting API. This page is a **conceptual bridge**: how **chart-minded** workflows map to **loops**, **`OUTPUT`**, **text diagrams**, and optional **file export** for real tools (Python, spreadsheet, gnuplot, …).
+**`IMPORT matplotlib AS plt`** is supported, but **`plt.plot`**, **`plt.show`**, etc. are **no-op stubs** (they return **`0`**): there are still **no** pixels and no real plotting API. This page is a **conceptual bridge**: how **chart-minded** workflows map to **loops**, **`OUTPUT`**, **text diagrams**, and optional **file export** for real tools (Python, spreadsheet, gnuplot, …).
 
 **Runnable code:** [`examples/matplotlib-style/`](../examples/matplotlib-style/) · **Examples catalogue:** [examples.md](examples.md)
 

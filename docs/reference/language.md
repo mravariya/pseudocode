@@ -35,7 +35,7 @@ Identifiers must not spell a **reserved word** (keyword) in exam papers; the int
 
 The following are reserved (matched case-insensitively), including types and statement openers:
 
-`DECLARE`, `CONSTANT`, `INTEGER`, `REAL`, `STRING`, `CHAR`, `BOOLEAN`, `DATE`, `ARRAY`, `OF`, `TYPE`, `ENDTYPE`, `IF`, `THEN`, `ELSE`, `ENDIF`, `CASE`, `ENDCASE`, `OTHERWISE`, `FOR`, `TO`, `STEP`, `NEXT`, `REPEAT`, `UNTIL`, `WHILE`, `ENDWHILE`, `PROCEDURE`, `ENDPROCEDURE`, `FUNCTION`, `ENDFUNCTION`, `RETURNS`, `CALL`, `RETURN`, `BYVAL`, `BYREF`, `INPUT`, `OUTPUT`, `OPENFILE`, `CLOSEFILE`, `READFILE`, `WRITEFILE`, `SEEK`, `GETRECORD`, `PUTRECORD`, `AND`, `OR`, `NOT`, `MOD`, `DIV`, `TRUE`, `FALSE`.
+`DECLARE`, `CONSTANT`, `IMPORT`, `AS`, `INTEGER`, `REAL`, `STRING`, `CHAR`, `BOOLEAN`, `DATE`, `ARRAY`, `OF`, `TYPE`, `ENDTYPE`, `IF`, `THEN`, `ELSE`, `ENDIF`, `CASE`, `ENDCASE`, `OTHERWISE`, `FOR`, `TO`, `STEP`, `NEXT`, `REPEAT`, `UNTIL`, `WHILE`, `ENDWHILE`, `PROCEDURE`, `ENDPROCEDURE`, `FUNCTION`, `ENDFUNCTION`, `RETURNS`, `CALL`, `RETURN`, `BYVAL`, `BYREF`, `INPUT`, `OUTPUT`, `OPENFILE`, `CLOSEFILE`, `READFILE`, `WRITEFILE`, `SEEK`, `GETRECORD`, `PUTRECORD`, `AND`, `OR`, `NOT`, `MOD`, `DIV`, `TRUE`, `FALSE`.
 
 ### 1.6 Literals
 
@@ -144,6 +144,8 @@ identifier ( argumentList )
 
 User-defined **functions** and **built-in** functions use the same call syntax. Do **not** prefix with `CALL`.
 
+**Qualified names** (extension, Python-style): `prefix.name ( argumentList )` where `prefix` is one or more identifiers separated by dots, **only** as a call target (not as a variable). Typical use: **`np.sum(A)`** after **`IMPORT numpy AS np`**. The first segment must be either a **library alias** from `IMPORT` or a supported module name (`numpy`, `pandas`, `matplotlib`). Only **one** dot is allowed between prefix and method (e.g. `np.sum`, not `np.foo.bar`). See [Built-in functions — Python-style libraries](builtins.md#python-style-library-modules-numpy-pandas-matplotlib).
+
 ### 3.6 Indexing
 
 One dimension: `name[index]`. Two dimensions: `name[row, col]` parsed as nested indices (see implementation). Indices are expressions evaluated to integers; out-of-range access is a runtime error.
@@ -151,6 +153,20 @@ One dimension: `name[index]`. Two dimensions: `name[row, col]` parsed as nested 
 ---
 
 ## 4. Statements
+
+### 4.0 `IMPORT` (Python-style library alias)
+
+```text
+IMPORT moduleName
+IMPORT moduleName AS alias
+```
+
+**Supported `moduleName` values** (case-insensitive): **`numpy`**, **`pandas`**, **`matplotlib`**.
+
+- **`IMPORT numpy AS np`** — subsequent calls like **`np.sum(A)`** resolve to built-in **`numpy.sum`**.
+- **`IMPORT numpy`** — same as **`IMPORT numpy AS numpy`**; you may call **`numpy.sum(A)`** directly without a short alias.
+
+This statement registers aliases only; it does **not** load files from disk. Re-importing the same alias replaces the previous binding.
 
 ### 4.1 Assignment
 
@@ -317,10 +333,11 @@ The implementation is a hand-written recursive-descent parser. An approximate EB
 
 ```text
 program        ::= statement*
-statement      ::= declare | constant | assign | ifStmt | caseStmt | forStmt
+statement      ::= declare | constant | importStmt | assign | ifStmt | caseStmt | forStmt
                  | whileStmt | repeatStmt | procDef | funcDef | callStmt
                  | returnStmt | inputStmt | outputStmt | openFile | closeFile
                  | readFile | writeFile
+importStmt     ::= IMPORT IDENT [ AS IDENT ]
 declare        ::= DECLARE IDENT : type
 constant       ::= CONSTANT IDENT = literal
 assign         ::= lvalue ASSIGN expr

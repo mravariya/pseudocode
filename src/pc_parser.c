@@ -62,6 +62,43 @@ static PcType *parse_simple_type(Parser *P) {
 
 static PcAst *parse_expr(Parser *P);
 
+/* One or more identifiers separated by dots: "np" / "np.sum" — caller owns string. */
+static char *parse_dotted_name(Parser *P) {
+  PcLexer *L = P->L;
+  if (L->cur.kind != TOK_IDENT) return NULL;
+  char *s = lex_dup(L);
+  if (!s) return NULL;
+  pc_lex_next(L);
+  while (L->cur.kind == TOK_DOT) {
+    pc_lex_next(L);
+    if (L->cur.kind != TOK_IDENT) {
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected identifier after '.'");
+      free(s);
+      return NULL;
+    }
+    char *part = lex_dup(L);
+    if (!part) {
+      free(s);
+      return NULL;
+    }
+    size_t na = strlen(s), nb = strlen(part);
+    char *ns = malloc(na + 1 + nb + 1);
+    if (!ns) {
+      free(s);
+      free(part);
+      return NULL;
+    }
+    memcpy(ns, s, na);
+    ns[na] = '.';
+    memcpy(ns + na + 1, part, nb + 1);
+    free(s);
+    free(part);
+    s = ns;
+    pc_lex_next(L);
+  }
+  return s;
+}
+
 /* Assignment-style RHS: expr (',' expr)* — comma joins strings at runtime (Extension). */
 static PcAst *parse_expr_assign_rhs(Parser *P) {
   PcAst *x = parse_expr(P);
@@ -134,10 +171,23 @@ static PcAst *parse_primary(Parser *P) {
     return e;
   }
   if (L->cur.kind == TOK_IDENT) {
-    PcAst *v = pc_ast_new(PC_AST_VAR, loc);
-    v->name = lex_dup(L);
-    pc_lex_next(L);
+    char *qname = parse_dotted_name(P);
+    if (!qname) return NULL;
+    if (strchr(qname, '.')) {
+      if (L->cur.kind == TOK_LBRACK) {
+        pc_error_at(P->err, loc, PC_ERR_PARSE_STMT, "array name cannot use '.' (use a simple identifier)");
+        free(qname);
+        return NULL;
+      }
+      if (L->cur.kind != TOK_LPAREN) {
+        pc_error_at(P->err, loc, PC_ERR_PARSE_STMT, "qualified name must be a call, e.g. np.sum(...)");
+        free(qname);
+        return NULL;
+      }
+    }
     if (L->cur.kind == TOK_LBRACK) {
+      PcAst *v = pc_ast_new(PC_AST_VAR, loc);
+      v->name = qname;
       pc_lex_next(L);
       PcAst *i1 = parse_expr(P);
       PcAst *ix = pc_ast_new(PC_AST_INDEX, loc);
@@ -158,9 +208,7 @@ static PcAst *parse_primary(Parser *P) {
     if (L->cur.kind == TOK_LPAREN) {
       pc_lex_next(L);
       PcAst *c = pc_ast_new(PC_AST_CALL_EXPR, loc);
-      c->name = v->name;
-      v->name = NULL;
-      pc_ast_free(v);
+      c->name = qname;
       size_t cap = 0;
       if (L->cur.kind != TOK_RPAREN) {
         while (1) {
@@ -175,6 +223,8 @@ static PcAst *parse_primary(Parser *P) {
       expect_tok(P, TOK_RPAREN, ")");
       return c;
     }
+    PcAst *v = pc_ast_new(PC_AST_VAR, loc);
+    v->name = qname;
     return v;
   }
   pc_error_at(P->err, loc, PC_ERR_PARSE_EXPR, "expected expression");
@@ -353,6 +403,28 @@ static PcAst *parse_stmt(Parser *P) {
   PcLexer *L = P->L;
   pc_lex_skip_newlines(L);
   PcSourceLoc loc = LOC_FROM(P);
+
+  if (L->cur.kind == TOK_IMPORT) {
+    pc_lex_next(L);
+    if (L->cur.kind != TOK_IDENT) {
+      pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected module name after IMPORT");
+      return NULL;
+    }
+    PcAst *n = pc_ast_new(PC_AST_IMPORT, loc);
+    n->name = lex_dup(L);
+    pc_lex_next(L);
+    if (L->cur.kind == TOK_AS) {
+      pc_lex_next(L);
+      if (L->cur.kind != TOK_IDENT) {
+        pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected alias after AS");
+        pc_ast_free(n);
+        return NULL;
+      }
+      n->str_val = lex_dup(L);
+      pc_lex_next(L);
+    }
+    return n;
+  }
 
   if (L->cur.kind == TOK_DECLARE) {
     pc_lex_next(L);
@@ -638,12 +710,11 @@ static PcAst *parse_stmt(Parser *P) {
   if (L->cur.kind == TOK_CALL) {
     pc_lex_next(L);
     PcAst *n = pc_ast_new(PC_AST_CALL, loc);
-    if (L->cur.kind != TOK_IDENT) {
+    n->name = parse_dotted_name(P);
+    if (!n->name) {
       pc_error_at(P->err, LOC_FROM(P), PC_ERR_PARSE_STMT, "expected procedure name after CALL");
       return NULL;
     }
-    n->name = lex_dup(L);
-    pc_lex_next(L);
     expect_tok(P, TOK_LPAREN, "(");
     size_t cap = 0;
     if (L->cur.kind != TOK_RPAREN) {

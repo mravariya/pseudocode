@@ -1,8 +1,10 @@
 # NumPy-style patterns in Pseudocode
 
-This interpreter is **not** Python and has **no** `import numpy`. This page is a **conceptual bridge**: how common **NumPy** ideas map to **Cambridge-style** pseudocode with **fixed-size** arrays and **loops**.
+This interpreter is **not** full Python/NumPy, but it **does** support **`IMPORT numpy AS np`** and built-in calls such as **`np.sum(A)`** and **`np.mean(A)`** on **declared** arrays. See **[Built-in functions — Python-style libraries](reference/builtins.md#python-style-library-modules-numpy-pandas-matplotlib)** for the exact list.
 
-**Runnable code:** [`examples/numpy-style/`](../examples/numpy-style/) · **Examples catalogue:** [examples.md](examples.md)
+For everything NumPy can do that is **still** missing here, this page remains a **conceptual bridge**: fixed-size arrays, **loops**, and naming patterns.
+
+**Runnable code:** [`examples/numpy-style/`](../examples/numpy-style/) (start with **`00-import-np-sum-mean.pseudo`**) · **Examples catalogue:** [examples.md](examples.md)
 
 ---
 
@@ -12,12 +14,12 @@ This interpreter is **not** Python and has **no** `import numpy`. This page is a
 |------------|-------------------|
 | Dynamic shape, `reshape`, `ravel` | **No** — bounds are fixed at `DECLARE`. |
 | Slicing `a[2:5]`, fancy indexing | **No** — use loops over index ranges. |
-| `import`, `np.array([...])` | **No** — fill arrays with `FOR` or assignment. |
-| Vectorised `a + b`, `a * 3` | **No** — write **element-wise** `FOR` loops (see examples). |
-| Passing arrays into `PROCEDURE` / `FUNCTION` | **No** — parameters are **scalar types** only (`INTEGER`, `REAL`, …). |
+| `np.array([...])` from literals | **No** — fill arrays with `FOR` or assignment. |
+| Vectorised `a + b`, `a * 3` | **No** — write **element-wise** `FOR` loops (see examples), unless you use a **single** built-in reducer (e.g. `np.sum`). |
+| Passing arrays into `PROCEDURE` / `FUNCTION` | **No** — parameters are **scalar types** only (`INTEGER`, `REAL`, …). Built-in **`numpy.*`** calls accept **array expressions** as arguments. |
 | `linalg`, FFT, masked arrays | **Not** in scope here. |
 
-What you **do** have: **1D / 2D** arrays, **`LENGTH`**, arithmetic, **`FOR`**, **`FUNCTION` … RETURNS`** for scalars, and **well-chosen global names** as a poor-person’s “module” (see below).
+What you **do** have: **1D / 2D** arrays, **`LENGTH`**, arithmetic, **`FOR`**, **`FUNCTION` … RETURNS`** for scalars, **`IMPORT` / `np.method(...)`** for selected reducers, and **well-chosen global names** as a teaching “module” when you prefer explicit loops (see below).
 
 ### Reserved names that clash with NumPy habits
 

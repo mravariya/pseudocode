@@ -58,6 +58,7 @@ static const Kw KW[] = {
     {"output", TOK_OUTPUT},       {"openfile", TOK_OPENFILE}, {"closefile", TOK_CLOSEFILE},
     {"readfile", TOK_READFILE},   {"writefile", TOK_WRITEFILE}, {"seek", TOK_SEEK},
     {"getrecord", TOK_GETRECORD}, {"putrecord", TOK_PUTRECORD},
+    {"import", TOK_IMPORT},       {"as", TOK_AS},
     {"and", TOK_AND},             {"or", TOK_OR},             {"not", TOK_NOT},
     {"mod", TOK_MOD},             {"div", TOK_DIV},           {"true", TOK_TRUE},
     {"false", TOK_FALSE},

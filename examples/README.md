@@ -12,11 +12,11 @@ Runnable **`.pseudo`** sources grouped by topic. Run from the **repository root*
 |--------|---------|
 | **`vanilla-pseudocode/`** | Core language: types, constants, control flow, procedures, functions, arrays, strings, files. |
 | **`stdlib-demos/`** | Built-in **math**, **random**, **time**, **environment**, and **system** APIs (same calls the **`pkg install math`** etc. stubs document — builtins work without `pkg`). |
-| **`numpy-style/`** | NumPy-*like* patterns (sums, dot product, linspace-style fills, small matmul) using loops — see **`docs/numpy-style.md`**. Optional **`pkg install numpy`** installs a stub that points to that doc. |
-| **`pandas-style/`** | Pandas-*like* tabular patterns (parallel columns, head/tail, filter, groupby, merge) — see **`docs/pandas-style.md`**. Optional **`pkg install pandas`** installs a teaching stub. |
-| **`matplotlib-style/`** | Matplotlib-*like* plotting *data* (series, ASCII bars, file export) — see **`docs/matplotlib-style.md`**. Optional **`pkg install matplotlib`** installs a teaching stub. |
+| **`numpy-style/`** | **`IMPORT numpy AS np`** built-ins (**`np.sum`**, …) plus loop-based patterns — **`docs/numpy-style.md`**. **`pkg install numpy`** copies a stub that points at docs. |
+| **`pandas-style/`** | Tabular loop patterns; **`IMPORT pandas AS pd`** gives **`pd.sum`** / **`pd.mean`** on one array — **`docs/pandas-style.md`**. |
+| **`matplotlib-style/`** | Plot *data* with **`OUTPUT`** / files / ASCII; **`IMPORT matplotlib AS plt`** only provides **stub** calls — **`docs/matplotlib-style.md`**. |
 | **Root** (`hello.pseudo`, …) | Short samples kept for quick smoke tests and docs that reference a single path. |
 
 ## Optional `pkg` catalog
 
-The repo ships **`stdlib-packages/{math,random,time,os,system,numpy,pandas,matplotlib}/stub.pseudo`** for `pkg install`. The first five do not define extra behaviour beyond pointing at docs; see **`docs/stdlib/`** and **`examples/stdlib-demos/`** for runnable demos of the underlying builtins. **`numpy`**, **`pandas`**, and **`matplotlib`** are documentation-only; run the programs under **`numpy-style/`**, **`pandas-style/`**, and **`matplotlib-style/`** instead.
+The repo ships **`stdlib-packages/{math,random,time,os,system,numpy,pandas,matplotlib}/stub.pseudo`** for `pkg install`. The first five do not define extra behaviour beyond pointing at docs; see **`docs/stdlib/`** and **`examples/stdlib-demos/`** for runnable demos. **`numpy`**, **`pandas`**, and **`matplotlib`** stubs point at docs; the **`IMPORT` / `np.*`** behaviour is **built into the interpreter** — run **`numpy-style/00-import-np-sum-mean.pseudo`** and the other topic folders for full examples.

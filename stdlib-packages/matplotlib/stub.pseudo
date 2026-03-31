@@ -1,5 +1,6 @@
-// Catalog package "matplotlib" — teaching patterns only (not real Matplotlib).
-// No graphics in the interpreter: loops + OUTPUT / WRITEFILE + optional ASCII art.
+// Catalog package "matplotlib" — docs + ASCII-style examples.
+// IMPORT matplotlib AS plt  →  plt.plot(), plt.show(), … are no-op stubs (return 0); no pixels.
+// Loops + OUTPUT / WRITEFILE for real “plots”: see docs/matplotlib-style.md
 // Guide: docs/matplotlib-style.md
 // Examples: examples/matplotlib-style/*.pseudo
 

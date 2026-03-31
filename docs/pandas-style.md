@@ -1,6 +1,6 @@
 # Pandas-style patterns in Pseudocode
 
-This interpreter is **not** Python and has **no** `import pandas`. This page is a **conceptual bridge**: how **tabular** and **Series-like** ideas map to **Cambridge-style** pseudocode with **fixed-size** parallel arrays and **loops**.
+You can write **`IMPORT pandas AS pd`** and call built-in reducers on a **single column array** (e.g. **`pd.sum(Price)`**) — see [Built-ins — library modules](reference/builtins.md#python-style-library-modules-numpy-pandas-matplotlib). There is still **no** real `DataFrame`. This page is a **conceptual bridge** for **tabular** workflows with **fixed-size** parallel arrays and **loops**.
 
 **Runnable code:** [`examples/pandas-style/`](../examples/pandas-style/) · **Examples catalogue:** [examples.md](examples.md)
 

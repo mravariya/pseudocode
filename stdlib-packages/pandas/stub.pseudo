@@ -1,4 +1,6 @@
-// Catalog package "pandas" — teaching patterns only (not real Pandas).
+// Catalog package "pandas" — docs + parallel-array examples.
+// Built-ins: IMPORT pandas AS pd  then  pd.sum(col), pd.mean(col), ... (array = one column)
+// List: docs/reference/builtins.md
 // Model tables as parallel ARRAY columns; no ARRAY procedure parameters.
 // Guide: docs/pandas-style.md
 // Examples: examples/pandas-style/*.pseudo
