@@ -1,0 +1,3 @@
+# GitHub tag/source archives use `git archive`; omit Formula so tarball sha256
+# matches Homebrew's `url` without the formula file changing the archive hash.
+Formula/ export-ignore
