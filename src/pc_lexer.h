@@ -28,6 +28,8 @@ typedef struct PcLexState {
   int line;
   int column;
   PcToken cur;
+  char lexeme_snap[256];
+  bool has_lexeme_snap;
 } PcLexState;
 
 void pc_lex_save(const PcLexer *L, PcLexState *s);

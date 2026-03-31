@@ -1,0 +1,9 @@
+// REPEAT ... UNTIL (body runs at least once)
+// Run: pseudocode run examples/vanilla-pseudocode/repeat-until.pseudo
+
+DECLARE c : INTEGER
+c <- 0
+REPEAT
+  c <- c + 1
+  OUTPUT "count ", c
+UNTIL c >= 3

@@ -1,5 +1,6 @@
 // Optional catalog package "system" — see docs/stdlib/system.md
 // Builtins: SYSTEM (host shell — use only in trusted environments)
+// Runnable repo demo: examples/stdlib-demos/system/system-true.pseudo
 
 DECLARE _SystemPackageMarker : INTEGER
 _SystemPackageMarker <- 0

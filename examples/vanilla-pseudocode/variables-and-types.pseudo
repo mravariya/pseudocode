@@ -1,0 +1,23 @@
+// Variables and basic types (DECLARE)
+// Run: pseudocode run examples/vanilla-pseudocode/variables-and-types.pseudo
+
+DECLARE n : INTEGER
+DECLARE x : REAL
+DECLARE name : STRING
+DECLARE ch : CHAR
+DECLARE flag : BOOLEAN
+DECLARE today : DATE
+
+n <- 42
+x <- 3.5
+name <- "Pseudocode"
+ch <- 'A'
+flag <- TRUE
+today <- 15/03/2026
+
+OUTPUT "INTEGER ", n
+OUTPUT "REAL ", x
+OUTPUT "STRING ", name
+OUTPUT "CHAR ", ch
+OUTPUT "BOOLEAN ", flag
+OUTPUT "DATE ", today

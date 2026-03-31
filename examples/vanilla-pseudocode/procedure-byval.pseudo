@@ -1,0 +1,12 @@
+// PROCEDURE with BYVAL (default) — callee cannot change caller's variable
+// Run: pseudocode run examples/vanilla-pseudocode/procedure-byval.pseudo
+
+PROCEDURE TryChange(BYVAL n : INTEGER)
+  n <- 99
+  OUTPUT "inside procedure n = ", n
+ENDPROCEDURE
+
+DECLARE a : INTEGER
+a <- 1
+CALL TryChange(a)
+OUTPUT "after call a = ", a

@@ -1,0 +1,29 @@
+// "Module" style: prefixed globals for one table (no array parameters).
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/08-pd-workspace-globals.pseudo
+
+CONSTANT PdN = 4
+DECLARE PdQty : ARRAY[1:PdN] OF INTEGER
+
+FUNCTION PdSumQty() RETURNS INTEGER
+DECLARE i : INTEGER
+DECLARE s : INTEGER
+s <- 0
+FOR i <- 1 TO PdN
+  s <- s + PdQty[i]
+NEXT i
+RETURN s
+ENDFUNCTION
+
+FUNCTION PdMeanQty() RETURNS REAL
+RETURN TOREAL(PdSumQty()) / TOREAL(PdN)
+ENDFUNCTION
+
+DECLARE j : INTEGER
+PdQty[1] <- 5
+PdQty[2] <- 10
+PdQty[3] <- 3
+PdQty[4] <- 2
+
+OUTPUT "PdSumQty ≈ df['Qty'].sum() = ", PdSumQty()
+OUTPUT "PdMeanQty ≈ df['Qty'].mean() = ", PdMeanQty()

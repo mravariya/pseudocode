@@ -1,0 +1,22 @@
+// Built-in math-style functions (same API as docs/stdlib/math.md and pkg "math" stub).
+// Run: pseudocode run examples/stdlib-demos/math/math-all-builtins.pseudo
+
+DECLARE x : REAL
+DECLARE y : REAL
+x <- 9.0
+y <- 4.0
+OUTPUT "SQRT(9)= ", SQRT(x)
+OUTPUT "SIN/COS/ATAN(1)= ", SIN(0.0), " ", COS(0.0), " ", ATAN(1.0)
+OUTPUT "ASIN(1)/ACOS(0)= ", ASIN(1.0), " ", ACOS(0.0)
+OUTPUT "TAN(0.25)= ", TAN(0.25)
+OUTPUT "ATAN2(1,1)= ", ATAN2(1.0, 1.0)
+OUTPUT "HYPOT(3,4)= ", HYPOT(3.0, 4.0)
+OUTPUT "POW(2,10)= ", POW(2.0, 10.0)
+OUTPUT "FMOD(7,3)= ", FMOD(7.0, 3.0)
+OUTPUT "LOG/LOG10/EXP(2)= ", LOG(2.0), " ", LOG10(100.0), " ", EXP(1.0)
+OUTPUT "FLOOR/CEIL/TRUNC(-2.7)= ", FLOOR(-2.7), " ", CEIL(-2.7), " ", TRUNC(-2.7)
+OUTPUT "ABS(-5) INTEGER-ish= ", ABS(-5)
+OUTPUT "PI/EULER= ", PI(), " ", EULER()
+OUTPUT "RADIANS(180)/DEGREES(PI)= ", RADIANS(180.0), " ", DEGREES(PI())
+OUTPUT "ROUND(2.6)= ", ROUND(2.6)
+OUTPUT "INT/TOREAL= ", INT("17"), " ", TOREAL(3)

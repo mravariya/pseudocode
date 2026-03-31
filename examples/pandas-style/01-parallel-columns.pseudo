@@ -1,0 +1,23 @@
+// Pandas-like: one DataFrame ≈ parallel 1D arrays (same row index).
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/01-parallel-columns.pseudo
+
+CONSTANT nRows = 4
+DECLARE RowId : ARRAY[1:nRows] OF INTEGER
+DECLARE Dept : ARRAY[1:nRows] OF INTEGER
+DECLARE Hours : ARRAY[1:nRows] OF REAL
+
+RowId[1] <- 1
+RowId[2] <- 2
+RowId[3] <- 3
+RowId[4] <- 4
+Dept[1] <- 10
+Dept[2] <- 10
+Dept[3] <- 20
+Dept[4] <- 20
+Hours[1] <- 8.0
+Hours[2] <- 7.5
+Hours[3] <- 6.0
+Hours[4] <- 8.0
+
+OUTPUT "row 3 ≈ df.iloc[2] in 0-based: Dept=", Dept[3], " Hours=", Hours[3]

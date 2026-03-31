@@ -25,3 +25,5 @@ DECLARE home : STRING
 home <- GETENV("HOME")
 OUTPUT home
 ```
+
+**Repository demo:** [`examples/stdlib-demos/os/getenv-demo.pseudo`](../../examples/stdlib-demos/os/getenv-demo.pseudo).

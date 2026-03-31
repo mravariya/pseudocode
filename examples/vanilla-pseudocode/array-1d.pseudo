@@ -1,0 +1,13 @@
+// One-dimensional array — declare, fill, sum
+// Run: pseudocode run examples/vanilla-pseudocode/array-1d.pseudo
+
+DECLARE T : ARRAY[1:5] OF INTEGER
+DECLARE i : INTEGER
+DECLARE total : INTEGER
+total <- 0
+FOR i <- 1 TO 5
+  T[i] <- i * i
+  total <- total + T[i]
+NEXT i
+OUTPUT "sum of squares = ", total
+OUTPUT "LENGTH(T) = ", LENGTH(T)

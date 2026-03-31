@@ -22,6 +22,7 @@ void pc_err_init(PcErrorCtx *ctx, bool trace, bool color) {
   ctx->last_code = 0;
   ctx->trace = trace;
   ctx->color = color && ISATTY_F;
+  ctx->quiet = false;
   ctx->err = stderr;
   if (ctx->color) {
     c_red = "\x1b[31m";
@@ -38,6 +39,7 @@ void pc_err_clear(PcErrorCtx *ctx) {
   ctx->had_error = false;
   ctx->kind = PC_ERRK_NONE;
   ctx->last_code = 0;
+  ctx->quiet = false;
 }
 
 static const char *kind_label(PcErrKind k) {
@@ -58,6 +60,7 @@ static void emit(PcErrorCtx *ctx, PcErrKind kind, PcSourceLoc loc, int code, con
   ctx->had_error = true;
   ctx->kind = kind;
   ctx->last_code = code;
+  if (ctx->quiet) return;
   fprintf(ctx->err, "%s%s%s", c_red, kind_word, c_reset);
   fprintf(ctx->err, " %s[PC-%d]%s", c_magenta, code, c_reset);
   fprintf(ctx->err, " [%s]", kind_label(kind));

@@ -1,0 +1,6 @@
+// Time builtins (pkg catalog name "time").
+// Run: pseudocode run examples/stdlib-demos/time/time-and-clock.pseudo
+
+OUTPUT "TIME (unix seconds, REAL)= ", TIME()
+OUTPUT "CLOCKMS (CPU ms)= ", CLOCKMS()
+OUTPUT "NOWSTRING= ", NOWSTRING()

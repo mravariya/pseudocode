@@ -1,0 +1,14 @@
+// IF / THEN / ELSE / ENDIF (nested)
+// Run: pseudocode run examples/vanilla-pseudocode/if-else-endif.pseudo
+
+DECLARE x : INTEGER
+x <- 7
+IF x < 0 THEN
+  OUTPUT "negative"
+ELSE
+  IF x < 10 THEN
+    OUTPUT "single digit"
+  ELSE
+    OUTPUT "large"
+  ENDIF
+ENDIF

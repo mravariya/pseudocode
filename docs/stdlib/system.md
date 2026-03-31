@@ -25,3 +25,5 @@ DECLARE code : INTEGER
 code <- SYSTEM("echo ok")
 OUTPUT code
 ```
+
+**Repository demo:** [`examples/stdlib-demos/system/system-true.pseudo`](../../examples/stdlib-demos/system/system-true.pseudo) (uses `true` on Unix/macOS).

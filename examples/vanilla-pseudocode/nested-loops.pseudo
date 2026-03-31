@@ -1,0 +1,10 @@
+// Nested FOR loops (multiplication table fragment)
+// Run: pseudocode run examples/vanilla-pseudocode/nested-loops.pseudo
+
+DECLARE i : INTEGER
+DECLARE j : INTEGER
+FOR i <- 1 TO 3
+  FOR j <- 1 TO 3
+    OUTPUT i, " x ", j, " = ", i * j
+  NEXT j
+NEXT i

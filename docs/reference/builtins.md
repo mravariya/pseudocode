@@ -253,6 +253,8 @@ OUTPUT INT(" -12")      // -12
 OUTPUT UPPERCASE("ab")  // "AB"
 ```
 
+**Runnable demos:** many builtins are exercised in **[`examples/stdlib-demos/`](../examples/stdlib-demos/)** (see **[`examples/README.md`](../examples/README.md)**).
+
 ---
 
 ## Adding new builtins

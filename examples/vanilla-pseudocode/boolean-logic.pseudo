@@ -1,0 +1,11 @@
+// Boolean expressions (AND, OR, NOT)
+// Run: pseudocode run examples/vanilla-pseudocode/boolean-logic.pseudo
+
+DECLARE p : BOOLEAN
+DECLARE q : BOOLEAN
+p <- TRUE
+q <- FALSE
+OUTPUT p AND q
+OUTPUT p OR q
+OUTPUT NOT q
+OUTPUT (5 < 10) AND (10 < 20)

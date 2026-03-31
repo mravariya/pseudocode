@@ -1,0 +1,17 @@
+// FUNCTION ... RETURNS ... RETURN
+// Run: pseudocode run examples/vanilla-pseudocode/function-return.pseudo
+
+FUNCTION MaxOf(a : INTEGER, b : INTEGER) RETURNS INTEGER
+IF a > b THEN
+  RETURN a
+ELSE
+  RETURN b
+ENDIF
+ENDFUNCTION
+
+FUNCTION Square(x : INTEGER) RETURNS INTEGER
+RETURN x * x
+ENDFUNCTION
+
+OUTPUT MaxOf(3, 9)
+OUTPUT Square(7)

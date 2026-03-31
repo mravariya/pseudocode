@@ -43,6 +43,8 @@ OUTPUT "Hello ", Name
 
 Full setup paths (CMake, PATH, troubleshooting): **[Installation guide](docs/installation.html)**.
 
+**Examples:** curated programs live under **`examples/vanilla-pseudocode/`** (language features) and **`examples/stdlib-demos/`** (math, random, time, `GETENV`, `SYSTEM`). See the **[examples README](https://github.com/mravariya/pseudocode/blob/main/examples/README.md)** on GitHub.
+
 **No local install?** **[Try online](docs/try-online.html)** — open the project in **GitHub Codespaces** or **Gitpod** and run **`./build/pseudocode repl`** in the cloud terminal (GitHub Pages itself cannot run the C interpreter in the browser).
 
 ---

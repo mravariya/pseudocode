@@ -1,0 +1,38 @@
+// Pandas-like: pd.merge(left, right, on='Key', how='inner')  →  nested FOR.
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/07-merge-inner-on-key.pseudo
+
+CONSTANT nL = 3
+CONSTANT nR = 3
+DECLARE LKey : ARRAY[1:nL] OF INTEGER
+DECLARE LVal : ARRAY[1:nL] OF INTEGER
+DECLARE RKey : ARRAY[1:nR] OF INTEGER
+DECLARE RVal : ARRAY[1:nR] OF INTEGER
+DECLARE i : INTEGER
+DECLARE j : INTEGER
+DECLARE nOut : INTEGER
+
+LKey[1] <- 10
+LKey[2] <- 20
+LKey[3] <- 30
+LVal[1] <- 1
+LVal[2] <- 2
+LVal[3] <- 3
+RKey[1] <- 20
+RKey[2] <- 20
+RKey[3] <- 40
+RVal[1] <- 100
+RVal[2] <- 200
+RVal[3] <- 300
+
+nOut <- 0
+FOR i <- 1 TO nL
+  FOR j <- 1 TO nR
+    IF LKey[i] = RKey[j] THEN
+      nOut <- nOut + 1
+      OUTPUT "match Key=", LKey[i], "  LVal=", LVal[i], "  RVal=", RVal[j]
+    ENDIF
+  NEXT j
+NEXT i
+
+OUTPUT "inner join row count ≈ ", nOut

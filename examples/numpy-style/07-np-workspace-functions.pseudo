@@ -1,0 +1,28 @@
+// "Module" style using prefixed globals (no array parameters in Pseudocode).
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/07-np-workspace-functions.pseudo
+
+CONSTANT NpN = 5
+DECLARE NpX : ARRAY[1:NpN] OF REAL
+
+FUNCTION NpSumX() RETURNS REAL
+DECLARE i : INTEGER
+DECLARE s : REAL
+s <- 0.0
+FOR i <- 1 TO NpN
+  s <- s + NpX[i]
+NEXT i
+RETURN s
+ENDFUNCTION
+
+FUNCTION NpMeanX() RETURNS REAL
+RETURN NpSumX() / TOREAL(NpN)
+ENDFUNCTION
+
+DECLARE j : INTEGER
+FOR j <- 1 TO NpN
+  NpX[j] <- TOREAL(j * j)
+NEXT j
+
+OUTPUT "NpSumX ≈ np.sum(NpX) = ", NpSumX()
+OUTPUT "NpMeanX ≈ np.mean(NpX) = ", NpMeanX()

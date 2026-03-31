@@ -17,7 +17,7 @@ The **`.devcontainer/devcontainer.json`** configures **GitHub Codespaces**: Ubun
 | Area | Path |
 |------|------|
 | Interpreter (C) | `src/` |
-| Examples | `examples/` |
+| Examples | `examples/` — [`examples/README.md`](examples/README.md): `vanilla-pseudocode/`, `stdlib-demos/`, root snippets |
 | Manual | `docs/` |
 | VS Code extension | `vscode/pseudocode/` |
 | Site generator | `site/build.py` |

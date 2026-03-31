@@ -26,8 +26,11 @@ Similar to Python’s [`random`](https://docs.python.org/3/library/random.html),
 ## Example
 
 ```text
-CALL SEED(42)
+DECLARE ignore : INTEGER
 DECLARE n : INTEGER
+ignore <- SEED(42)
 n <- RANDINT(1, 6)
 OUTPUT n
 ```
+
+**Repository demo:** [`examples/stdlib-demos/random/random-seed-and-bounds.pseudo`](../../examples/stdlib-demos/random/random-seed-and-bounds.pseudo).

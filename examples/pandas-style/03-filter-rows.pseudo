@@ -1,0 +1,25 @@
+// Pandas-like: df[df['Score'] >= threshold]  →  scan + IF.
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/03-filter-rows.pseudo
+
+CONSTANT nRows = 5
+DECLARE Score : ARRAY[1:nRows] OF INTEGER
+DECLARE i : INTEGER
+DECLARE threshold : INTEGER
+DECLARE nMatch : INTEGER
+
+Score[1] <- 40
+Score[2] <- 72
+Score[3] <- 55
+Score[4] <- 90
+Score[5] <- 48
+
+threshold <- 60
+nMatch <- 0
+FOR i <- 1 TO nRows
+  IF Score[i] >= threshold THEN
+    nMatch <- nMatch + 1
+  ENDIF
+NEXT i
+
+OUTPUT "rows with Score >= ", threshold, "  →  count ≈ len(filtered) = ", nMatch

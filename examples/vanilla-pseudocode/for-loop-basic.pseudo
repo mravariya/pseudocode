@@ -1,0 +1,7 @@
+// FOR ... TO ... NEXT (basic counting loop)
+// Run: pseudocode run examples/vanilla-pseudocode/for-loop-basic.pseudo
+
+DECLARE i : INTEGER
+FOR i <- 1 TO 5
+  OUTPUT "i = ", i
+NEXT i

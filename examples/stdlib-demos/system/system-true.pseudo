@@ -1,0 +1,7 @@
+// Host SYSTEM() builtin (pkg catalog name "system") — runs a shell command.
+// Run: pseudocode run examples/stdlib-demos/system/system-true.pseudo
+// Unix/macOS: uses "true". On Windows (cmd), try: SYSTEM("exit /b 0") in your own copy.
+
+DECLARE code : INTEGER
+code <- SYSTEM("true")
+OUTPUT "SYSTEM(\"true\") exit code= ", code

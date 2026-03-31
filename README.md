@@ -71,7 +71,7 @@ Assignment: **`←`** (UTF-8) or **`<-`**.
 | Path | Contents |
 |------|----------|
 | `src/` | Lexer, parser, AST, interpreter, stdlib, REPL, CLI |
-| `examples/` | Sample programs |
+| `examples/` | Sample programs — see [`examples/README.md`](examples/README.md) (`vanilla-pseudocode/`, `stdlib-demos/`, root smoke tests) |
 | `docs/` | Manual (start at `docs/index.md`) |
 | `vscode/pseudocode/` | Editor extension |
 | `registry/` | Package registry **schema** (future HTTP) |

@@ -1,0 +1,19 @@
+// Matplotlib-like: sample y = f(x) for a line plot (data only; no drawing).
+// Doc: docs/matplotlib-style.md
+// Run: pseudocode run examples/matplotlib-style/01-line-y-from-x.pseudo
+
+CONSTANT nPts = 9
+DECLARE X : ARRAY[1:nPts] OF REAL
+DECLARE Y : ARRAY[1:nPts] OF REAL
+DECLARE i : INTEGER
+DECLARE span : REAL
+
+span <- 2.0 * PI()
+FOR i <- 1 TO nPts
+  X[i] <- TOREAL(i - 1) / TOREAL(nPts - 1) * span
+  Y[i] <- SIN(X[i])
+NEXT i
+
+OUTPUT "first point: x=", X[1], " y=", Y[1]
+OUTPUT "mid point:  x=", X[5], " y=", Y[5]
+OUTPUT "last point: x=", X[nPts], " y=", Y[nPts]

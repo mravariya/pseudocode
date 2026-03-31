@@ -1,5 +1,6 @@
 // Optional catalog package "random" — see docs/stdlib/random.md
 // Builtins: RANDOM, RAND, RANDOMSEED / SEEDRANDOM / SEED, RANDINT
+// Runnable repo demo: examples/stdlib-demos/random/random-seed-and-bounds.pseudo
 
 DECLARE _RandomPackageMarker : INTEGER
 _RandomPackageMarker <- 0

@@ -1,0 +1,10 @@
+// Integer DIV / MOD and mixed arithmetic
+// Run: pseudocode run examples/vanilla-pseudocode/arithmetic-div-mod.pseudo
+
+DECLARE a : INTEGER
+DECLARE b : INTEGER
+a <- 17
+b <- 5
+OUTPUT "a DIV b = ", a DIV b
+OUTPUT "a MOD b = ", a MOD b
+OUTPUT "a / b (real) = ", a / b

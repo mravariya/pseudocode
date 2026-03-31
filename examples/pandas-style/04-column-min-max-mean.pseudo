@@ -1,0 +1,33 @@
+// Pandas-like: df['Price'].min/.max/.mean  →  one pass over the column.
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/04-column-min-max-mean.pseudo
+
+CONSTANT nRows = 5
+DECLARE Price : ARRAY[1:nRows] OF REAL
+DECLARE i : INTEGER
+DECLARE s : REAL
+DECLARE lo : REAL
+DECLARE hi : REAL
+DECLARE mean : REAL
+
+Price[1] <- 12.5
+Price[2] <- 9.0
+Price[3] <- 15.0
+Price[4] <- 9.0
+Price[5] <- 11.0
+
+lo <- Price[1]
+hi <- Price[1]
+s <- 0.0
+FOR i <- 1 TO nRows
+  s <- s + Price[i]
+  IF Price[i] < lo THEN
+    lo <- Price[i]
+  ENDIF
+  IF Price[i] > hi THEN
+    hi <- Price[i]
+  ENDIF
+NEXT i
+mean <- s / TOREAL(nRows)
+
+OUTPUT "min max mean ≈ describe-ish: ", lo, " ", hi, " ", mean

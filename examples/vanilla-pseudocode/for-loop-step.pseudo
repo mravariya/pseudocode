@@ -1,0 +1,7 @@
+// FOR with STEP (count by 2)
+// Run: pseudocode run examples/vanilla-pseudocode/for-loop-step.pseudo
+
+DECLARE k : INTEGER
+FOR k <- 0 TO 10 STEP 2
+  OUTPUT k
+NEXT k

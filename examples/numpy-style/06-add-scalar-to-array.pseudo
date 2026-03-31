@@ -1,0 +1,18 @@
+// NumPy-like: a + k  (broadcast scalar)  →  element-wise loop
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/06-add-scalar-to-array.pseudo
+
+DECLARE A : ARRAY[1:5] OF INTEGER
+DECLARE i : INTEGER
+DECLARE k : INTEGER
+
+FOR i <- 1 TO 5
+  A[i] <- i
+NEXT i
+
+k <- 100
+FOR i <- 1 TO LENGTH(A)
+  A[i] <- A[i] + k
+NEXT i
+
+OUTPUT "A[3] after A + ", k, " → ", A[3]

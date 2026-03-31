@@ -1,0 +1,24 @@
+// Matplotlib-like: rough vertical bar chart in text (bar height = count of '*').
+// Doc: docs/matplotlib-style.md
+// Run: pseudocode run examples/matplotlib-style/04-ascii-column-chart.pseudo
+
+CONSTANT nBars = 5
+DECLARE h : ARRAY[1:nBars] OF INTEGER
+DECLARE i : INTEGER
+DECLARE j : INTEGER
+DECLARE line : STRING
+
+h[1] <- 3
+h[2] <- 7
+h[3] <- 2
+h[4] <- 5
+h[5] <- 4
+
+OUTPUT "ASCII column chart (* = one unit)"
+FOR i <- 1 TO nBars
+  line <- ""
+  FOR j <- 1 TO h[i]
+    line <- line & "*"
+  NEXT j
+  OUTPUT i, " | ", line
+NEXT i

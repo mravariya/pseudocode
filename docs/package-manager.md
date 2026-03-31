@@ -106,7 +106,7 @@ If the first argument is **not** a directory, **`pkg`** looks for a **catalog ro
 
 It then runs the same copy step as a local install from **`<catalog>/<name>/`**.
 
-Bundled catalog names in this repository: **`math`**, **`random`**, **`time`**, **`os`**, **`system`**. They install **stub** `.pseudo` files only; **builtins** (e.g. `SQRT`, `GETENV`) live in the interpreter whether or not you run **`pkg install`**.
+Bundled catalog names in this repository: **`math`**, **`random`**, **`time`**, **`os`**, **`system`**, **`numpy`**, **`pandas`**, **`matplotlib`**. The first five install **stub** `.pseudo` files that point at builtins; **`numpy`**, **`pandas`**, and **`matplotlib`** are **teaching** stubs only (no those runtimes) — see **[NumPy-style patterns](numpy-style.md)** / **[`examples/numpy-style/`](../../examples/numpy-style/)**, **[Pandas-style patterns](pandas-style.md)** / **[`examples/pandas-style/`](../../examples/pandas-style/)**, and **[Matplotlib-style patterns](matplotlib-style.md)** / **[`examples/matplotlib-style/`](../../examples/matplotlib-style/)**. **Builtins** (e.g. `SQRT`, `GETENV`) live in the interpreter whether or not you run **`pkg install`**. Runnable programs that exercise those builtins are under **[`examples/stdlib-demos/`](../../examples/stdlib-demos/)** (see **[`examples/README.md`](../../examples/README.md)**).
 
 **Examples:**
 

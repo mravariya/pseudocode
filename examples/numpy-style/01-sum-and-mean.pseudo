@@ -1,0 +1,24 @@
+// NumPy-like: np.sum(a), np.mean(a)  →  loops + LENGTH
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/01-sum-and-mean.pseudo
+
+DECLARE A : ARRAY[1:6] OF REAL
+DECLARE i : INTEGER
+DECLARE s : REAL
+DECLARE mean : REAL
+
+A[1] <- 2.0
+A[2] <- 4.0
+A[3] <- 6.0
+A[4] <- 8.0
+A[5] <- 10.0
+A[6] <- 12.0
+
+s <- 0.0
+FOR i <- 1 TO LENGTH(A)
+  s <- s + A[i]
+NEXT i
+mean <- s / TOREAL(LENGTH(A))
+
+OUTPUT "sum ≈ np.sum(A) = ", s
+OUTPUT "mean ≈ np.mean(A) = ", mean

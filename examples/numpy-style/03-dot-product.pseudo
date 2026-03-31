@@ -1,0 +1,24 @@
+// NumPy-like: np.dot(a, b)  →  same-length loop
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/03-dot-product.pseudo
+
+DECLARE A : ARRAY[1:4] OF REAL
+DECLARE B : ARRAY[1:4] OF REAL
+DECLARE i : INTEGER
+DECLARE s : REAL
+
+A[1] <- 1.0
+A[2] <- 2.0
+A[3] <- 3.0
+A[4] <- 4.0
+B[1] <- 10.0
+B[2] <- 20.0
+B[3] <- 30.0
+B[4] <- 40.0
+
+s <- 0.0
+FOR i <- 1 TO 4
+  s <- s + A[i] * B[i]
+NEXT i
+
+OUTPUT "dot(A,B) = ", s

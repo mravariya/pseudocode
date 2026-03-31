@@ -37,6 +37,9 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Language reference](reference/language.md) | Lexical structure, types, declarations, expressions (precedence), every statement form, subprograms, files, alignment with Cambridge syllabi (CS0478, CS9618, IT9626) |
 | [Strings and concatenation](reference/strings-and-concatenation.md) | `&`, `+`, comma on assignment-style RHS, `OUTPUT` vs concat, pitfalls, exam notes |
 | [Arrays (1D and 2D)](reference/arrays.md) | Declaration, indexing, bounds, whole-array copy, patterns, limits |
+| [NumPy-style patterns](numpy-style.md) | Mapping NumPy-style ideas to fixed arrays and loops (no array parameters; workspace pattern) |
+| [Pandas-style patterns](pandas-style.md) | Tabular data as parallel columns: head/tail, filter, groupby, merge (teaching patterns only) |
+| [Matplotlib-style patterns](matplotlib-style.md) | No graphics API: sample series, ASCII “plots”, export text for real plotting tools |
 | [OOP and user-defined types](reference/oop-and-types.md) | Classes/RECORD/pointers: syllabus vs interpreter; workarounds |
 | [Built-in functions](reference/builtins.md) | Every pre-defined function: signatures, arguments, return types, errors, examples |
 | [Standard library (Python-style topics)](stdlib/index.md) | `math`, `random`, `time`, `os`, `system` builtins and Python comparison tables |
@@ -61,7 +64,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 
 | Document | Contents |
 |----------|----------|
-| [Examples catalogue](examples.md) | Annotated samples and patterns |
+| [Examples catalogue](examples.md) | Root samples, **`examples/vanilla-pseudocode/`**, **`examples/stdlib-demos/`**, **`examples/numpy-style/`**, **`examples/pandas-style/`**, **`examples/matplotlib-style/`** |
 | [Glossary](glossary.md) | Terms used in the manual and in Cambridge CS / IT papers |
 | [FAQ](faq.md) | Common questions (exam alignment, differences from Python, etc.) |
 | [Implementation notes](implementation.md) | How the interpreter is structured (read the source with context) |

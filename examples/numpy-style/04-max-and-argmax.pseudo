@@ -1,0 +1,28 @@
+// NumPy-like: np.max(a), np.argmax(a)  →  single scan (1-based index)
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/04-max-and-argmax.pseudo
+
+DECLARE V : ARRAY[1:7] OF REAL
+DECLARE i : INTEGER
+DECLARE best : REAL
+DECLARE bestIdx : INTEGER
+
+V[1] <- 3.0
+V[2] <- 1.0
+V[3] <- 4.0
+V[4] <- 1.0
+V[5] <- 5.0
+V[6] <- 9.0
+V[7] <- 2.0
+
+best <- V[1]
+bestIdx <- 1
+FOR i <- 2 TO LENGTH(V)
+  IF V[i] > best THEN
+    best <- V[i]
+    bestIdx <- i
+  ENDIF
+NEXT i
+
+OUTPUT "max ≈ np.max(V) = ", best
+OUTPUT "argmax index (1-based) ≈ np.argmax(V)+1 in 0-based = ", bestIdx

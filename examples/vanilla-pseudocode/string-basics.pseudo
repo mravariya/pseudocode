@@ -1,0 +1,12 @@
+// Strings: &, LENGTH, MID, RIGHT, CONCAT, UPPERCASE
+// Run: pseudocode run examples/vanilla-pseudocode/string-basics.pseudo
+
+DECLARE s : STRING
+DECLARE t : STRING
+s <- "abcdef"
+t <- UPPERCASE(s & "GH")
+OUTPUT t
+OUTPUT "MID: ", MID(t, 1, 3)
+OUTPUT "RIGHT: ", RIGHT(t, 2)
+OUTPUT "CONCAT: ", CONCAT("a", "b")
+OUTPUT "LENGTH: ", LENGTH(s)

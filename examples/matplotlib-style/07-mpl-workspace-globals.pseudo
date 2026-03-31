@@ -1,0 +1,23 @@
+// "Module" style: shared MplX/MplY + procedure to print table (no array parameters).
+// Doc: docs/matplotlib-style.md
+// Run: pseudocode run examples/matplotlib-style/07-mpl-workspace-globals.pseudo
+
+CONSTANT MplN = 4
+DECLARE MplX : ARRAY[1:MplN] OF REAL
+DECLARE MplY : ARRAY[1:MplN] OF REAL
+
+PROCEDURE MplPrintXY()
+DECLARE k : INTEGER
+OUTPUT "Mpl table (x,y)"
+FOR k <- 1 TO MplN
+  OUTPUT MplX[k], "  ", MplY[k]
+NEXT k
+ENDPROCEDURE
+
+DECLARE t : INTEGER
+FOR t <- 1 TO MplN
+  MplX[t] <- TOREAL(t)
+  MplY[t] <- MplX[t] * MplX[t]
+NEXT t
+
+CALL MplPrintXY()

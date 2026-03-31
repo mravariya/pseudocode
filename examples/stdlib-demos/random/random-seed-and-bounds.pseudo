@@ -1,0 +1,11 @@
+// Random builtins (pkg catalog name "random" — behaviour is in the interpreter).
+// Run: pseudocode run examples/stdlib-demos/random/random-seed-and-bounds.pseudo
+
+DECLARE i : INTEGER
+DECLARE ignore : INTEGER
+ignore <- SEED(12345)
+OUTPUT "RANDOM() in [0,1): ", RANDOM()
+OUTPUT "RANDOM(100) in [0,100): ", RANDOM(100)
+FOR i <- 1 TO 5
+  OUTPUT "RANDINT(1,6)= ", RANDINT(1, 6)
+NEXT i

@@ -23,6 +23,7 @@ typedef struct PcErrorCtx {
   int last_code; /* last [PC-NNN] emitted */
   bool trace;
   bool color;
+  bool quiet; /* when true, errors are not printed (e.g. CASE arm lookahead) */
   FILE *err;
 } PcErrorCtx;
 

@@ -1,0 +1,12 @@
+// Text file: OPENFILE, READFILE, EOF, CLOSEFILE
+// Run from repository root:
+//   pseudocode run examples/vanilla-pseudocode/file-read-text.pseudo
+// Requires: examples/vanilla-pseudocode/data/sample-in.txt
+
+DECLARE line : STRING
+OPENFILE "examples/vanilla-pseudocode/data/sample-in.txt" FOR read
+WHILE NOT EOF("examples/vanilla-pseudocode/data/sample-in.txt")
+  READFILE "examples/vanilla-pseudocode/data/sample-in.txt", line
+  OUTPUT line
+ENDWHILE
+CLOSEFILE "examples/vanilla-pseudocode/data/sample-in.txt"

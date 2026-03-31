@@ -1,0 +1,14 @@
+// Named constants (CONSTANT)
+// Run: pseudocode run examples/vanilla-pseudocode/constants.pseudo
+
+CONSTANT MaxScore = 100
+CONSTANT PiApprox = 3.14159
+CONSTANT Greeting = "Hello"
+CONSTANT Yes = TRUE
+
+DECLARE score : INTEGER
+score <- 87
+IF score <= MaxScore THEN
+  OUTPUT Greeting & " — score ", score, " / ", MaxScore
+ENDIF
+OUTPUT Yes

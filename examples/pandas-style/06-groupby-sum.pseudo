@@ -1,0 +1,35 @@
+// Pandas-like: df.groupby('CatKey')['Amount'].sum() with fixed keys 1..3.
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/06-groupby-sum.pseudo
+
+CONSTANT nRows = 6
+CONSTANT nCats = 3
+DECLARE CatKey : ARRAY[1:nRows] OF INTEGER
+DECLARE Amount : ARRAY[1:nRows] OF REAL
+DECLARE acc : ARRAY[1:nCats] OF REAL
+DECLARE i : INTEGER
+DECLARE k : INTEGER
+
+CatKey[1] <- 1
+CatKey[2] <- 2
+CatKey[3] <- 1
+CatKey[4] <- 3
+CatKey[5] <- 2
+CatKey[6] <- 1
+Amount[1] <- 10.0
+Amount[2] <- 5.0
+Amount[3] <- 3.0
+Amount[4] <- 7.0
+Amount[5] <- 2.0
+Amount[6] <- 4.0
+
+FOR k <- 1 TO nCats
+  acc[k] <- 0.0
+NEXT k
+
+FOR i <- 1 TO nRows
+  k <- CatKey[i]
+  acc[k] <- acc[k] + Amount[i]
+NEXT i
+
+OUTPUT "group sums for keys 1..3: ", acc[1], acc[2], acc[3]

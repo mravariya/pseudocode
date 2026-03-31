@@ -1,0 +1,11 @@
+// PROCEDURE with BYREF parameter
+// Run: pseudocode run examples/vanilla-pseudocode/procedure-byref.pseudo
+
+PROCEDURE Bump(BYREF k : INTEGER)
+  k <- k + 1
+ENDPROCEDURE
+
+DECLARE v : INTEGER
+v <- 10
+CALL Bump(v)
+OUTPUT v

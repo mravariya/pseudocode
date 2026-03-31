@@ -1,0 +1,29 @@
+// Pandas-like: df.head(k), df.tail(k)  →  bounded FOR loops.
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/02-head-and-tail.pseudo
+
+CONSTANT nAll = 6
+DECLARE kHead : INTEGER
+DECLARE kTail : INTEGER
+DECLARE i : INTEGER
+DECLARE X : ARRAY[1:nAll] OF INTEGER
+
+X[1] <- 11
+X[2] <- 22
+X[3] <- 33
+X[4] <- 44
+X[5] <- 55
+X[6] <- 66
+
+kHead <- 3
+kTail <- 2
+
+OUTPUT "head (first ", kHead, " rows) X[i] ="
+FOR i <- 1 TO kHead
+  OUTPUT "  i=", i, "  X=", X[i]
+NEXT i
+
+OUTPUT "tail (last ", kTail, " rows) X[i] ="
+FOR i <- nAll - kTail + 1 TO nAll
+  OUTPUT "  i=", i, "  X=", X[i]
+NEXT i

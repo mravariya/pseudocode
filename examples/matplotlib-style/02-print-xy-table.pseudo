@@ -1,0 +1,18 @@
+// Matplotlib-like: console table of (x,y) ≈ preview before plt.plot.
+// Doc: docs/matplotlib-style.md
+// Run: pseudocode run examples/matplotlib-style/02-print-xy-table.pseudo
+
+CONSTANT nPts = 6
+DECLARE X : ARRAY[1:nPts] OF REAL
+DECLARE Y : ARRAY[1:nPts] OF REAL
+DECLARE i : INTEGER
+
+FOR i <- 1 TO nPts
+  X[i] <- TOREAL(i)
+  Y[i] <- X[i] * X[i] / 10.0
+NEXT i
+
+OUTPUT "i   x    y"
+FOR i <- 1 TO nPts
+  OUTPUT i, "  ", X[i], "  ", Y[i]
+NEXT i

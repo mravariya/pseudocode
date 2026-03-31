@@ -20,6 +20,7 @@ You need a built **`pseudocode`** binary (and optionally **`pkg`**, built in the
 
 # 2. Run a sample program
 ./build/pseudocode examples/hello.pseudo
+#    More tours: examples/vanilla-pseudocode/ and examples/stdlib-demos/
 
 # 3. Parse-only check (no execution)
 ./build/pseudocode check examples/hello.pseudo

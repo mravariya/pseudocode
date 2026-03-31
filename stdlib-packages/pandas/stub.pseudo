@@ -1,0 +1,7 @@
+// Catalog package "pandas" — teaching patterns only (not real Pandas).
+// Model tables as parallel ARRAY columns; no ARRAY procedure parameters.
+// Guide: docs/pandas-style.md
+// Examples: examples/pandas-style/*.pseudo
+
+DECLARE _PandasPackageMarker : INTEGER
+_PandasPackageMarker <- 0

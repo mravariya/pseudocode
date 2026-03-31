@@ -377,6 +377,12 @@ void pc_lex_save(const PcLexer *L, PcLexState *s) {
   s->line = L->line;
   s->column = L->column;
   s->cur = L->cur;
+  s->has_lexeme_snap = false;
+  if (L->lexeme_buf && L->cur.lexeme == L->lexeme_buf && L->cur.lexeme_len < sizeof(s->lexeme_snap)) {
+    memcpy(s->lexeme_snap, L->cur.lexeme, L->cur.lexeme_len);
+    s->lexeme_snap[L->cur.lexeme_len] = '\0';
+    s->has_lexeme_snap = true;
+  }
 }
 
 void pc_lex_restore(PcLexer *L, const PcLexState *s) {
@@ -384,4 +390,9 @@ void pc_lex_restore(PcLexer *L, const PcLexState *s) {
   L->line = s->line;
   L->column = s->column;
   L->cur = s->cur;
+  if (s->has_lexeme_snap && L->lexeme_buf) {
+    memcpy(L->lexeme_buf, s->lexeme_snap, s->cur.lexeme_len);
+    L->lexeme_buf[s->cur.lexeme_len] = '\0';
+    L->cur.lexeme = L->lexeme_buf;
+  }
 }

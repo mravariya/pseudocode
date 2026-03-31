@@ -1,0 +1,25 @@
+// Matplotlib-like: export pairs (x then y per point) for Python matplotlib.
+// Doc: docs/matplotlib-style.md
+// Run from repo root: pseudocode run examples/matplotlib-style/03-write-xy-pairs-file.pseudo
+
+CONSTANT nPts = 5
+DECLARE X : ARRAY[1:nPts] OF REAL
+DECLARE Y : ARRAY[1:nPts] OF REAL
+DECLARE i : INTEGER
+DECLARE path : STRING
+
+path <- "examples/matplotlib-style/out/xy_pairs.txt"
+FOR i <- 1 TO nPts
+  X[i] <- TOREAL(i)
+  Y[i] <- 2.0 * X[i] + 1.0
+NEXT i
+
+OPENFILE path FOR write
+WRITEFILE path, "pseudocode_xy_pairs_x_then_y_per_point"
+FOR i <- 1 TO nPts
+  WRITEFILE path, X[i]
+  WRITEFILE path, Y[i]
+NEXT i
+CLOSEFILE path
+
+OUTPUT "wrote ", nPts, " points (", nPts * 2, " lines) to ", path

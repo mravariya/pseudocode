@@ -1,0 +1,7 @@
+// Catalog package "matplotlib" — teaching patterns only (not real Matplotlib).
+// No graphics in the interpreter: loops + OUTPUT / WRITEFILE + optional ASCII art.
+// Guide: docs/matplotlib-style.md
+// Examples: examples/matplotlib-style/*.pseudo
+
+DECLARE _MatplotlibPackageMarker : INTEGER
+_MatplotlibPackageMarker <- 0

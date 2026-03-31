@@ -1,0 +1,11 @@
+// CASE OF ... ENDCASE with ranges
+// Run: pseudocode run examples/vanilla-pseudocode/case-of.pseudo
+
+DECLARE grade : INTEGER
+grade <- 82
+CASE OF grade
+  0 TO 49 : OUTPUT "fail"
+  50 TO 69 : OUTPUT "pass"
+  70 TO 89 : OUTPUT "merit"
+  OTHERWISE : OUTPUT "distinction"
+ENDCASE

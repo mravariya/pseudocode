@@ -1,0 +1,9 @@
+// WHILE ... ENDWHILE
+// Run: pseudocode run examples/vanilla-pseudocode/while-loop.pseudo
+
+DECLARE n : INTEGER
+n <- 1
+WHILE n <= 4
+  OUTPUT n
+  n <- n + 1
+ENDWHILE

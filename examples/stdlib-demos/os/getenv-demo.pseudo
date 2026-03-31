@@ -1,0 +1,7 @@
+// Environment lookup (pkg catalog name "os" — builtin GETENV).
+// Run: pseudocode run examples/stdlib-demos/os/getenv-demo.pseudo
+// Uses PATH if set; empty string if unset.
+
+DECLARE p : STRING
+p <- GETENV("PATH")
+OUTPUT "LENGTH(GETENV(\"PATH\"))= ", LENGTH(p)

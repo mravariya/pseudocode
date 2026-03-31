@@ -1,0 +1,33 @@
+// NumPy-like: np.zeros, np.ones, np.linspace  →  FOR + arithmetic
+// Doc: docs/numpy-style.md
+// Run: pseudocode run examples/numpy-style/02-fill-zeros-ones-linspace.pseudo
+
+DECLARE Z : ARRAY[1:5] OF REAL
+DECLARE O : ARRAY[1:5] OF REAL
+DECLARE L : ARRAY[1:5] OF REAL
+DECLARE i : INTEGER
+DECLARE a0 : REAL
+DECLARE a1 : REAL
+DECLARE delta : REAL
+DECLARE nPts : INTEGER
+
+// zeros
+FOR i <- 1 TO 5
+  Z[i] <- 0.0
+NEXT i
+
+// ones
+FOR i <- 1 TO 5
+  O[i] <- 1.0
+NEXT i
+
+// linspace(0, 1, 5): endpoints inclusive, 5 points
+a0 <- 0.0
+a1 <- 1.0
+nPts <- 5
+delta <- (a1 - a0) / TOREAL(nPts - 1)
+FOR i <- 1 TO nPts
+  L[i] <- a0 + TOREAL(i - 1) * delta
+NEXT i
+
+OUTPUT "Z[3]= ", Z[3], "  O[3]= ", O[3], "  L[3]= ", L[3]

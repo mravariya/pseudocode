@@ -1,0 +1,26 @@
+// Pandas-like: s.idxmin() (here 1-based row index).
+// Doc: docs/pandas-style.md
+// Run: pseudocode run examples/pandas-style/05-idxmin-row.pseudo
+
+CONSTANT nRows = 5
+DECLARE Temp : ARRAY[1:nRows] OF REAL
+DECLARE i : INTEGER
+DECLARE best : REAL
+DECLARE bestRow : INTEGER
+
+Temp[1] <- 20.0
+Temp[2] <- 18.5
+Temp[3] <- 22.0
+Temp[4] <- 17.0
+Temp[5] <- 19.0
+
+best <- Temp[1]
+bestRow <- 1
+FOR i <- 2 TO nRows
+  IF Temp[i] < best THEN
+    best <- Temp[i]
+    bestRow <- i
+  ENDIF
+NEXT i
+
+OUTPUT "idxmin (1-based) ≈ row with min Temp = ", bestRow, "  value=", best

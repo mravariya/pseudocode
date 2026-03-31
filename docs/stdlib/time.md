@@ -26,3 +26,5 @@ Rough analogues to pieces of Python’s [`time`](https://docs.python.org/3/libra
 OUTPUT TIME()
 OUTPUT NOWSTRING()
 ```
+
+**Repository demo:** [`examples/stdlib-demos/time/time-and-clock.pseudo`](../../examples/stdlib-demos/time/time-and-clock.pseudo).

@@ -1,0 +1,26 @@
+// Matplotlib-like: two labelled blocks ≈ text-only idea of subplots / twin series.
+// Doc: docs/matplotlib-style.md
+// Run: pseudocode run examples/matplotlib-style/06-two-series-console.pseudo
+
+CONSTANT nA = 3
+CONSTANT nB = 4
+DECLARE A : ARRAY[1:nA] OF REAL
+DECLARE B : ARRAY[1:nB] OF REAL
+DECLARE i : INTEGER
+
+A[1] <- 1.0
+A[2] <- 2.0
+A[3] <- 3.0
+B[1] <- 10.0
+B[2] <- 20.0
+B[3] <- 30.0
+B[4] <- 40.0
+
+OUTPUT "--- series A (like axes 1) ---"
+FOR i <- 1 TO nA
+  OUTPUT A[i]
+NEXT i
+OUTPUT "--- series B (like axes 2) ---"
+FOR i <- 1 TO nB
+  OUTPUT B[i]
+NEXT i

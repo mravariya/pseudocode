@@ -58,3 +58,5 @@ OUTPUT x
 OUTPUT PI
 OUTPUT DEGREES(3.14159265)
 ```
+
+**Repository demo:** [`examples/stdlib-demos/math/math-all-builtins.pseudo`](../../examples/stdlib-demos/math/math-all-builtins.pseudo) runs a larger slice of this table in one program.

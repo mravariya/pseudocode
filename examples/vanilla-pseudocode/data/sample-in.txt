@@ -1,0 +1,2 @@
+First line of sample input.
+Second line here.

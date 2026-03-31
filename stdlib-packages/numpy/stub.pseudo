@@ -1,0 +1,7 @@
+// Catalog package "numpy" — teaching patterns only (not a real NumPy).
+// Pseudocode cannot pass ARRAY into PROCEDURE/FUNCTION; use loops + docs.
+// Guide: docs/numpy-style.md
+// Examples: examples/numpy-style/*.pseudo
+
+DECLARE _NumpyPackageMarker : INTEGER
+_NumpyPackageMarker <- 0

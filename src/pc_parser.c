@@ -497,13 +497,35 @@ static PcAst *parse_stmt(Parser *P) {
         if (L->cur.kind == TOK_OTHERWISE) break;
         PcLexState sv;
         pc_lex_save(L, &sv);
-        PcAst *probe = parse_expr(P);
-        if (probe && L->cur.kind == TOK_COLON) {
-          pc_ast_free(probe);
+        bool save_quiet = P->err->quiet;
+        bool save_h = P->err->had_error;
+        PcErrKind save_k = P->err->kind;
+        int save_c = P->err->last_code;
+        P->err->quiet = true;
+        P->err->had_error = false;
+        PcAst *probe_lo = parse_expr(P);
+        bool probe_err = P->err->had_error;
+        bool next_arm = false;
+        if (!probe_err && probe_lo) {
+          if (L->cur.kind == TOK_COLON) {
+            next_arm = true;
+          } else if (L->cur.kind == TOK_TO) {
+            pc_lex_next(L);
+            PcAst *probe_hi = parse_expr(P);
+            probe_err = probe_err || P->err->had_error;
+            if (!probe_err && probe_hi && L->cur.kind == TOK_COLON) next_arm = true;
+            if (probe_hi) pc_ast_free(probe_hi);
+          }
+        }
+        if (probe_lo) pc_ast_free(probe_lo);
+        P->err->quiet = save_quiet;
+        P->err->had_error = save_h;
+        P->err->kind = save_k;
+        P->err->last_code = save_c;
+        if (next_arm) {
           pc_lex_restore(L, &sv);
           break;
         }
-        if (probe) pc_ast_free(probe);
         pc_lex_restore(L, &sv);
         PcAst *st = parse_stmt(P);
         if (!st) break;

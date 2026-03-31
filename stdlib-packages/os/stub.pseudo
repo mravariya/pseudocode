@@ -1,5 +1,6 @@
 // Optional catalog package "os" — see docs/stdlib/os.md
 // Builtins: GETENV (environment variables)
+// Runnable repo demo: examples/stdlib-demos/os/getenv-demo.pseudo
 
 DECLARE _OsPackageMarker : INTEGER
 _OsPackageMarker <- 0

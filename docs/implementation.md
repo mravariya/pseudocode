@@ -92,4 +92,4 @@ Patches should update [Built-in functions](reference/builtins.md) and [Language 
 
 ## Testing
 
-The repository includes sample programs under `examples/`. CI (`.github/workflows/build.yml`) compiles on **Ubuntu** and **macOS**. Add regression tests as small `.pseudo` files plus expected stdout when you introduce a test runner.
+The repository includes sample programs under **`examples/`** — see **[`examples/README.md`](../examples/README.md)** for **`vanilla-pseudocode/`**, **`stdlib-demos/`**, and root smoke tests. CI (`.github/workflows/build.yml`) compiles on **Ubuntu** and **macOS**. Add regression tests as small `.pseudo` files plus expected stdout when you introduce a test runner.
