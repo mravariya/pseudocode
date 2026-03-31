@@ -1,20 +1,14 @@
-# Homebrew: same-repo tap (stable + optional HEAD).
+# Template for a Homebrew/homebrew-core pull request (copy into Formula/pseudocode.rb there).
+# After merge: brew install pseudocode
+# See docs/package-managers.md for audit, fork, and PR steps.
 #
-# Default install (stable tarball, like python bottles from source):
-#   brew tap mravariya/pseudocode https://github.com/mravariya/pseudocode
-#   brew install mravariya/pseudocode/pseudocode
-#
-# Latest main without waiting for a tag:
-#   brew install --HEAD mravariya/pseudocode/pseudocode
-#
-# Or from a clone:
-#   brew install ./Formula/pseudocode.rb
+# Update url + sha256 to match a release tag on github.com/mravariya/pseudocode
 class Pseudocode < Formula
   desc "Interpreter for Cambridge International-style pseudocode (CS9618, CS0478, IT9626)"
   homepage "https://mravariya.github.io/pseudocode/"
-  license "MIT"
   url "https://github.com/mravariya/pseudocode/archive/refs/tags/v1.0.0.tar.gz"
   sha256 "HOMEBREW_SHA256_PLACEHOLDER"
+  license "MIT"
   head "https://github.com/mravariya/pseudocode.git", branch: "main"
 
   depends_on "cmake" => :build

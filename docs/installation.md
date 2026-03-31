@@ -600,14 +600,16 @@ Set `**PSEUDO_NO_COLOR=1**` to disable ANSI escape sequences (see [CLI](cli.md))
 
 ## 12. Homebrew and other package managers
 
-**Homebrew (macOS / Linux):** this repo ships **[`Formula/pseudocode.rb`](../Formula/pseudocode.rb)** as a **tap** formula (install with **`brew install --HEAD`**). Quick start:
+**Homebrew (macOS / Linux):** **[`Formula/pseudocode.rb`](../Formula/pseudocode.rb)** supports a **stable** install from a **tagged** GitHub archive (default — like **`brew install python`**) and optional **`--HEAD`**.
 
 ```bash
 brew tap mravariya/pseudocode https://github.com/mravariya/pseudocode
-brew install --HEAD mravariya/pseudocode/pseudocode
+brew install mravariya/pseudocode/pseudocode
 ```
 
-Packaging uses **CMake** with **`-DPC_EMBED_INSTALL_STDLIB=ON`** so **`pkg`** finds the catalog under the install prefix. Full details, local installs, and notes for **homebrew-core**: **[Package managers](package-managers.md)**.
+**Helper script (install / uninstall / reinstall / `run` / `pkg`):** **`./scripts/brew-pseudocode.sh`**.
+
+**Links, uninstall, rebuild, and homebrew-core PR steps:** **[Package managers](package-managers.md)**.
 
 ---
 
