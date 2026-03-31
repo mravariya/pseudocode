@@ -1,6 +1,6 @@
 # Tutorial: Pseudocode in 30 minutes
 
-This tutorial assumes you have already [built and installed](../installation.md) the `pseudocode` program. You will write short programs, run them from the terminal, and learn enough of the language to read and write **Cambridge International AS & A Level Computer Science (9618)**–style pseudocode.
+This tutorial assumes you have already [built and installed](../installation.md) the `pseudocode` program. You will write short programs, run them from the terminal, and learn enough of the language to read and write **Cambridge International** pseudocode as used in **IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, and **AS & A Level Information Technology (9626 / IT9626)**.
 
 For authoritative exam rules, always follow your **Pseudocode Guide for Teachers**; this runtime adds a few **documented extensions** (aliases such as `SUBSTRING`, `TOINTEGER`) for convenience.
 

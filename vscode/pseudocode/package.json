@@ -1,7 +1,7 @@
 {
   "name": "pseudocode",
-  "displayName": "Pseudocode (9618)",
-  "description": "Syntax highlighting and snippets for Pseudocode (.pseudo / .pseudocode). Use workspace tasks to run the interpreter.",
+  "displayName": "Pseudocode (CS0478, CS9618, IT9626)",
+  "description": "Syntax highlighting and snippets for Cambridge-style Pseudocode (.pseudo / .pseudocode) — CS0478, CS9618, IT9626. Use workspace tasks to run the interpreter.",
   "version": "1.0.0",
   "publisher": "mravariya",
   "engines": {

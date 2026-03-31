@@ -1,4 +1,4 @@
-/* Cambridge 9618 Pseudocode site — colourful, SEO-friendly; dark (default) + light theme */
+/* Cambridge pseudocode site (CS0478, CS9618, IT9626) — colourful, SEO-friendly; dark (default) + light theme */
 
 :root {
   --bg-deep: #0a0612;
@@ -776,7 +776,7 @@ html[data-theme="light"] .theme-toggle-icon::before {
 }
 
 .code-block.code-pseudo::before {
-  content: "9618 pseudocode";
+  content: "CS0478 · CS9618 · IT9626 pseudocode";
   color: var(--mint);
 }
 

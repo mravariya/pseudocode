@@ -23,7 +23,7 @@ Output: **`site/public/`** — upload that folder to any static host, or use the
 
 Then GitHub is serving **Jekyll** from the repo, not **`site/public`**. **View page source** on the live URL: if you see `<meta name="generator" content="Jekyll` …`, follow **[docs/github-pages.md](../docs/github-pages.md)** (disable extra Pages workflows, keep only **`pages.yml`**).
 
-When correct, the HTML starts with `<html lang="en-GB">` and a long title like **“Pseudocode | Cambridge 9618 A Level…”** — no Jekyll generator line.
+When correct, the HTML starts with `<html lang="en-GB">` and a long title like **“Pseudocode | CS0478, CS9618, IT9626 …”** — no Jekyll generator line.
 
 From the repo, run **`./scripts/check-pages-remote.sh`** (no GitHub login) to list workflows on GitHub and detect Jekyll vs the custom site on the live URL.
 
@@ -44,7 +44,10 @@ Edit **`site/config.json`**:
 - `author` — `<meta name="author">` and structured data.
 - `og_image` — optional absolute URL for **og:image** / **Twitter** cards (social previews).
 - `twitter_site` — optional `@handle` for **twitter:site**.
-- `cambridge_spec_url` — hero link to the official qualification page.
+- `cambridge_spec_url` — official **AS & A Level Computer Science (9618)** page (CS9618).
+- `cambridge_igcse_cs_url` — official **IGCSE Computer Science (0478)** page (CS0478).
+- `cambridge_it_url` — official **AS & A Level Information Technology (9626)** page (IT9626).
+- `syllabus_codes` — short label string for HTML `<title>` and JSON-LD (default **CS0478, CS9618, IT9626** if omitted).
 - `site_name`, `site_tagline`, `description` — branding and default meta description.
 
 **Themes:** the site supports **dark** (default) and **light** via a header toggle. Choice is stored in **`localStorage`** under **`pseudocode-theme`**. First visit with no saved choice follows **`prefers-color-scheme`**. Styles live in **`site/assets/style.css`** (`html[data-theme="light"]`).

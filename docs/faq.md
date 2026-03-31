@@ -6,6 +6,12 @@
 
 ---
 
+### Which Cambridge syllabi does this target?
+
+**IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, and **AS & A Level Information Technology (9626 / IT9626)** share the same broad Cambridge pseudocode notation this project implements. Your **official syllabus and teacher** still define what you must write in assessments.
+
+---
+
 ### How is this different from Python?
 
 Python uses **indentation** for blocks and `def` for functions; Pseudocode uses **keywords** (`ENDIF`, `ENDWHILE`, …) and `PROCEDURE` / `FUNCTION`. Assignment is `<-` or `←`, not `=`. Types are **declared** explicitly. Many details (string indexing base, `DIV`/`MOD`, `REPEAT`/`UNTIL` semantics) differ. See the [Tutorial](tutorial/index.md) and [Language reference](reference/language.md).

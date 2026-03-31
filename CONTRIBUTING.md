@@ -5,7 +5,7 @@ Thank you for helping improve the **Pseudocode** interpreter or its documentatio
 ## Ways to contribute
 
 - **Report issues** — unexpected parse errors, wrong runtime behaviour, or unclear docs (open a GitHub issue with a minimal `.pseudo` example when possible).
-- **Submit pull requests** — bug fixes, tests, doc corrections, or small, focused features that match Cambridge 9618 style.
+- **Submit pull requests** — bug fixes, tests, doc corrections, or small, focused features that match Cambridge pseudocode style (CS0478, CS9618, IT9626).
 - **Documentation** — the manual lives in `docs/` (Markdown). The public website is generated from those files plus `site/content/index.md`; see `site/README.md`.
 
 ## Codespaces / dev container

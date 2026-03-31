@@ -26,7 +26,7 @@ How to build **STRING** values from pieces: operators **`&`**, **`+`**, and **co
 4. [OUTPUT vs assignment](#4-output-vs-assignment)
 5. [Examples](#5-examples)
 6. [Errors and pitfalls](#6-errors-and-pitfalls)
-7. [Exam alignment (9618)](#7-exam-alignment-9618)
+7. [Exam alignment (Cambridge syllabi)](#7-exam-alignment-cambridge-syllabi)
 
 ---
 
@@ -155,7 +155,9 @@ OUTPUT "Debug: ", Line                         // two OUTPUT arguments, not conc
 
 ---
 
-## 7. Exam alignment (9618)
+## 7. Exam alignment (Cambridge syllabi)
+
+The same string rules matter for **IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, and **AS & A Level Information Technology (9626 / IT9626)** wherever pseudocode is examined — always follow **your** published guide.
 
 - **Safe for exams:** `&` between string expressions.  
 - **Extensions in this interpreter:** STRING `+` STRING; comma chains on assignment-style RHS.  

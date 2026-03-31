@@ -1,6 +1,6 @@
 # Visual Studio Code integration
 
-This guide explains how to use **Visual Studio Code** (or **VSCodium**) effectively with Pseudocode: syntax colouring, snippets, tasks to **Run** and **Check**, and how this compares to first-party editor support for languages like **Python** (extension marketplace) and **Julia** (Julia VS Code extension).
+This guide explains how to use **Visual Studio Code** (or **VSCodium**) effectively with Cambridge-style **Pseudocode** (CS0478, CS9618, IT9626): syntax colouring, snippets, tasks to **Run** and **Check**, and how this compares to first-party editor support for languages like **Python** (extension marketplace) and **Julia** (Julia VS Code extension).
 
 **See also:** [CLI](cli.md) · [Tutorial](tutorial/index.md)
 

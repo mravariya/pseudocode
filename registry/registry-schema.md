@@ -19,7 +19,7 @@ https://registry.pseudocode.dev/v1
   {
     "name": "cs9618-helpers",
     "version": "1.0.0",
-    "description": "Utilities for A Level 9618 practice",
+    "description": "Utilities for Cambridge CS0478 / CS9618 / IT9626 practice",
     "tarball_url": "https://.../cs9618-helpers-1.0.0.tar.gz",
     "sha256": "...",
     "dependencies": {}

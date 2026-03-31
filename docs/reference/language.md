@@ -1,6 +1,6 @@
 # Language reference
 
-This document specifies the **Pseudocode** dialect accepted by the reference interpreter **pseudocode** v1.0.x. It follows the **Cambridge International AS & A Level Computer Science (9618)** Pseudocode Guide where possible. Sections marked **Extension** describe behaviour added for teaching convenience; exam answers should follow your official guide if it differs.
+This document specifies the **Pseudocode** dialect accepted by the reference interpreter **pseudocode** v1.0.x. It follows the **Cambridge International** Pseudocode Guide (as used for **IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, and **AS & A Level Information Technology (9626 / IT9626)**) where possible. Sections marked **Extension** describe behaviour added for teaching convenience; exam answers should follow your official guide for *your* syllabus if it differs.
 
 **See also:** [Built-in functions](builtins.md) · [Tutorial](../tutorial/index.md) · [Syntax quick reference](../syntax-reference.md)
 

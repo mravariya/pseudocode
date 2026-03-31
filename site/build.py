@@ -54,6 +54,11 @@ def esc_attr(s: str) -> str:
     return html.escape(s, quote=True)
 
 
+def syllabus_codes(cfg: dict) -> str:
+    """Short labels for SEO titles and JSON-LD (config key optional)."""
+    return (cfg.get("syllabus_codes") or "CS0478, CS9618, IT9626").strip()
+
+
 def canonical_base(cfg: dict) -> str:
     b = (cfg.get("canonical_base") or "").strip()
     if b and not b.endswith("/"):
@@ -334,7 +339,7 @@ def json_ld_software(cfg: dict) -> str:
     obj: dict = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": f"{cfg['site_name']} — 9618 reference interpreter",
+        "name": f"{cfg['site_name']} — {syllabus_codes(cfg)} reference interpreter",
         "operatingSystem": "Windows, macOS, Linux",
         "applicationCategory": "EducationalApplication",
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -349,7 +354,7 @@ def json_ld_software(cfg: dict) -> str:
     if cfg.get("keywords"):
         obj["keywords"] = cfg["keywords"]
     obj["featureList"] = [
-        "9618 pseudocode program execution",
+        f"{syllabus_codes(cfg)} pseudocode program execution",
         "Static syntax check for CI",
         "Interactive REPL",
         "Built-in maths, random, time, and environment helpers",
@@ -368,10 +373,10 @@ def json_ld_faq() -> str:
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "What is Cambridge 9618 pseudocode?",
+                "name": "What Cambridge syllabi does this pseudocode suit?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "It is the algorithm notation used in Cambridge International AS & A Level Computer Science (9618) exams. This site documents a free, open-source interpreter that runs that style of pseudocode on your computer.",
+                    "text": "The same Cambridge International pseudocode style appears across IGCSE Computer Science (0478, CS0478), AS & A Level Computer Science (9618, CS9618), and AS & A Level Information Technology (9626, IT9626). This site documents a free, open-source interpreter that runs that notation on your computer; always follow your official syllabus and teacher for exams.",
                 },
             },
             {
@@ -520,14 +525,18 @@ def render_page(
 
 
 def finalize_page(html_page: str, cfg: dict, from_pub: str) -> str:
-    """Inject repo URL, JS path, Cambridge link (templates use {{placeholders}})."""
+    """Inject repo URL, JS path, Cambridge links (templates use {{placeholders}})."""
     repo = f"https://github.com/{cfg['github_user']}/{cfg['github_repo']}"
     js = rel_href(from_pub, "assets/site.js")
-    spec = cfg.get("cambridge_spec_url", "")
+    spec = (cfg.get("cambridge_spec_url") or "").strip()
+    igcse = (cfg.get("cambridge_igcse_cs_url") or "").strip()
+    it_url = (cfg.get("cambridge_it_url") or "").strip()
     return (
         html_page.replace("{{repo_url}}", html.escape(repo))
         .replace("{{js_href}}", html.escape(js))
         .replace("{{cambridge_spec_url}}", html.escape(spec))
+        .replace("{{cambridge_igcse_cs_url}}", html.escape(igcse))
+        .replace("{{cambridge_it_url}}", html.escape(it_url))
     )
 
 
@@ -574,7 +583,7 @@ def build(cfg: dict) -> None:
     nav = build_nav(out_home, cfg)
     home_href = rel_href(out_home, "index.html")
     home_title = (
-        f"{cfg['site_name']} | Cambridge 9618 A Level & AS Pseudocode — free interpreter & tutorial"
+        f"{cfg['site_name']} | {syllabus_codes(cfg)} — Cambridge pseudocode interpreter & tutorial"
     )
     home_seo = build_seo_block(
         cfg,
@@ -622,7 +631,7 @@ def build(cfg: dict) -> None:
         css = asset_href(from_pub)
         nav = build_nav(from_pub, cfg)
         home_href = rel_href(from_pub, "index.html")
-        doc_title = f"{page_title} — {cfg['site_name']} | 9618 pseudocode"
+        doc_title = f"{page_title} — {cfg['site_name']} | {syllabus_codes(cfg)} pseudocode"
         doc_desc = excerpt_from_md(text, cfg["description"])
         doc_seo = build_seo_block(
             cfg,
@@ -656,7 +665,7 @@ def build(cfg: dict) -> None:
         t = rewrite_markdown_links(t, cfg, src_name)
         body = highlight_fenced_code(decorate_code_blocks(md_to_html_fragment(t)))
         from_pub = name
-        aux_title = f"{title} — {cfg['site_name']} | 9618 pseudocode project"
+        aux_title = f"{title} — {cfg['site_name']} | {syllabus_codes(cfg)} pseudocode project"
         aux_desc = excerpt_from_md(t, f"{title} — {cfg['site_name']}.")
         aux_seo = build_seo_block(cfg, page_title=aux_title, description=aux_desc, path=name)
         page = render_page(
@@ -679,7 +688,7 @@ def build(cfg: dict) -> None:
         raw = lic.read_text(encoding="utf-8")
         lic_body = f"<pre class=\"license-pre\">{html.escape(raw)}</pre>"
         from_pub = "license.html"
-        lic_title = f"MIT License — {cfg['site_name']} | Open-source 9618 pseudocode interpreter"
+        lic_title = f"MIT License — {cfg['site_name']} | Open-source {syllabus_codes(cfg)} pseudocode interpreter"
         lic_seo = build_seo_block(
             cfg,
             page_title=lic_title,

@@ -1,13 +1,16 @@
 {
   "site_name": "Pseudocode",
-  "site_tagline": "Cambridge 9618 Pseudocode — free reference interpreter",
-  "description": "Free open-source Cambridge 9618 pseudocode interpreter and compiler (C11): run .pseudo programs offline, interactive REPL, static check for CI, math/random/time builtins, pkg optional packages, VS Code workflow, and a full manual with tutorial — for AS & A Level Computer Science.",
-  "keywords": "Cambridge 9618, A Level Computer Science, AS Level Computer Science, CIEC pseudocode, pseudocode interpreter, pseudocode compiler, learn pseudocode, 9618 pseudocode guide, algorithm pseudocode, pseudocode REPL, computer science pseudocode, Cambridge International, pseudocode tutorial, pseudocode examples, pseudocode online practice, 9618 compiler, GitHub Pages pseudocode",
+  "site_tagline": "CS0478 · CS9618 · IT9626 — Cambridge pseudocode reference interpreter",
+  "syllabus_codes": "CS0478, CS9618, IT9626",
+  "description": "Free open-source Cambridge pseudocode interpreter and compiler (C11) for IGCSE Computer Science (0478 / CS0478), AS & A Level Computer Science (9618 / CS9618), and AS & A Level Information Technology (9626 / IT9626): run .pseudo offline, REPL, static check for CI, math/random/time builtins, pkg optional packages, VS Code workflow, and a full manual with tutorial.",
+  "keywords": "Cambridge CS0478, Cambridge CS9618, IT9626, IGCSE Computer Science 0478, A Level Computer Science 9618, A Level Information Technology 9626, AS Level Computer Science, Cambridge 9618, Cambridge 0478, Cambridge 9626, CIEC pseudocode, pseudocode interpreter, pseudocode compiler, learn pseudocode, algorithm pseudocode, pseudocode REPL, computer science pseudocode, information technology pseudocode, Cambridge International, pseudocode tutorial, pseudocode examples, GitHub Pages pseudocode",
   "author": "Mahesh Ravariya",
   "twitter_site": "",
   "og_image": "",
   "github_user": "mravariya",
   "github_repo": "pseudocode",
   "canonical_base": "https://mravariya.github.io/pseudocode/",
-  "cambridge_spec_url": "https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/"
+  "cambridge_spec_url": "https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/",
+  "cambridge_igcse_cs_url": "https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-igcse-computer-science-0478/",
+  "cambridge_it_url": "https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-information-technology-9626/"
 }

@@ -55,7 +55,7 @@ It re-checks the API and fetches the live homepage to say whether Jekyll or the 
    and `<html lang="en-US">`.
 4. **Right (our site):** you see  
    `<html lang="en-GB">`,  
-   a long `<title>` such as **“Pseudocode | Cambridge 9618 A Level…”**,  
+   a long `<title>` such as **“Pseudocode | CS0478, CS9618, IT9626 …”**,  
    and **no** Jekyll generator meta. You should also see classes like **`page-landing`**, **`landing-stats`**, **`hero-title`**.
 
 ---

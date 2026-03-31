@@ -1,6 +1,6 @@
 # Pseudocode interpreter
 
-A **Cambridge International AS & A Level Computer Science (9618)–aligned** interpreter for Pseudocode, implemented in **C** for a small, fast, cross-platform runtime. The project ships:
+A **Cambridge International** pseudocode interpreter aligned with **IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, and **AS & A Level Information Technology (9626 / IT9626)** — implemented in **C** for a small, fast, cross-platform runtime. The project ships:
 
 - **`pseudocode`** — run programs (`.pseudo` / `.pseudocode`), **`check`**, **`repl`**, **`version`**, **`help`**
 - **`tools/pseudocode_idle.py`** — optional **IDLE-style GUI** (Python 3 + Tkinter): editor, F5 run, F6 check; uses the `pseudocode` binary on `PATH` or `build/pseudocode`

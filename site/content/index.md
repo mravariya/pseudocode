@@ -4,7 +4,7 @@
   <div class="feature-grid">
     <article class="feature-card">
       <h3 class="feature-card-title"><span class="feature-icon" aria-hidden="true">▸</span> Exam-aligned</h3>
-      <p>Built around <strong>Cambridge 9618</strong> pseudocode: <code>DECLARE</code>, <code>FOR</code>/<code>NEXT</code>, <code>PROCEDURE</code>/<code>CALL</code>, arrays, files, and documented extensions where they differ from strict exam style.</p>
+      <p>Built around <strong>Cambridge</strong> pseudocode (e.g. <strong>CS0478</strong>, <strong>CS9618</strong>, <strong>IT9626</strong>): <code>DECLARE</code>, <code>FOR</code>/<code>NEXT</code>, <code>PROCEDURE</code>/<code>CALL</code>, arrays, files, and documented extensions where they differ from strict exam style.</p>
     </article>
     <article class="feature-card">
       <h3 class="feature-card-title"><span class="feature-icon" aria-hidden="true">▸</span> Run anywhere</h3>
@@ -19,7 +19,7 @@
 
 ## Why use this interpreter?
 
-If you are studying **Cambridge International AS & A Level Computer Science (9618)**, you need to read and write **pseudocode** for algorithms, trace tables, and papers. This project gives you a **free, open-source** program that runs that style of pseudocode on your own computer: **no account**, **no browser lock-in**, and a full **tutorial** and **language reference** so you can practise the same keywords and structures you see in the syllabus.
+If you are studying **IGCSE Computer Science (0478 / CS0478)**, **AS & A Level Computer Science (9618 / CS9618)**, or **AS & A Level Information Technology (9626 / IT9626)**, you need to read and write **pseudocode** for algorithms, trace tables, and papers. This project gives you a **free, open-source** program that runs that style of pseudocode on your own computer: **no account**, **no browser lock-in**, and a full **tutorial** and **language reference** so you can practise the same keywords and structures you see in the syllabus.
 
 It is ideal for **revision**, **homework**, and **experimenting** with `IF`, `FOR`, `PROCEDURE`, arrays, and files before you sit exams.
 
@@ -34,7 +34,7 @@ It is ideal for **revision**, **homework**, and **experimenting** with `IF`, `FO
 ```
 
 ```pseudocode
-// Minimal 9618-style program
+// Minimal Cambridge-style program
 DECLARE Name : STRING
 OUTPUT "What's your name? "
 INPUT Name
@@ -49,7 +49,7 @@ Full setup paths (CMake, PATH, troubleshooting): **[Installation guide](docs/ins
 
 ## Language at a glance
 
-The dialect follows **Cambridge 9618** pseudocode where practical. A few **optional extensions** (for example extra ways to join strings) are documented separately; for exams, always follow your **official guide** and teacher.
+The dialect follows **Cambridge** pseudocode (CS0478, CS9618, IT9626) where practical. A few **optional extensions** (for example extra ways to join strings) are documented separately; for exams, always follow your **official guide** and teacher.
 
 | Types | `INTEGER` · `REAL` · `STRING` · `CHAR` · `BOOLEAN` · `DATE` |
 |-------|--------------------------------------------------------------|
@@ -91,7 +91,7 @@ OUTPUT A[3]   // expect 6
 
 ## Syllabus and disclaimer
 
-This site is an **independent learning tool**. **Cambridge International** owns the **9618** qualification. Use the [official qualification page](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/) for syllabus and assessment rules.
+This site is an **independent learning tool**. **Cambridge International** owns each qualification. Use the official pages for syllabus and assessment rules: [IGCSE Computer Science (0478)](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-igcse-computer-science-0478/), [AS & A Level Computer Science (9618)](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-computer-science-9618/), [AS & A Level Information Technology (9626)](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-information-technology-9626/).
 
 ---
 

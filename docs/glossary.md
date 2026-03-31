@@ -1,6 +1,6 @@
 # Glossary
 
-Definitions used in this manual and in **Cambridge 9618** pseudocode discussions.
+Definitions used in this manual and in **Cambridge** pseudocode discussions (**CS0478**, **CS9618**, **IT9626**).
 
 **Abstract syntax tree (AST)**  
 A tree data structure produced by the parser; each node is a construct (e.g. `IF`, `CALL`, binary `+`).
@@ -87,8 +87,17 @@ Convert real to integer by discarding the fractional part (toward zero for `INT`
 
 ## Cambridge-specific
 
+**0478 / CS0478**  
+Cambridge International syllabus code for **IGCSE Computer Science**.
+
+**9618 / CS9618**  
+Cambridge International syllabus code for **AS & A Level Computer Science** (sometimes written shorthand as **CS9618**).
+
+**9626 / IT9626**  
+Cambridge International syllabus code for **AS & A Level Information Technology**.
+
 **9618**  
-Cambridge International syllabus code for **AS & A Level Computer Science**.
+Same as **CS9618** above — numeric code on official Cambridge materials.
 
 **Pseudocode Guide for Teachers**  
-Official document describing notation for examined components; this interpreter follows it with documented extensions.
+Official document describing notation for examined components; this interpreter follows it with documented extensions. Requirements can differ slightly by syllabus — always use your **official** guide for the course you are entered for.

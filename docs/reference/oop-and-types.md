@@ -1,6 +1,6 @@
 # OOP, classes, and user-defined types
 
-What the **9618 Pseudocode** syllabus describes for **records**, **pointers**, and **object-oriented** ideas — and what this **interpreter implements today**. Use this page when searching for **class**, **object**, **TYPE**, **ENDTYPE**, **RECORD**, **OOP**, or **pointer**.
+What **Cambridge Pseudocode** syllabi (notably **CS0478**, **CS9618**, **IT9626**) describe for **records**, **pointers**, and **object-oriented** ideas — and what this **interpreter implements today**. Use this page when searching for **class**, **object**, **TYPE**, **ENDTYPE**, **RECORD**, **OOP**, or **pointer**.
 
 **See also:** [Language reference — §7](language.md#7-user-defined-types-record-pointers-oop) · [Implementation notes](../implementation.md)
 
@@ -29,7 +29,7 @@ What the **9618 Pseudocode** syllabus describes for **records**, **pointers**, a
 
 ## 1. Syllabus vs this project
 
-The Cambridge **Pseudocode Guide** (for **9618**) describes several features that go beyond simple scalars and arrays, including:
+The Cambridge **Pseudocode Guide** (for **9618** / **CS9618** and related courses) describes several features that go beyond simple scalars and arrays, including:
 
 - **User-defined composite types** (often written with `TYPE` / `ENDTYPE` and field names).  
 - **Pointers** and dynamic structures (lists, trees) in some presentations.  
@@ -78,7 +78,7 @@ A future major version might add:
 
 - `TYPE` … `ENDTYPE` with fixed fields.  
 - Optional pointer / dynamic features (high complexity for a teaching interpreter).  
-- OOP-style syntax only if it stays aligned with published 9618 pseudocode.
+- OOP-style syntax only if it stays aligned with published Cambridge pseudocode for your syllabus.
 
 There is **no** committed release date in this documentation set; watch the repository and `PC_VERSION_STRING` in the source.
 
@@ -93,8 +93,8 @@ There is **no** committed release date in this documentation set; watch the repo
 | `list` of dicts | Use parallel arrays or 2D array conventions. |
 | `__init__` | Use a **procedure** that initialises globals or passed arrays. |
 
-This table is for **intuition** only; exam answers must follow **9618** style, not Python.
+This table is for **intuition** only; exam answers must follow **your syllabus’s** pseudocode style, not Python.
 
 ---
 
-*Index keywords:* `class`, `object`, `OOP`, `TYPE`, `ENDTYPE`, `RECORD`, `pointer`, `NEW`, `not implemented`, `9618`.
+*Index keywords:* `class`, `object`, `OOP`, `TYPE`, `ENDTYPE`, `RECORD`, `pointer`, `NEW`, `not implemented`, `9618`, `0478`, `9626`, `CS0478`, `CS9618`, `IT9626`.

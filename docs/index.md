@@ -34,7 +34,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 
 | Document | Contents |
 |----------|----------|
-| [Language reference](reference/language.md) | Lexical structure, types, declarations, expressions (precedence), every statement form, subprograms, files, alignment with Cambridge 9618 |
+| [Language reference](reference/language.md) | Lexical structure, types, declarations, expressions (precedence), every statement form, subprograms, files, alignment with Cambridge syllabi (CS0478, CS9618, IT9626) |
 | [Strings and concatenation](reference/strings-and-concatenation.md) | `&`, `+`, comma on assignment-style RHS, `OUTPUT` vs concat, pitfalls, exam notes |
 | [Arrays (1D and 2D)](reference/arrays.md) | Declaration, indexing, bounds, whole-array copy, patterns, limits |
 | [OOP and user-defined types](reference/oop-and-types.md) | Classes/RECORD/pointers: syllabus vs interpreter; workarounds |
@@ -51,9 +51,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [Command-line interface](cli.md) | `pseudocode` subcommands, exit codes, environment variables, batch use |
 | [Package manager (`pkg`)](package-manager.md) | Install with **`pseudocode`**; **`pkg -i`** / **`pkg --install`** = **`pkg install`**; catalog (`pkg available`), local folders, `list` / `remove` |
 | [Visual Studio Code](vscode.md) | Extension, tasks, snippets, recommended workflow |
-| [GitHub Pages troubleshooting](github-pages.md) | If the live site shows Jekyll/README instead of the custom landing page |
-
-The public **website** (GitHub Pages) includes a **light / dark** theme toggle; preference is remembered in the browser. See [site/README.md](../site/README.md#configuration).
+| [GitHub Pages troubleshooting](github-pages.md) | If the live site shows Jekyll/README instead of the custom landing page. The public site also has a **light / dark** theme toggle — see [site/README.md](../site/README.md#configuration). |
 | [Error handling](error-handling.md) | Parse vs runtime errors, trace mode, messages, teaching notes |
 | [Exit status & PC codes](error-codes.md) | `$?` values, `[PC-NNN]` list, file size limit |
 
@@ -64,7 +62,7 @@ The public **website** (GitHub Pages) includes a **light / dark** theme toggle; 
 | Document | Contents |
 |----------|----------|
 | [Examples catalogue](examples.md) | Annotated samples and patterns |
-| [Glossary](glossary.md) | Terms used in the manual and in 9618 papers |
+| [Glossary](glossary.md) | Terms used in the manual and in Cambridge CS / IT papers |
 | [FAQ](faq.md) | Common questions (exam alignment, differences from Python, etc.) |
 | [Implementation notes](implementation.md) | How the interpreter is structured (read the source with context) |
 
