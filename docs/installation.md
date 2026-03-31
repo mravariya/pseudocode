@@ -609,7 +609,9 @@ brew install mravariya/pseudocode/pseudocode
 
 **Helper script (install / uninstall / reinstall / `run` / `pkg`):** **`./scripts/brew-pseudocode.sh`**.
 
-**Links, uninstall, rebuild, and homebrew-core PR steps:** **[Package managers](package-managers.md)**.
+**Remove copies installed by `install.sh` (and similar):** **`./scripts/uninstall-local.sh`**.
+
+**Links, Homebrew site URLs, rebuild, and homebrew-core PR steps:** **[Package managers](package-managers.md)**.
 
 ---
 

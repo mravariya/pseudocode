@@ -53,6 +53,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | Document | Contents |
 |----------|----------|
 | [Command-line interface](cli.md) | `pseudocode` subcommands, exit codes, environment variables, batch use |
+| [Package managers](package-managers.md) | **Homebrew** (stable tap, **`brew-pseudocode.sh`**), **homebrew-core** notes, maintainer release checksums |
 | [Package manager (`pkg`)](package-manager.md) | Install with **`pseudocode`**; **`pkg -i`** / **`pkg --install`** = **`pkg install`**; catalog (`pkg available`), local folders, `list` / `remove` |
 | [Visual Studio Code](vscode.md) | Extension, tasks, snippets, recommended workflow |
 | [GitHub Pages troubleshooting](github-pages.md) | If the live site shows Jekyll/README instead of the custom landing page. The public site also has a **light / dark** theme toggle — see [site/README.md](../site/README.md#configuration). |

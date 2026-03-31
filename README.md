@@ -8,7 +8,7 @@ A **Cambridge International** pseudocode interpreter aligned with **IGCSE Comput
 - **VS Code** grammar + snippets ([`vscode/pseudocode`](vscode/pseudocode/))
 - **Documentation** structured like major language manuals — start at **[Documentation home → docs/index.md](docs/index.md)**
 
-**Website (GitHub Pages):** the repo includes a Markdown-driven static site in **`site/`** (Python + one dependency, **not** GitHub’s default Jekyll README theme) with a landing page, SEO metadata, sitemap, and colourful code snippets. **Live site:** [mravariya.github.io/pseudocode](https://mravariya.github.io/pseudocode/). If the page still looks like a **plain README**, GitHub is publishing Jekyll instead of `site/public` — fix: **[docs/github-pages.md](docs/github-pages.md)**. Build locally: `pip install -r site/requirements-site.txt && python3 site/build.py` — details in **[site/README.md](site/README.md)**.
+**Website (GitHub Pages):** Markdown-driven static site in **`site/`** (Python + one dependency, **not** Jekyll). **Live:** [mravariya.github.io/pseudocode](https://mravariya.github.io/pseudocode/). Output **`site/public/`** is **gitignored**; **CI** (`.github/workflows/pages.yml`) builds and deploys it. Preview locally: `pip install -r site/requirements-site.txt && python3 site/build.py` (or **`./scripts/dev.sh --site`**). Plain README look on Pages → **[docs/github-pages.md](docs/github-pages.md)** · **[site/README.md](site/README.md)**.
 
 **Author:** [Mahesh Ravariya](https://www.linkedin.com/in/mravariya/) · [GitHub](https://github.com/mravariya)  
 **License:** [MIT](LICENSE)
@@ -41,6 +41,7 @@ The manual is organised similarly to **Python** and **Julia** official docs: a *
 |---------|-------------|
 | [**Documentation home**](docs/index.md) | Full table of contents and reading order |
 | [**Installation**](docs/installation.md) | Platforms, CMake, PATH, troubleshooting — **includes [step-by-step macOS & Windows](docs/installation.md#step-by-step-macos)** |
+| [**Package managers**](docs/package-managers.md) | **Homebrew** tap (stable install), **`brew-pseudocode.sh`**, links to formulae.brew.sh, **homebrew-core** PR notes |
 | [**Tutorial**](docs/tutorial/index.md) | Hands-on introduction (~30 minutes) |
 | [**Getting started (quick)**](docs/getting-started.md) | Minimal commands and links |
 | [**Language reference**](docs/reference/language.md) | Complete syntax and semantics |
@@ -79,7 +80,7 @@ Assignment: **`←`** (UTF-8) or **`<-`**.
 | `docs/` | Manual (start at `docs/index.md`) |
 | `vscode/pseudocode/` | Editor extension |
 | `registry/` | Package registry **schema** (future HTTP) |
-| `scripts/` | `build.sh`, `install.sh` / `install-macos.sh` (Unix), `install-windows.ps1`, `brew-pseudocode.sh`, `dev.sh` |
+| `scripts/` | `build.sh`, `install.sh` / `install-macos.sh`, `install-windows.ps1`, `brew-pseudocode.sh`, `homebrew-sync-tag-sha.sh`, `uninstall-local.sh`, `dev.sh` |
 | `Formula/` | **`pseudocode.rb`** — Homebrew formula (tap from this repo) |
 
 ---

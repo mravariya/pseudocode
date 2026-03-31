@@ -6,7 +6,7 @@ Thank you for helping improve the **Pseudocode** interpreter or its documentatio
 
 - **Report issues** — unexpected parse errors, wrong runtime behaviour, or unclear docs (open a GitHub issue with a minimal `.pseudo` example when possible).
 - **Submit pull requests** — bug fixes, tests, doc corrections, or small, focused features that match Cambridge pseudocode style (CS0478, CS9618, IT9626).
-- **Documentation** — the manual lives in `docs/` (Markdown). The public website is generated from those files plus `site/content/index.md`; see `site/README.md`.
+- **Documentation** — the manual lives in `docs/` (Markdown). The public website is generated from those files plus `site/content/index.md`. After editing docs or `site/content/`, run **`pip install -r site/requirements-site.txt && python3 site/build.py`** to refresh **`site/public/`** locally (output is **gitignored**; **GitHub Actions** deploys it — see **`site/README.md`**). Install/packaging notes: **`docs/package-managers.md`**.
 
 ## Codespaces / dev container
 
