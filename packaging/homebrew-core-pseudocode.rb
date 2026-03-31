@@ -7,7 +7,7 @@ class Pseudocode < Formula
   desc "Interpreter for Cambridge International-style pseudocode (CS9618, CS0478, IT9626)"
   homepage "https://mravariya.github.io/pseudocode/"
   url "https://github.com/mravariya/pseudocode/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "HOMEBREW_SHA256_PLACEHOLDER"
+  sha256 "ed7420d2e2c19c8da1977ecb5c7273b68e30185491d8961369210d20fff529af"
   license "MIT"
   head "https://github.com/mravariya/pseudocode.git", branch: "main"
 

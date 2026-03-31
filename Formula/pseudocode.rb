@@ -14,7 +14,7 @@ class Pseudocode < Formula
   homepage "https://mravariya.github.io/pseudocode/"
   license "MIT"
   url "https://github.com/mravariya/pseudocode/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "492920be9b6f76f046c652cbabb5d72c9abe79b913daf1e70ddfb1d4d6764325"
+  sha256 "ed7420d2e2c19c8da1977ecb5c7273b68e30185491d8961369210d20fff529af"
   head "https://github.com/mravariya/pseudocode.git", branch: "main"
 
   depends_on "cmake" => :build
