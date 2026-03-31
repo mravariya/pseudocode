@@ -71,6 +71,7 @@ If you are new here, start with [**Tutorial: Pseudocode in 30 minutes**](tutoria
 | [FAQ](faq.md) | Common questions (exam alignment, differences from Python, etc.) |
 | [Implementation notes](implementation.md) | How the interpreter is structured (read the source with context) |
 | [Agent session log (format)](agent-session-log.md) | Local **`AGENT.local.md`** (gitignored); table checklist for agent sessions |
+| [Recent collaboration log](recent-sessions.md) | High-level themes from recent sessions (not verbatim chat) |
 
 ---
 

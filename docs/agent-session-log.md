@@ -67,5 +67,6 @@ The project **`README.md`** links here so contributors find the rule quickly. Th
 
 ## See also
 
+- [Recent collaboration log](recent-sessions.md) — dated theme summary (public, not raw chat)  
 - [Contributing](CONTRIBUTING.md)  
 - [Implementation notes](implementation.md)
