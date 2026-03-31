@@ -106,6 +106,8 @@ The formula builds with **CMake** and **`-DPC_EMBED_INSTALL_STDLIB=ON`** so **`p
 
 6. Copy the same **`url`/`sha256`** into **`packaging/homebrew-core-pseudocode.rb`** when opening a **homebrew-core** PR.
 
+**Why `.gitattributes` `Formula/ export-ignore`:** GitHub’s tag tarball is a **`git archive`**. Excluding **`Formula/`** avoids a checksum loop (the formula’s **`sha256`** line must match the tarball, which used to include the formula file). Use **`./scripts/homebrew-sync-tag-sha.sh`**, which hashes the **GitHub** download — not a local **`git archive`**, which can differ (compression / ordering).
+
 ---
 
 ## Submitting to **homebrew-core** (`brew install pseudocode`)
